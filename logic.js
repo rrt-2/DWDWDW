@@ -27,11 +27,11 @@ function starCount(records) {
   return Object.values(records).filter((r) => r.star).length;
 }
 
-// 별 0 = 알, 1~3 = 아기, 4~8 = 어린이, 전부 = 어른
+// 0 = 알, 3분의 1 미만 = 아기, 전부 미만 = 어린이, 전부 = 어른
 function stageOf(stars, total) {
   if (stars === 0) return 'egg';
   if (stars >= total) return 'adult';
-  if (stars >= 4) return 'child';
+  if (stars >= total / 3) return 'child';
   return 'baby';
 }
 

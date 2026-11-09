@@ -29,10 +29,11 @@ test('마스터: 첫 시도 정답 4개 이상', () => {
 test('별 → 성장 단계', () => {
   assert.strictEqual(stageOf(0, 9), 'egg');
   assert.strictEqual(stageOf(1, 9), 'baby');
-  assert.strictEqual(stageOf(3, 9), 'baby');
-  assert.strictEqual(stageOf(4, 9), 'child');
-  assert.strictEqual(stageOf(8, 9), 'child');
-  assert.strictEqual(stageOf(9, 9), 'adult');
+  // 3분의 1을 모으면 어린이 (단원 수가 늘어도 비율 유지)
+  assert.strictEqual(stageOf(5, 18), 'baby');
+  assert.strictEqual(stageOf(6, 18), 'child');
+  assert.strictEqual(stageOf(17, 18), 'child');
+  assert.strictEqual(stageOf(18, 18), 'adult');
 });
 
 test('단원 잠금: 앞 단원 별이 있어야 열림', () => {
@@ -54,7 +55,9 @@ test('기록 갱신: 별은 한 번 얻으면 유지, 최고 점수와 도전 �
 });
 
 test('content.js 형식 (팀원 수정 후 깨짐 방지)', () => {
-  assert.strictEqual(CONTENT.subjects.length, 3);
+  assert.ok(CONTENT.subjects.length >= 1);
+  const subIds = CONTENT.subjects.map((s) => s.id);
+  assert.strictEqual(new Set(subIds).size, subIds.length, '과목 id 중복');
   const ids = new Set();
   for (const s of CONTENT.subjects) {
     assert.ok(s.id && s.name && s.icon);
