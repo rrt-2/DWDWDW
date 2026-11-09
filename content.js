@@ -2,6 +2,7 @@
 // 글자만 바꾸면 됨. 따옴표, 쉼표, 괄호는 지우지 말 것.
 // answer = 정답 보기 번호 (첫 번째 보기가 0). 화면에서는 보기 순서가 섞여서 나옴.
 // lang = 읽어줄 목소리 ('en' 영어, 'ko' 한국어)
+// 단원 문제가 5개보다 많으면 풀 때마다 5개를 골라 냄 → 문제를 많이 넣을수록 매번 달라짐
 // 수정 후 `node --test` 실행해서 통과하는지 확인.
 const CONTENT = {
   // 캐릭터 그림 파일이 없을 때 대신 보여줄 이모지
@@ -166,6 +167,7 @@ const CONTENT = {
       units: [
         {
           id: 'math1', title: '1학년 · 덧셈과 뺄셈',
+          gen: 'add', // 풀 때마다 새 문제를 만들어 아래 고정 문제와 섞음 (logic.js의 GENERATORS)
           friend: { pic: '🐹', name: '셈셈 햄스터', desc: '해바라기씨를 세다가 셈 박사가 된 햄스터예요.' }, // 마스터하면 만나는 도감 친구
           questions: [
             { say: '23 더하기 14는 얼마일까요?', lang: 'ko', choices: [{ pic: '✏️', label: '36' }, { pic: '✏️', label: '37' }, { pic: '✏️', label: '47' }], answer: 1 },
@@ -177,6 +179,7 @@ const CONTENT = {
         },
         {
           id: 'math2', title: '2학년 · 구구단과 길이',
+          gen: 'mul', // 풀 때마다 새 문제를 만들어 아래 고정 문제와 섞음 (logic.js의 GENERATORS)
           friend: { pic: '🐙', name: '구구 문어', desc: '다리 8개로 구구단을 외우는 문어예요.' }, // 마스터하면 만나는 도감 친구
           questions: [
             { say: '7 곱하기 8은 얼마일까요?', lang: 'ko', choices: [{ pic: '✏️', label: '54' }, { pic: '✏️', label: '48' }, { pic: '✏️', label: '56' }], answer: 2 },
@@ -188,6 +191,7 @@ const CONTENT = {
         },
         {
           id: 'math3', title: '3학년 · 나눗셈과 분수',
+          gen: 'div', // 풀 때마다 새 문제를 만들어 아래 고정 문제와 섞음 (logic.js의 GENERATORS)
           friend: { pic: '🐳', name: '나눔 고래', desc: '무엇이든 똑같이 나눠 주는 마음 착한 고래예요.' }, // 마스터하면 만나는 도감 친구
           questions: [
             { say: '24 나누기 6은 얼마일까요?', lang: 'ko', choices: [{ pic: '✏️', label: '6' }, { pic: '✏️', label: '4' }, { pic: '✏️', label: '3' }], answer: 1 },
@@ -264,6 +268,7 @@ const CONTENT = {
         },
         {
           id: 'shape3', title: '3학년 · 직접 돌리고 뒤집기',
+          gen: 'puzzle', // 풀 때마다 새 문제를 만들어 아래 고정 문제와 섞음 (logic.js의 GENERATORS)
           friend: { pic: '🦎', name: '빙글 카멜레온', desc: '머릿속에서 모양을 빙글빙글 돌려 보는 카멜레온이에요.' }, // 마스터하면 만나는 도감 친구
           // type: 'puzzle' = 직접 움직이는 문제. shape는 logic.js의 SHAPES(L, flag, F), rot는 0/90/180/270, flip은 좌우 뒤집기
           questions: [

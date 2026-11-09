@@ -1,6 +1,6 @@
 const test = require('node:test');
 const assert = require('node:assert');
-const { prepareQuiz, mastered, starCount, stageOf, isUnlocked, recordResult, SHAPES, turn, mirror, sameOrient, puzzleFirstTry } = require('../logic.js');
+const { prepareQuiz, mastered, starCount, stageOf, isUnlocked, recordResult, SHAPES, turn, mirror, sameOrient, puzzleFirstTry, GENERATORS, QUIZ_SIZE } = require('../logic.js');
 const CONTENT = require('../content.js');
 
 // 고정 난수: 테스트 결과가 매번 같도록
@@ -91,6 +91,46 @@ test('퍼즐 문제는 섞을 때 그대로 유지', () => {
   assert.deepStrictEqual(prepareQuiz(unit)[0], unit.questions[0]);
 });
 
+// 문제 글에서 숫자와 연산을 읽어 직접 계산
+function solve(say) {
+  const m = say.match(/(\d+) (더하기|빼기|곱하기|나누기) (\d+)/);
+  const [a, b] = [Number(m[1]), Number(m[3])];
+  return { 더하기: a + b, 빼기: a - b, 곱하기: a * b, 나누기: a / b }[m[2]];
+}
+
+test('자동 생성 계산 문제: 정답이 맞고, 보기 3개가 서로 다르고, 몫은 나누어떨어진다', () => {
+  for (const kind of ['add', 'mul', 'div']) {
+    for (let seed = 1; seed <= 300; seed++) {
+      const q = GENERATORS[kind](seeded(seed));
+      const ans = solve(q.say);
+      assert.ok(Number.isInteger(ans) && ans >= 0 && ans <= 100, `${kind} ${q.say}`);
+      assert.strictEqual(q.choices[q.answer].label, String(ans), q.say);
+      const labels = q.choices.map((c) => c.label);
+      assert.strictEqual(new Set(labels).size, 3, `보기 중복: ${labels}`);
+      labels.forEach((l) => assert.ok(Number(l) >= 0, `음수 보기: ${labels}`));
+    }
+  }
+});
+
+test('자동 생성 퍼즐: 시작과 목표가 다르다', () => {
+  for (let seed = 1; seed <= 100; seed++) {
+    const q = GENERATORS.puzzle(seeded(seed));
+    assert.ok(SHAPES[q.shape]);
+    assert.ok(!sameOrient(q.start, q.goal));
+  }
+});
+
+test('퀴즈는 매번 5문제, 생성기 단원은 판마다 문제가 바뀐다', () => {
+  const unit = { gen: 'mul', questions: [] };
+  const a = prepareQuiz(unit, seeded(1)).map((q) => q.say).join();
+  const b = prepareQuiz(unit, seeded(2)).map((q) => q.say).join();
+  assert.strictEqual(prepareQuiz(unit, seeded(1)).length, QUIZ_SIZE);
+  assert.notStrictEqual(a, b);
+  // 고정 문제가 5개보다 많으면 그중 5개만 뽑음
+  const pool = { questions: Array.from({ length: 8 }, (_, i) => ({ say: `q${i}`, lang: 'ko', choices: [{ pic: 'x', label: 'a' }, { pic: 'y', label: 'b' }], answer: 0 })) };
+  assert.strictEqual(prepareQuiz(pool, seeded(3)).length, QUIZ_SIZE);
+});
+
 test('content.js 형식 (팀원 수정 후 깨짐 방지)', () => {
   assert.ok(CONTENT.subjects.length >= 1);
   const subIds = CONTENT.subjects.map((s) => s.id);
@@ -104,7 +144,8 @@ test('content.js 형식 (팀원 수정 후 깨짐 방지)', () => {
       assert.ok(u.friend && u.friend.pic && u.friend.name && u.friend.desc, `도감 친구 없음: ${u.title}`);
       assert.ok(!ids.has(u.id), `단원 id 중복: ${u.id}`);
       ids.add(u.id);
-      assert.strictEqual(u.questions.length, 5, u.title);
+      if (u.gen) assert.ok(GENERATORS[u.gen], `없는 생성기: ${u.gen}`);
+      else assert.ok(u.questions.length >= QUIZ_SIZE, `문제가 ${QUIZ_SIZE}개보다 적음: ${u.title}`);
       for (const q of u.questions) {
         assert.ok(q.say, u.title);
         assert.ok(q.lang === 'en' || q.lang === 'ko', q.say);

@@ -249,7 +249,7 @@ function renderRecords() {
     for (const u of s.units) {
       const r = state.records[u.id];
       const tr = document.createElement('tr');
-      for (const v of [s.name, u.title, has(u) ? u.friend.pic : '-', r ? `${r.best} / ${u.questions.length}` : '-', r ? `${r.attempts}번` : '-']) {
+      for (const v of [s.name, u.title, has(u) ? u.friend.pic : '-', r ? `${r.best} / ${QUIZ_SIZE}` : '-', r ? `${r.attempts}번` : '-']) {
         const td = document.createElement('td');
         td.textContent = v;
         tr.appendChild(td);
