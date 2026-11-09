@@ -73,3 +73,9 @@
 ## 범위 밖
 
 로그인·서버, 학년별 난이도, 음성 입력, 캐릭터 꾸미기, 과목 추가.
+
+## 추가 (2026-11-09)
+
+- 도형·공간 3학년 단원 = 직접 돌리고 뒤집기 퍼즐(`type: 'puzzle'`). 회색 그림자에 맞게 🔄 돌리기 / ↔️ 뒤집기. 4번 안에 맞추면 첫 시도 정답.
+- PC용 exe: `desktop/app.py` (pywebview, 창 안에 index.html). 기록은 `%LOCALAPPDATA%\study-tamagotchi`, 포트 41731 고정.
+  빌드: `python -m PyInstaller --onefile --windowed --name 학습다마고치 --add-data "index.html;." --add-data "style.css;." --add-data "content.js;." --add-data "logic.js;." --add-data "game.js;." --add-data "assets;assets" desktop/app.py`

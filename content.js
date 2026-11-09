@@ -263,14 +263,15 @@ const CONTENT = {
           ],
         },
         {
-          id: 'shape3', title: '3학년 · 돌리기와 뒤집기',
+          id: 'shape3', title: '3학년 · 직접 돌리고 뒤집기',
           friend: { pic: '🦎', name: '빙글 카멜레온', desc: '머릿속에서 모양을 빙글빙글 돌려 보는 카멜레온이에요.' }, // 마스터하면 만나는 도감 친구
+          // type: 'puzzle' = 직접 움직이는 문제. shape는 logic.js의 SHAPES(L, flag, F), rot는 0/90/180/270, flip은 좌우 뒤집기
           questions: [
-            { say: '오른쪽을 가리키는 화살표를 시계 방향으로 4분의 1바퀴 돌리면 어느 쪽을 가리킬까요?', lang: 'ko', choices: [{ pic: '⬆️', label: '위쪽' }, { pic: '⬅️', label: '왼쪽' }, { pic: '⬇️', label: '아래쪽' }], answer: 2 },
-            { say: '위쪽을 가리키는 화살표를 반 바퀴 돌리면 어느 쪽을 가리킬까요?', lang: 'ko', choices: [{ pic: '⬇️', label: '아래쪽' }, { pic: '➡️', label: '오른쪽' }, { pic: '⬆️', label: '위쪽' }], answer: 0 },
-            { say: '오른쪽을 가리키는 화살표를 왼쪽과 오른쪽으로 뒤집으면 어느 쪽을 가리킬까요?', lang: 'ko', choices: [{ pic: '➡️', label: '오른쪽' }, { pic: '⬅️', label: '왼쪽' }, { pic: '⬆️', label: '위쪽' }], answer: 1 },
-            { say: '주사위의 면은 모두 몇 개일까요?', lang: 'ko', choices: [{ pic: '🎲', label: '4개' }, { pic: '🎲', label: '8개' }, { pic: '🎲', label: '6개' }], answer: 2 },
-            { say: '네모난 상자를 펼치면 네모가 몇 개 나올까요?', lang: 'ko', choices: [{ pic: '📦', label: '6개' }, { pic: '📦', label: '4개' }, { pic: '📦', label: '5개' }], answer: 0 },
+            { type: 'puzzle', say: '그림자에 꼭 맞게 돌리기와 뒤집기 버튼으로 모양을 움직여 보세요.', lang: 'ko', shape: 'L', start: { rot: 0, flip: false }, goal: { rot: 90, flip: false } },
+            { type: 'puzzle', say: '그림자에 꼭 맞게 돌리기와 뒤집기 버튼으로 모양을 움직여 보세요.', lang: 'ko', shape: 'flag', start: { rot: 0, flip: false }, goal: { rot: 180, flip: false } },
+            { type: 'puzzle', say: '그림자에 꼭 맞게 돌리기와 뒤집기 버튼으로 모양을 움직여 보세요.', lang: 'ko', shape: 'L', start: { rot: 0, flip: false }, goal: { rot: 0, flip: true } },
+            { type: 'puzzle', say: '그림자에 꼭 맞게 돌리기와 뒤집기 버튼으로 모양을 움직여 보세요.', lang: 'ko', shape: 'F', start: { rot: 0, flip: false }, goal: { rot: 270, flip: false } },
+            { type: 'puzzle', say: '그림자에 꼭 맞게 돌리기와 뒤집기 버튼으로 모양을 움직여 보세요.', lang: 'ko', shape: 'F', start: { rot: 0, flip: false }, goal: { rot: 90, flip: true } },
           ],
         },
       ],

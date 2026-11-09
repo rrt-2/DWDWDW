@@ -114,13 +114,50 @@ function renderQuestion() {
   $('feedback').textContent = '';
   const box = $('choices');
   box.innerHTML = '';
+  box.className = 'choices';
+  speak(q.say, q.lang);
+  if (q.type === 'puzzle') return renderPuzzle(q);
   q.choices.forEach((c, i) => {
     const b = document.createElement('button');
     b.innerHTML = `<span class="pic">${c.pic}</span><span>${c.label}</span>`;
     b.onclick = () => choose(i, b);
     box.appendChild(b);
   });
-  speak(q.say, q.lang);
+}
+
+// ---- 도형 퍼즐: 회색 그림자에 맞게 직접 돌리고 뒤집기 ----
+function renderPuzzle(q) {
+  quiz.orient = { ...q.start };
+  quiz.spin = q.start.rot; // 애니메이션용 누적 각도 (270→360으로 자연스럽게 돌게)
+  quiz.moves = 0;
+  const box = $('choices');
+  box.className = 'puzzle';
+  // 그림자(아래) → 조각 → 그림자 점선 테두리(위, 조각에 가려지지 않게)
+  const pts = SHAPES[q.shape];
+  box.innerHTML = `<svg viewBox="-10 -10 120 120"><polygon class="shadow" points="${pts}"/><polygon class="piece" points="${pts}"/><polygon class="outline" points="${pts}"/></svg>
+    <div class="row"><button id="pz-turn">🔄 돌리기</button><button id="pz-flip">↔️ 뒤집기</button></div>`;
+  box.querySelectorAll('.shadow, .outline').forEach((el) => setOrient(el, q.goal.rot, q.goal.flip));
+  setOrient(box.querySelector('.piece'), quiz.spin, quiz.orient.flip);
+  $('pz-turn').onclick = () => movePiece(turn(quiz.orient), quiz.spin + 90);
+  $('pz-flip').onclick = () => movePiece(mirror(quiz.orient), -quiz.spin);
+}
+
+// 그릴 때는 뒤집기 먼저, 그다음 회전 (logic.js의 방향 규칙과 같음)
+function setOrient(el, deg, flip) {
+  el.style.transform = `rotate(${deg}deg) scaleX(${flip ? -1 : 1})`;
+}
+
+function movePiece(o, spin) {
+  quiz.orient = o;
+  quiz.spin = spin;
+  quiz.moves++;
+  setOrient(document.querySelector('#choices .piece'), spin, o.flip);
+  if (!sameOrient(o, quiz.qs[quiz.i].goal)) return;
+  if (puzzleFirstTry(quiz.moves)) quiz.firstTry++;
+  document.querySelectorAll('#choices button').forEach((b) => { b.disabled = true; });
+  $('feedback').textContent = '딩동댕! 딱 맞았어요! 🎉';
+  speak('딩동댕!', 'ko');
+  setTimeout(nextQuestion, 1500);
 }
 
 function choose(i, btn) {

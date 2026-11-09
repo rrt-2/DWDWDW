@@ -26,6 +26,14 @@ header { display: flex; justify-content: space-between; align-items: center; gap
 .choices .pic { font-size: 3.2rem; line-height: 1; }
 .choices button.right { border-color: var(--good); background: #e8f5e9; }
 .choices button.wrong { border-color: var(--bad); background: #ffebee; }
+.puzzle { margin: 12px 0; }
+.puzzle svg { width: 100%; max-width: 260px; aspect-ratio: 1; background: #fff; border: 3px solid var(--line); border-radius: 16px; }
+.puzzle polygon { transform-box: fill-box; transform-origin: center; transition: transform .35s; }
+.puzzle .shadow { fill: #d6d0c8; }
+.puzzle .piece { fill: var(--accent); opacity: .75; }
+.puzzle .outline { fill: none; stroke: #5a524a; stroke-width: 1.8; stroke-dasharray: 4 3; }
+.puzzle .row { margin-top: 12px; }
+.puzzle .row button { font-size: 1.2rem; padding: 14px 20px; }
 .book { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
 .card { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 12px 6px; background: #fff; border: 3px solid var(--line); border-radius: 16px; font-size: .85rem; }
 .card .pic { font-size: 2.8rem; line-height: 1; }

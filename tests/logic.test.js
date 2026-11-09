@@ -1,6 +1,6 @@
 const test = require('node:test');
 const assert = require('node:assert');
-const { prepareQuiz, mastered, starCount, stageOf, isUnlocked, recordResult } = require('../logic.js');
+const { prepareQuiz, mastered, starCount, stageOf, isUnlocked, recordResult, SHAPES, turn, mirror, sameOrient, puzzleFirstTry } = require('../logic.js');
 const CONTENT = require('../content.js');
 
 // 고정 난수: 테스트 결과가 매번 같도록
@@ -54,6 +54,43 @@ test('기록 갱신: 별은 한 번 얻으면 유지, 최고 점수와 도전 �
   assert.strictEqual(starCount(r), 1);
 });
 
+// 화면 그리기와 같은 순서: 먼저 좌우 뒤집기(flip), 그다음 rot도 시계 방향 회전 (화면 좌표: y가 아래)
+function place([x, y], o) {
+  const fx = o.flip ? -x : x;
+  const r = (o.rot * Math.PI) / 180;
+  return [Math.round(fx * Math.cos(r) - y * Math.sin(r)), Math.round(fx * Math.sin(r) + y * Math.cos(r))];
+}
+
+test('퍼즐: 돌리기 4번이면 제자리, 뒤집기 2번이면 제자리', () => {
+  let o = { rot: 90, flip: true };
+  for (let i = 0; i < 4; i++) o = turn(o);
+  assert.ok(sameOrient(o, { rot: 90, flip: true }));
+  assert.ok(sameOrient(mirror(mirror({ rot: 270, flip: false })), { rot: 270, flip: false }));
+});
+
+test('퍼즐: 상태 계산이 실제 화면 좌우 뒤집기·시계 방향 회전과 같다', () => {
+  const p = [3, 1];
+  for (const rot of [0, 90, 180, 270]) {
+    for (const flip of [false, true]) {
+      const o = { rot, flip };
+      const [x, y] = place(p, o);
+      assert.deepStrictEqual(place(p, mirror(o)), [-x, y], `뒤집기 ${rot} ${flip}`);
+      assert.deepStrictEqual(place(p, turn(o)), [-y, x], `돌리기 ${rot} ${flip}`);
+    }
+  }
+});
+
+test('퍼즐: 4번 안에 맞추면 첫 시도 정답', () => {
+  assert.strictEqual(puzzleFirstTry(1), true);
+  assert.strictEqual(puzzleFirstTry(4), true);
+  assert.strictEqual(puzzleFirstTry(5), false);
+});
+
+test('퍼즐 문제는 섞을 때 그대로 유지', () => {
+  const unit = { questions: [{ type: 'puzzle', say: 'a', shape: 'L', start: { rot: 0, flip: false }, goal: { rot: 90, flip: false } }] };
+  assert.deepStrictEqual(prepareQuiz(unit)[0], unit.questions[0]);
+});
+
 test('content.js 형식 (팀원 수정 후 깨짐 방지)', () => {
   assert.ok(CONTENT.subjects.length >= 1);
   const subIds = CONTENT.subjects.map((s) => s.id);
@@ -71,6 +108,12 @@ test('content.js 형식 (팀원 수정 후 깨짐 방지)', () => {
       for (const q of u.questions) {
         assert.ok(q.say, u.title);
         assert.ok(q.lang === 'en' || q.lang === 'ko', q.say);
+        if (q.type === 'puzzle') {
+          assert.ok(SHAPES[q.shape], `없는 도형: ${q.shape}`);
+          for (const o of [q.start, q.goal]) assert.ok([0, 90, 180, 270].includes(o.rot) && typeof o.flip === 'boolean', q.say);
+          assert.ok(!sameOrient(q.start, q.goal), `시작과 목표가 같음: ${q.say}`);
+          continue;
+        }
         assert.ok(q.choices.length >= 2 && q.choices.length <= 4, q.say);
         for (const c of q.choices) assert.ok(c.pic && c.label, q.say);
         assert.ok(Number.isInteger(q.answer) && q.answer >= 0 && q.answer < q.choices.length, q.say);
