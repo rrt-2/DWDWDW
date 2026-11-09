@@ -79,4 +79,16 @@
 - 도형·공간 3학년 단원 = 직접 돌리고 뒤집기 퍼즐(`type: 'puzzle'`). 회색 그림자에 맞게 🔄 돌리기 / ↔️ 뒤집기. 4번 안에 맞추면 첫 시도 정답.
 - 문제 바뀜: 단원에 `gen`(add·mul·div·puzzle)이 있으면 풀 때마다 새 문제 5개를 만들어 고정 문제와 섞고 5개 뽑음. 고정 문제가 5개보다 많아도 매번 5개만 뽑음.
 - PC용 exe: `desktop/app.py` (pywebview, 창 안에 index.html). 기록은 `%LOCALAPPDATA%\study-tamagotchi`, 포트 41731 고정.
-  빌드: `python -m PyInstaller --onefile --windowed --name 학습다마고치 --add-data "index.html;." --add-data "style.css;." --add-data "content.js;." --add-data "logic.js;." --add-data "game.js;." --add-data "assets;assets" desktop/app.py`
+  빌드: `python -m PyInstaller --onefile --windowed --name 학습다마고치 --add-data "index.html;." --add-data "style.css;." --add-data "content.js;." --add-data "logic.js;." --add-data "game.js;." --add-data "dashboard.html;." --add-data "assets;assets" desktop/app.py`
+
+## 방향 변경 (2026-11-09): 어르신 두뇌건강 다마고치
+
+- 대상: 혼자 사는 어르신. 학습 다마고치 + 독거노인 케어 서비스를 합침.
+- 매일: 건강 체크(식사·약·물·걷기·잠 네/아니요 + 기분 3단계, 음성 읽기, 크롬·엣지는 말로 대답 가능) → 캐릭터가 같이 밥 먹고 걷는 반응.
+- 두뇌 운동: 낱말·셈하기·생활 상식·도형 공간 (쉬움/보통/어려움). 초등 전용 과목(영어·바른 생활·우리 동네) 제거.
+- 캐릭터 기분 = 최근 3일 점수(petMood). 성장 = 체크한 날 + 도감 친구 (30이면 어른). 죽거나 아프지 않음.
+- 위험 신호(riskLevel, 의학 기준 아님): 3일 이상 체크 없음 = 연락 필요(보호자·대시보드용), 약 2일 연속 거름 또는 기분 나쁨 3일 = 주의(본인 화면에도 안내).
+- 보호자에게 보내기: 최근 7일 요약(weekSummary)을 공유 창/클립보드로.
+- dashboard.html: 의료진·복지사 화면 시연용, 가상 어르신 10명. 실제 전송 없음.
+- 시연: 주소 뒤에 ?demo → '하루 넘기기' 버튼.
+- 저장 키 `brain-tamagotchi` (예전 학습 다마고치 기록과 분리).

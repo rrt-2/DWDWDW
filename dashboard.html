@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>돌봄 대시보드 (시연용)</title>
+  <style>
+    body { margin: 0; background: #f4f6f8; color: #333; font-family: system-ui, sans-serif; }
+    main { max-width: 960px; margin: 0 auto; padding: 16px; }
+    .demo { background: #fff3e0; border: 2px dashed #ffb74d; padding: 10px 14px; border-radius: 10px; }
+    .wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; background: #fff; margin-top: 12px; }
+    th, td { padding: 10px 6px; border-bottom: 1px solid #e3e6ea; text-align: center; white-space: nowrap; }
+    td.name { text-align: left; }
+    .tag { display: inline-block; padding: 3px 10px; border-radius: 999px; font-weight: bold; color: #fff; }
+    .contact { background: #d32f2f; } .caution { background: #f57c00; } .ok { background: #43a047; }
+    .miss { color: #bbb; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>🏥 돌봄 대시보드</h1>
+  <p class="demo">⚠ 시연용 가상 데이터입니다. 실제 서비스가 되면 보건소·복지관 담당자가 동의한 어르신의 기록만 보게 됩니다. 지금 앱은 기록을 밖으로 보내지 않습니다.</p>
+  <div class="wrap">
+    <table>
+      <thead><tr id="head"></tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </div>
+  <p>칸 숫자 = 그날 건강 체크 5개 중 '네' 개수, 얼굴 = 기분. "연락 필요"·"주의"는 의학 판단이 아니라 연락해 볼 신호예요.</p>
+</main>
+<script src="logic.js"></script>
+<script>
+  // 가상 어르신 10명: f(n일 전) → 그날 기록 (없으면 null)
+  const day = (yes, mood = 'ok', med = true) => {
+    const ids = Object.keys(HEALTH_LABEL);
+    const answers = Object.fromEntries(ids.map((id, i) => [id, i < yes]));
+    answers.med = med;
+    return { answers, mood };
+  };
+  const PEOPLE = [
+    ['김○자 (81)', (n) => (n >= 4 ? day(4) : null)], // 4일째 체크 없음
+    ['이○순 (77)', (n) => (n <= 1 ? day(4, 'ok', false) : day(5))], // 이틀 연속 약 거름
+    ['박○호 (84)', (n) => (n <= 2 ? day(3, 'bad') : day(4))], // 기분 나쁨 3일
+    ['최○옥 (79)', (n) => day(5, 'good')],
+    ['정○수 (73)', (n) => (n === 3 ? null : day(4))],
+    ['강○희 (88)', (n) => day(n % 2 ? 4 : 5, 'ok')],
+    ['조○남 (75)', (n) => day(5, n === 0 ? 'good' : 'ok')],
+    ['윤○분 (82)', (n) => (n === 5 ? null : day(3))],
+    ['장○철 (70)', (n) => day(5, 'good')],
+    ['임○례 (86)', (n) => day(4, n === 1 ? 'bad' : 'ok')],
+  ];
+  const MOOD_FACE = { good: '😊', ok: '🙂', bad: '😟' };
+  const RISK_NAME = { contact: '연락 필요', caution: '주의', ok: '양호', none: '기록 없음' };
+  const ORDER = { contact: 0, caution: 1, ok: 2, none: 3 };
+
+  const today = dateKey(new Date());
+  const dates = [6, 5, 4, 3, 2, 1, 0].map((n) => addDays(today, -n));
+  document.getElementById('head').innerHTML = '<th>어르신</th><th>상태</th><th>마지막 체크</th>'
+    + dates.map((d) => `<th>${d.slice(5).replace('-', '/')}</th>`).join('');
+
+  const list = PEOPLE.map(([name, f]) => {
+    const days = {};
+    dates.forEach((d, i) => { const v = f(6 - i); if (v) days[d] = v; });
+    return { name, days, risk: riskLevel(days, today) };
+  }).sort((a, b) => ORDER[a.risk] - ORDER[b.risk]);
+
+  const rows = document.getElementById('rows');
+  for (const p of list) {
+    const last = Object.keys(p.days).sort().pop();
+    const cells = dates.map((d) => {
+      const v = p.days[d];
+      if (!v) return '<td class="miss">—</td>';
+      const yes = Object.values(v.answers).filter(Boolean).length;
+      return `<td>${yes}/5 ${MOOD_FACE[v.mood]}${v.answers.med ? '' : ' 💊✕'}</td>`;
+    }).join('');
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td class="name"></td><td><span class="tag ${p.risk}">${RISK_NAME[p.risk]}</span></td><td>${last ? last.slice(5).replace('-', '/') : '-'}</td>${cells}`;
+    tr.querySelector('.name').textContent = p.name;
+    rows.appendChild(tr);
+  }
+</script>
+</body>
+</html>

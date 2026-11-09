@@ -3,17 +3,18 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>학습 다마고치</title>
-  <link rel="stylesheet" href="style.css?v=8">
+  <title>두뇌건강 다마고치</title>
+  <link rel="stylesheet" href="style.css?v=9">
 </head>
 <body>
 <main>
   <section id="egg" hidden>
     <div class="pet">🥚</div>
-    <p class="big">알이 하나 있어요! 이름을 지어 주세요.</p>
-    <input id="pet-name" maxlength="10" placeholder="예: 뭉치">
+    <p class="big">함께 지낼 친구의 알이에요!</p>
+    <label>친구 이름<input id="pet-name" maxlength="10" placeholder="예: 뭉치"></label>
+    <label>어르신을 어떻게 불러 드릴까요?<input id="who-name" maxlength="12" placeholder="예: 순자 할머니"></label>
     <button id="hatch" class="wide">시작하기</button>
-    <p class="hint">단원을 마스터하면 도감 친구를 만나고, 친구가 늘수록 쑥쑥 자라요.</p>
+    <p class="hint">매일 건강 체크와 두뇌 운동을 하시면 친구가 밝게 자라요. 기록은 이 기기 안에만 저장돼요.</p>
   </section>
 
   <section id="home" hidden>
@@ -26,12 +27,43 @@
       <span id="pet-emoji" class="pet"></span>
     </div>
     <p id="pet-talk" class="speech"></p>
+    <p id="risk" class="risk" hidden></p>
+    <button id="check-start" class="wide"></button>
+    <h2>🧠 두뇌 운동</h2>
     <div id="subjects" class="grid"></div>
-    <button id="open-book" class="wide">📖 도감 보기</button>
+    <div class="row">
+      <button id="open-book">📖 도감</button>
+      <button id="share">💌 보호자에게 보내기</button>
+    </div>
     <div class="row">
       <button id="open-records" class="small">기록 보기</button>
       <button id="reset" class="small">처음부터</button>
+      <button id="demo-next" class="small" hidden>시연: 하루 넘기기 ▶</button>
     </div>
+  </section>
+
+  <section id="check" hidden>
+    <header>
+      <button class="back small">← 홈</button>
+      <span id="check-progress"></span>
+      <span></span>
+    </header>
+    <div class="pet-box">
+      <img id="check-img" alt="" hidden>
+      <span id="check-emoji" class="pet"></span>
+    </div>
+    <p id="check-q" class="speech big"></p>
+    <div id="yesno" class="row">
+      <button id="yes" class="answer huge">⭕ 네</button>
+      <button id="no" class="answer huge alt">❌ 아니요</button>
+    </div>
+    <div id="moods" class="row" hidden>
+      <button class="answer huge" data-mood="good">😊 좋음</button>
+      <button class="answer huge alt" data-mood="ok">🙂 보통</button>
+      <button class="answer huge alt" data-mood="bad">😟 나쁨</button>
+    </div>
+    <p id="check-reply" class="big"></p>
+    <button id="listen" class="small">🎤 말로 대답하기</button>
   </section>
 
   <section id="units" hidden>
@@ -77,6 +109,10 @@
       <span>기록 보기</span>
       <span></span>
     </header>
+    <h2>🩺 최근 7일 건강 체크</h2>
+    <pre id="week"></pre>
+    <p><a href="dashboard.html" target="_blank">🏥 의료진·복지사 화면 보기 (시연용)</a></p>
+    <h2>🧠 두뇌 운동 기록</h2>
     <table>
       <thead><tr><th>과목</th><th>단원</th><th>도감</th><th>최고 점수</th><th>도전</th></tr></thead>
       <tbody id="record-rows"></tbody>
@@ -84,8 +120,8 @@
     <p class="hint">최고 점수 = 처음 고른 답이 맞은 문제 수 (5문제 중)</p>
   </section>
 </main>
-<script src="content.js?v=8"></script>
-<script src="logic.js?v=8"></script>
-<script src="game.js?v=8"></script>
+<script src="content.js?v=9"></script>
+<script src="logic.js?v=9"></script>
+<script src="game.js?v=9"></script>
 </body>
 </html>

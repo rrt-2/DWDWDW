@@ -1,6 +1,6 @@
 const test = require('node:test');
 const assert = require('node:assert');
-const { prepareQuiz, mastered, starCount, stageOf, isUnlocked, recordResult, SHAPES, turn, mirror, sameOrient, puzzleFirstTry, GENERATORS, QUIZ_SIZE } = require('../logic.js');
+const { prepareQuiz, mastered, starCount, stageOf, isUnlocked, recordResult, SHAPES, turn, mirror, sameOrient, puzzleFirstTry, GENERATORS, QUIZ_SIZE, dateKey, addDays, petMood, riskLevel, weekSummary, growthPoints } = require('../logic.js');
 const CONTENT = require('../content.js');
 
 // 고정 난수: 테스트 결과가 매번 같도록
@@ -162,4 +162,61 @@ test('content.js 형식 (팀원 수정 후 깨짐 방지)', () => {
     }
   }
   for (const st of ['egg', 'baby', 'child', 'adult']) assert.ok(CONTENT.petEmoji[st]);
+  // 건강 체크 질문은 logic.js의 항목과 같은 id여야 함
+  const { HEALTH_LABEL } = require('../logic.js');
+  assert.deepStrictEqual(CONTENT.health.map((h) => h.id).sort(), Object.keys(HEALTH_LABEL).sort());
+  for (const h of CONTENT.health) assert.ok(h.pic && h.ask && h.yes && h.no, h.id);
+  assert.ok(CONTENT.moodAsk);
+});
+
+// ---- 어르신 건강 체크 ----
+// 하루 기록 만들기: yes = 네라고 답한 항목 수(앞에서부터), mood = 기분
+function day(yes, mood = 'ok', med = true) {
+  const ids = ['meal', 'med', 'water', 'walk', 'sleep'];
+  const answers = Object.fromEntries(ids.map((id, i) => [id, i < yes]));
+  answers.med = med;
+  return { answers, mood };
+}
+
+test('날짜 키와 날짜 더하기 (월·연도 넘김 포함)', () => {
+  assert.strictEqual(dateKey(new Date(2026, 10, 9)), '2026-11-09');
+  assert.strictEqual(addDays('2026-11-30', 1), '2026-12-01');
+  assert.strictEqual(addDays('2027-01-01', -1), '2026-12-31');
+});
+
+test('캐릭터 기분: 최근 3일 기록으로 밝음/보통/기운 없음', () => {
+  const t = '2026-11-09';
+  assert.strictEqual(petMood({}, t), 'idle'); // 처음 시작
+  assert.strictEqual(petMood({ [t]: day(5, 'good') }, t), 'happy');
+  assert.strictEqual(petMood({ [t]: day(3) }, t), 'idle');
+  assert.strictEqual(petMood({ [t]: day(1, 'bad', false) }, t), 'tired');
+  assert.strictEqual(petMood({ [addDays(t, -5)]: day(5, 'good') }, t), 'tired'); // 3일 넘게 안 옴
+});
+
+test('위험 신호: 3일 이상 체크 없음 / 약 2일 연속 안 먹음 / 기분 나쁨 3일 연속', () => {
+  const t = '2026-11-09';
+  assert.strictEqual(riskLevel({}, t), 'none');
+  assert.strictEqual(riskLevel({ [t]: day(5) }, t), 'ok');
+  assert.strictEqual(riskLevel({ [addDays(t, -2)]: day(5) }, t), 'ok');
+  assert.strictEqual(riskLevel({ [addDays(t, -3)]: day(5) }, t), 'contact');
+  assert.strictEqual(riskLevel({ [t]: day(5, 'ok', false), [addDays(t, -1)]: day(5, 'ok', false) }, t), 'caution');
+  assert.strictEqual(riskLevel({ [t]: day(5, 'ok', false), [addDays(t, -2)]: day(5, 'ok', false) }, t), 'ok'); // 연속 아님
+  const bad = { [t]: day(5, 'bad'), [addDays(t, -1)]: day(5, 'bad'), [addDays(t, -2)]: day(5, 'bad') };
+  assert.strictEqual(riskLevel(bad, t), 'caution');
+});
+
+test('7일 요약: 날짜별 한 줄 + 위험 안내', () => {
+  const t = '2026-11-09';
+  const text = weekSummary({ [t]: day(5, 'good'), [addDays(t, -1)]: day(5, 'ok', false), [addDays(t, -2)]: day(5, 'ok', false) }, '순자 할머니', t);
+  assert.ok(text.includes('순자 할머니'));
+  assert.ok(text.includes('11/09'));
+  assert.ok(text.includes('11/03')); // 7일 전까지
+  assert.ok(text.includes('체크 안 함'));
+  assert.ok(!text.includes('주의'));
+  const risky = weekSummary({ [t]: day(5, 'ok', false), [addDays(t, -1)]: day(5, 'ok', false) }, 'A', t);
+  assert.ok(risky.includes('주의'));
+});
+
+test('성장 점수 = 체크한 날 수 + 도감 친구 수', () => {
+  assert.strictEqual(growthPoints({ a: day(1), b: day(2) }, { u1: { star: true }, u2: { star: false } }), 3);
 });

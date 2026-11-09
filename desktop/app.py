@@ -1,4 +1,4 @@
-# 학습 다마고치 PC 실행 파일: 웹 버전(index.html)을 창 하나에 띄움
+# 두뇌건강 다마고치 PC 실행 파일: 웹 버전(index.html)을 창 하나에 띄움
 import os
 import sys
 
@@ -12,5 +12,5 @@ DATA = os.path.join(os.environ.get('LOCALAPPDATA', BASE), 'study-tamagotchi')
 PORT = 41731
 
 if __name__ == '__main__':
-    webview.create_window('학습 다마고치', os.path.join(BASE, 'index.html'), width=540, height=900, min_size=(380, 600))
+    webview.create_window('두뇌건강 다마고치', os.path.join(BASE, 'index.html'), width=540, height=900, min_size=(380, 600))
     webview.start(private_mode=False, storage_path=DATA, http_server=True, http_port=PORT)

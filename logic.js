@@ -137,6 +137,76 @@ function recordResult(records, unitId, firstTry) {
   };
 }
 
+// ---- 어르신 건강 체크 ----
+// 하루 기록 = { answers: { meal, med, water, walk, sleep: true/false }, mood: 'good'|'ok'|'bad' }
+const HEALTH_LABEL = { meal: '식사', med: '약', water: '물', walk: '걷기', sleep: '잠' };
+const MOOD_LABEL = { good: '좋음', ok: '보통', bad: '나쁨' };
+
+// 날짜 → 'YYYY-MM-DD' (내 컴퓨터 시간 기준)
+function dateKey(d) {
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+
+function addDays(key, n) {
+  const [y, m, d] = key.split('-').map(Number);
+  return dateKey(new Date(y, m - 1, d + n));
+}
+
+// 하루 점수: '네' 비율 + 기분 보정 (좋음 +0.2, 나쁨 -0.2)
+function dayScore(day) {
+  const ids = Object.keys(HEALTH_LABEL);
+  const yes = ids.filter((id) => day.answers[id]).length / ids.length;
+  return yes + (day.mood === 'good' ? 0.2 : day.mood === 'bad' ? -0.2 : 0);
+}
+
+// 캐릭터 기분: 최근 3일 평균 점수. 3일 동안 기록이 없으면 기운 없음 (처음 시작이면 보통)
+function petMood(days, today) {
+  const recent = [0, -1, -2].map((n) => days[addDays(today, n)]).filter(Boolean);
+  if (recent.length === 0) return Object.keys(days).length ? 'tired' : 'idle';
+  const avg = recent.reduce((s, d) => s + dayScore(d), 0) / recent.length;
+  return avg >= 0.8 ? 'happy' : avg >= 0.4 ? 'idle' : 'tired';
+}
+
+// 위험 신호 (의학 기준 아님, 연락해 볼 신호): none=기록 없음, contact=3일 이상 체크 없음, caution=약·기분 이상, ok
+function riskLevel(days, today) {
+  const keys = Object.keys(days).sort();
+  if (keys.length === 0) return 'none';
+  const last = keys[keys.length - 1];
+  if (last <= addDays(today, -3)) return 'contact';
+  const at = (n) => days[addDays(last, n)];
+  const noMed = [0, -1].every((n) => at(n) && at(n).answers.med === false);
+  const sad = [0, -1, -2].every((n) => at(n) && at(n).mood === 'bad');
+  return noMed || sad ? 'caution' : 'ok';
+}
+
+const RISK_TEXT = {
+  none: '아직 기록이 없어요.',
+  ok: '특별한 이상 신호는 없어요.',
+  caution: '⚠ 주의: 약을 거르시거나 기분이 안 좋은 날이 이어지고 있어요.',
+  contact: '⚠ 3일 넘게 체크가 없어요. 연락해 보세요.',
+};
+
+// 보호자에게 보낼 최근 7일 요약 글
+function weekSummary(days, name, today) {
+  const lines = [`[두뇌건강 다마고치] ${name} 최근 7일 생활 체크`];
+  for (let i = 6; i >= 0; i--) {
+    const k = addDays(today, -i);
+    const d = days[k];
+    const items = d
+      ? Object.entries(HEALTH_LABEL).map(([id, label]) => `${label}${d.answers[id] ? '○' : '×'}`).join(' ') + ` 기분 ${MOOD_LABEL[d.mood]}`
+      : '체크 안 함';
+    lines.push(`${k.slice(5).replace('-', '/')} ${items}`);
+  }
+  lines.push(RISK_TEXT[riskLevel(days, today)]);
+  return lines.join('\n');
+}
+
+// 성장 점수 = 체크한 날 수 + 도감 친구 수
+function growthPoints(days, records) {
+  return Object.keys(days).length + starCount(records);
+}
+
 if (typeof module !== 'undefined') {
-  module.exports = { MASTER_NEED, shuffle, prepareQuiz, mastered, starCount, stageOf, isUnlocked, recordResult, SHAPES, turn, mirror, sameOrient, puzzleFirstTry, GENERATORS, QUIZ_SIZE };
+  module.exports = { MASTER_NEED, shuffle, prepareQuiz, mastered, starCount, stageOf, isUnlocked, recordResult, SHAPES, turn, mirror, sameOrient, puzzleFirstTry, GENERATORS, QUIZ_SIZE,
+    HEALTH_LABEL, MOOD_LABEL, RISK_TEXT, dateKey, addDays, petMood, riskLevel, weekSummary, growthPoints };
 }
