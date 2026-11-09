@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>학습 다마고치</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+  <section id="egg" hidden>
+    <div class="pet">🥚</div>
+    <p class="big">알이 하나 있어요! 이름을 지어 주세요.</p>
+    <input id="pet-name" maxlength="10" placeholder="예: 뭉치">
+    <button id="hatch" class="wide">시작하기</button>
+    <p class="hint">공부해서 별을 모으면 친구가 쑥쑥 자라요.</p>
+  </section>
+
+  <section id="home" hidden>
+    <header>
+      <span id="home-title"></span>
+      <span id="home-stars"></span>
+    </header>
+    <div class="pet-box">
+      <img id="pet-img" alt="" hidden>
+      <span id="pet-emoji" class="pet"></span>
+    </div>
+    <p id="pet-talk" class="speech"></p>
+    <div id="subjects" class="grid"></div>
+    <div class="row">
+      <button id="open-records" class="small">기록 보기</button>
+      <button id="reset" class="small">처음부터</button>
+    </div>
+  </section>
+
+  <section id="units" hidden>
+    <header>
+      <button class="back small">← 홈</button>
+      <span id="units-title"></span>
+      <span></span>
+    </header>
+    <div id="unit-list" class="list"></div>
+  </section>
+
+  <section id="quiz" hidden>
+    <header>
+      <button class="back small">← 홈</button>
+      <span id="quiz-progress"></span>
+      <button id="replay" class="small">🔊 다시 듣기</button>
+    </header>
+    <p id="question" class="speech big"></p>
+    <div id="choices" class="choices"></div>
+    <p id="feedback" class="big"></p>
+  </section>
+
+  <section id="result" hidden>
+    <div id="result-pet" class="pet"></div>
+    <h1 id="result-title"></h1>
+    <p id="result-text" class="big"></p>
+    <button id="result-home" class="wide">홈으로</button>
+  </section>
+
+  <section id="records" hidden>
+    <header>
+      <button class="back small">← 홈</button>
+      <span>기록 보기</span>
+      <span></span>
+    </header>
+    <table>
+      <thead><tr><th>과목</th><th>단원</th><th>별</th><th>최고 점수</th><th>도전</th></tr></thead>
+      <tbody id="record-rows"></tbody>
+    </table>
+    <p class="hint">최고 점수 = 처음 고른 답이 맞은 문제 수 (5문제 중)</p>
+  </section>
+</main>
+<script src="content.js"></script>
+<script src="logic.js"></script>
+<script src="game.js"></script>
+</body>
+</html>
