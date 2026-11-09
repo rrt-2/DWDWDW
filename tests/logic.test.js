@@ -11,7 +11,7 @@ function seeded(seed) {
 test('퀴즈 준비: 문제·보기를 섞어도 정답이 같은 보기를 가리킨다', () => {
   const unit = CONTENT.subjects[0].units[0];
   const quiz = prepareQuiz(unit, seeded(7));
-  assert.strictEqual(quiz.length, unit.questions.length);
+  assert.strictEqual(quiz.length, QUIZ_SIZE);
   for (const q of quiz) {
     const orig = unit.questions.find((o) => o.say === q.say);
     assert.deepStrictEqual(q.choices[q.answer], orig.choices[orig.answer]);

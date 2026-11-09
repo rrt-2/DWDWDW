@@ -119,7 +119,9 @@ function renderQuestion() {
   if (q.type === 'puzzle') return renderPuzzle(q);
   q.choices.forEach((c, i) => {
     const b = document.createElement('button');
-    b.innerHTML = `<span class="pic">${c.pic}</span><span>${c.label}</span>`;
+    // 영어 문제는 단어가 정답 힌트가 되니까 그림만 보여 줌 (정답 알려 줄 때만 단어 사용)
+    b.innerHTML = q.lang === 'en' ? `<span class="pic">${c.pic}</span>` : `<span class="pic">${c.pic}</span><span>${c.label}</span>`;
+    b.setAttribute('aria-label', c.label);
     b.onclick = () => choose(i, b);
     box.appendChild(b);
   });
