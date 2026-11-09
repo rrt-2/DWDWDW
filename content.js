@@ -237,6 +237,44 @@ const CONTENT = {
         },
       ],
     },
+    {
+      id: 'shape', name: '도형·공간', icon: '🔷',
+      units: [
+        {
+          id: 'shape1', title: '1학년 · 여러 가지 모양',
+          friend: { pic: '🦀', name: '세모 꽃게', desc: '집게발로 세모, 네모, 동그라미를 척척 만드는 꽃게예요.' }, // 마스터하면 만나는 도감 친구
+          questions: [
+            { say: '세모 모양은 어느 것일까요?', lang: 'ko', choices: [{ pic: '🔺', label: '세모' }, { pic: '🟦', label: '네모' }, { pic: '⚪', label: '동그라미' }], answer: 0 },
+            { say: '데굴데굴 잘 굴러가는 것은?', lang: 'ko', choices: [{ pic: '🎲', label: '주사위' }, { pic: '⚽', label: '공' }, { pic: '📦', label: '상자' }], answer: 1 },
+            { say: '네모 모양 물건은?', lang: 'ko', choices: [{ pic: '🍩', label: '도넛' }, { pic: '🍕', label: '피자 한 조각' }, { pic: '📺', label: '텔레비전' }], answer: 2 },
+            { say: '다음에 올 모양은? 동그라미, 세모, 동그라미, 세모, 그다음은?', lang: 'ko', choices: [{ pic: '⚪', label: '동그라미' }, { pic: '🔺', label: '세모' }, { pic: '🟦', label: '네모' }], answer: 0 },
+            { say: '뾰족한 곳이 하나도 없는 모양은?', lang: 'ko', choices: [{ pic: '🔺', label: '세모' }, { pic: '⚪', label: '동그라미' }, { pic: '🟦', label: '네모' }], answer: 1 },
+          ],
+        },
+        {
+          id: 'shape2', title: '2학년 · 변과 꼭짓점, 규칙',
+          friend: { pic: '🐝', name: '육각 꿀벌', desc: '변이 6개인 육각형 집을 짓는 꿀벌이에요.' }, // 마스터하면 만나는 도감 친구
+          questions: [
+            { say: '삼각형의 변은 몇 개일까요?', lang: 'ko', choices: [{ pic: '🔺', label: '4개' }, { pic: '🔺', label: '3개' }, { pic: '🔺', label: '5개' }], answer: 1 },
+            { say: '사각형의 꼭짓점은 몇 개일까요?', lang: 'ko', choices: [{ pic: '🟦', label: '4개' }, { pic: '🟦', label: '3개' }, { pic: '🟦', label: '6개' }], answer: 0 },
+            { say: '꿀벌 집처럼 변이 6개인 도형의 이름은?', lang: 'ko', choices: [{ pic: '⬠', label: '오각형' }, { pic: '⬜', label: '사각형' }, { pic: '⬡', label: '육각형' }], answer: 2 },
+            { say: '규칙을 찾아요. 빨강, 파랑, 파랑, 빨강, 파랑, 파랑, 그다음은?', lang: 'ko', choices: [{ pic: '🔴', label: '빨강' }, { pic: '🔵', label: '파랑' }, { pic: '🟡', label: '노랑' }], answer: 0 },
+            { say: '네모난 색종이를 뾰족한 곳끼리 맞춰 반으로 접으면 어떤 모양이 될까요?', lang: 'ko', choices: [{ pic: '🟦', label: '네모' }, { pic: '🔺', label: '세모' }, { pic: '⚪', label: '동그라미' }], answer: 1 },
+          ],
+        },
+        {
+          id: 'shape3', title: '3학년 · 돌리기와 뒤집기',
+          friend: { pic: '🦎', name: '빙글 카멜레온', desc: '머릿속에서 모양을 빙글빙글 돌려 보는 카멜레온이에요.' }, // 마스터하면 만나는 도감 친구
+          questions: [
+            { say: '오른쪽을 가리키는 화살표를 시계 방향으로 4분의 1바퀴 돌리면 어느 쪽을 가리킬까요?', lang: 'ko', choices: [{ pic: '⬆️', label: '위쪽' }, { pic: '⬅️', label: '왼쪽' }, { pic: '⬇️', label: '아래쪽' }], answer: 2 },
+            { say: '위쪽을 가리키는 화살표를 반 바퀴 돌리면 어느 쪽을 가리킬까요?', lang: 'ko', choices: [{ pic: '⬇️', label: '아래쪽' }, { pic: '➡️', label: '오른쪽' }, { pic: '⬆️', label: '위쪽' }], answer: 0 },
+            { say: '오른쪽을 가리키는 화살표를 왼쪽과 오른쪽으로 뒤집으면 어느 쪽을 가리킬까요?', lang: 'ko', choices: [{ pic: '➡️', label: '오른쪽' }, { pic: '⬅️', label: '왼쪽' }, { pic: '⬆️', label: '위쪽' }], answer: 1 },
+            { say: '주사위의 면은 모두 몇 개일까요?', lang: 'ko', choices: [{ pic: '🎲', label: '4개' }, { pic: '🎲', label: '8개' }, { pic: '🎲', label: '6개' }], answer: 2 },
+            { say: '네모난 상자를 펼치면 네모가 몇 개 나올까요?', lang: 'ko', choices: [{ pic: '📦', label: '6개' }, { pic: '📦', label: '4개' }, { pic: '📦', label: '5개' }], answer: 0 },
+          ],
+        },
+      ],
+    },
   ],
 };
 
