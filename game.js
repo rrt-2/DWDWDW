@@ -4,18 +4,19 @@ const KEY = 'study-tamagotchi';
 const STAGE_NAME = { egg: '알', baby: '아기', child: '어린이', adult: '어른' };
 const TOTAL_UNITS = CONTENT.subjects.reduce((n, s) => n + s.units.length, 0);
 
-// 이름 뒤 조사: 받침 있으면 '이', 없으면 '가' (한글 아니면 '이(가)')
-function iga(name) {
+// 이름 뒤 조사: 받침 있으면 a, 없으면 b (한글 아니면 'a(b)')
+function josa(name, a, b) {
   const c = name.charCodeAt(name.length - 1) - 0xac00;
-  if (c < 0 || c > 11171) return `${name}이(가)`;
-  return name + (c % 28 ? '이' : '가');
+  if (c < 0 || c > 11171) return `${name}${a}(${b})`;
+  return name + (c % 28 ? a : b);
 }
+const iga = (name) => josa(name, '이', '가');
 
 let state = null; // { name, records }
 let quiz = null; // { subject, unit, qs, i, tries, firstTry }
 
 function show(id) {
-  for (const s of ['egg', 'home', 'units', 'quiz', 'result', 'records']) $(s).hidden = s !== id;
+  for (const s of ['egg', 'home', 'units', 'quiz', 'result', 'records', 'book']) $(s).hidden = s !== id;
   if (window.speechSynthesis) speechSynthesis.cancel();
 }
 
@@ -54,22 +55,28 @@ function setPet(st, mood) {
   img.src = `assets/pet/${st}_${mood}.png`;
 }
 
+// 이 단원의 도감 친구를 모았나 (= 단원 마스터)
+function has(unit) {
+  const r = state.records[unit.id];
+  return !!(r && r.star);
+}
+
 // ---- 홈 ----
 function renderHome() {
   const stars = starCount(state.records);
   const st = stage();
   $('home-title').textContent = `${state.name} (${STAGE_NAME[st]})`;
-  $('home-stars').textContent = `⭐ ${stars} / ${TOTAL_UNITS}`;
+  $('home-stars').textContent = `📖 ${stars} / ${TOTAL_UNITS}`;
   setPet(st, 'idle');
-  $('pet-talk').textContent = st === 'egg' ? '알 속에서 꿈틀꿈틀… 공부해서 별을 모아 줘!'
+  $('pet-talk').textContent = st === 'egg' ? '알 속에서 꿈틀꿈틀… 공부해서 도감 친구를 모아 줘!'
     : st === 'adult' ? '덕분에 다 자랐어! 고마워!'
     : '오늘은 뭐 배울까?';
   const box = $('subjects');
   box.innerHTML = '';
   for (const s of CONTENT.subjects) {
-    const got = s.units.filter((u) => state.records[u.id] && state.records[u.id].star).length;
+    const pics = s.units.map((u) => (has(u) ? u.friend.pic : '❔')).join('');
     const b = document.createElement('button');
-    b.innerHTML = `<span class="icon">${s.icon}</span><span>${s.name}</span><span>${'⭐'.repeat(got)}${'☆'.repeat(s.units.length - got)}</span>`;
+    b.innerHTML = `<span class="icon">${s.icon}</span><span>${s.name}</span><span>${pics}</span>`;
     b.onclick = () => openSubject(s);
     box.appendChild(b);
   }
@@ -82,10 +89,9 @@ function openSubject(s) {
   const list = $('unit-list');
   list.innerHTML = '';
   s.units.forEach((u, i) => {
-    const r = state.records[u.id];
     const open = isUnlocked(s, i, state.records);
     const b = document.createElement('button');
-    b.textContent = `${open ? '' : '🔒 '}${i + 1}단원 · ${u.title} ${r && r.star ? '⭐' : ''}`;
+    b.textContent = `${open ? '' : '🔒 '}${i + 1}단원 · ${u.title} ${has(u) ? u.friend.pic : ''}`;
     b.disabled = !open;
     b.onclick = () => startQuiz(s, u);
     list.appendChild(b);
@@ -159,14 +165,43 @@ function finishQuiz() {
   const after = stage();
   const won = mastered(quiz.firstTry);
   const lines = [`${quiz.qs.length}문제 중 ${quiz.firstTry}개를 한 번에 맞혔어요!`];
-  if (won && !hadStar) lines.push('⭐ 별을 받았어요!');
-  else if (!won) lines.push(`${MASTER_NEED}개 이상 맞히면 별을 받아요. 거의 다 왔어! 다시 도전!`);
+  const f = quiz.unit.friend;
+  const newFriend = won && !hadStar;
+  if (newFriend) lines.push(`새 친구 ${josa(f.name, '을', '를')} 만났어요! 도감에 등록했어요.`);
+  else if (!won) lines.push(`${MASTER_NEED}개 이상 맞히면 새 친구를 만날 수 있어요. 거의 다 왔어! 다시 도전!`);
+  $('result-friend').hidden = !newFriend;
+  if (newFriend) $('result-friend').replaceChildren(...friendCard(quiz.subject, quiz.unit, true).childNodes);
   if (after !== before) lines.push(after === 'adult' ? `🎉 ${iga(state.name)} 어른이 되었어요! 모든 단원 마스터!` : `${iga(state.name)} ${STAGE_NAME[after]}로 자랐어요!`);
   $('result-pet').textContent = CONTENT.petEmoji[after];
   $('result-title').textContent = won ? '참 잘했어요!' : '잘했어요!';
   $('result-text').textContent = lines.join(' ');
   show('result');
   speak(lines.join(' '), 'ko');
+}
+
+// ---- 도감 ----
+function friendCard(subject, unit, got) {
+  const d = document.createElement('div');
+  d.className = got ? 'card' : 'card locked';
+  const f = unit.friend;
+  d.innerHTML = got
+    ? `<span class="pic">${f.pic}</span><b></b><span></span><small></small>`
+    : '<span class="pic">❓</span><b>???</b><small></small>';
+  // 팀원이 쓴 글자는 textContent로 넣음
+  if (got) {
+    d.querySelector('b').textContent = f.name;
+    d.querySelector('span:not(.pic)').textContent = f.desc;
+  }
+  d.querySelector('small').textContent = got ? `${subject.name} · ${unit.title}` : `${subject.name} · ${unit.title} 마스터하면 만나요`;
+  return d;
+}
+
+function renderBook() {
+  const grid = $('book-grid');
+  grid.innerHTML = '';
+  for (const s of CONTENT.subjects) for (const u of s.units) grid.appendChild(friendCard(s, u, has(u)));
+  $('book-title').textContent = `📖 도감 ${starCount(state.records)} / ${TOTAL_UNITS}`;
+  show('book');
 }
 
 // ---- 기록 보기 ----
@@ -177,7 +212,7 @@ function renderRecords() {
     for (const u of s.units) {
       const r = state.records[u.id];
       const tr = document.createElement('tr');
-      for (const v of [s.name, u.title, r && r.star ? '⭐' : '-', r ? `${r.best} / ${u.questions.length}` : '-', r ? `${r.attempts}번` : '-']) {
+      for (const v of [s.name, u.title, has(u) ? u.friend.pic : '-', r ? `${r.best} / ${u.questions.length}` : '-', r ? `${r.attempts}번` : '-']) {
         const td = document.createElement('td');
         td.textContent = v;
         tr.appendChild(td);
@@ -198,6 +233,7 @@ document.querySelectorAll('.back').forEach((b) => { b.onclick = renderHome; });
 $('result-home').onclick = renderHome;
 $('replay').onclick = () => { const q = quiz.qs[quiz.i]; speak(q.say, q.lang); };
 $('open-records').onclick = renderRecords;
+$('open-book').onclick = renderBook;
 $('reset').onclick = () => {
   if (!confirm('기록을 모두 지우고 처음부터 할까요?')) return;
   try { localStorage.removeItem(KEY); } catch { /* 무시 */ }

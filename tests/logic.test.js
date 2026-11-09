@@ -61,6 +61,7 @@ test('content.js 형식 (팀원 수정 후 깨짐 방지)', () => {
     assert.strictEqual(s.units.length, 3, s.name);
     for (const u of s.units) {
       assert.ok(u.id && u.title);
+      assert.ok(u.friend && u.friend.pic && u.friend.name && u.friend.desc, `도감 친구 없음: ${u.title}`);
       assert.ok(!ids.has(u.id), `단원 id 중복: ${u.id}`);
       ids.add(u.id);
       assert.strictEqual(u.questions.length, 5, u.title);

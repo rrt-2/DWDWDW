@@ -26,5 +26,12 @@ header { display: flex; justify-content: space-between; align-items: center; gap
 .choices .pic { font-size: 3.2rem; line-height: 1; }
 .choices button.right { border-color: var(--good); background: #e8f5e9; }
 .choices button.wrong { border-color: var(--bad); background: #ffebee; }
+.book { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.card { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 12px 6px; background: #fff; border: 3px solid var(--line); border-radius: 16px; font-size: .85rem; }
+.card .pic { font-size: 2.8rem; line-height: 1; }
+.card b { font-size: 1rem; }
+.card.locked { background: #f1ece5; color: #999; }
+.card.new { margin: 12px auto; max-width: 240px; border-color: var(--accent); font-size: 1rem; }
+.card.new .pic { font-size: 4rem; }
 table { width: 100%; border-collapse: collapse; background: #fff; font-size: .95rem; }
 th, td { padding: 8px 4px; border-bottom: 1px solid var(--line); }

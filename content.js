@@ -13,6 +13,7 @@ const CONTENT = {
       units: [
         {
           id: 'en1', title: '동물',
+          friend: { pic: '🦊', name: '꼬리별 여우', desc: '영어로 동물 이름을 척척 말하는 여우예요.' }, // 마스터하면 만나는 도감 친구
           questions: [
             { say: 'Which one is a cat?', lang: 'en', choices: [{ pic: '🐶', label: 'dog' }, { pic: '🐱', label: 'cat' }, { pic: '🐰', label: 'rabbit' }], answer: 1 },
             { say: 'Which one is a dog?', lang: 'en', choices: [{ pic: '🐷', label: 'pig' }, { pic: '🐶', label: 'dog' }, { pic: '🐮', label: 'cow' }], answer: 1 },
@@ -23,6 +24,7 @@ const CONTENT = {
         },
         {
           id: 'en2', title: '색깔',
+          friend: { pic: '🦜', name: '무지개 앵무', desc: '알록달록 색깔 이름을 노래하는 앵무새예요.' }, // 마스터하면 만나는 도감 친구
           questions: [
             { say: 'Which one is red?', lang: 'en', choices: [{ pic: '🔴', label: 'red' }, { pic: '🔵', label: 'blue' }, { pic: '🟡', label: 'yellow' }], answer: 0 },
             { say: 'Which one is blue?', lang: 'en', choices: [{ pic: '🟢', label: 'green' }, { pic: '🔵', label: 'blue' }, { pic: '🔴', label: 'red' }], answer: 1 },
@@ -33,6 +35,7 @@ const CONTENT = {
         },
         {
           id: 'en3', title: '과일',
+          friend: { pic: '🐒', name: '바나나 원숭이', desc: '과일이라면 뭐든 좋아하는 원숭이예요.' }, // 마스터하면 만나는 도감 친구
           questions: [
             { say: 'Which one is an apple?', lang: 'en', choices: [{ pic: '🍎', label: 'apple' }, { pic: '🍌', label: 'banana' }, { pic: '🍇', label: 'grapes' }], answer: 0 },
             { say: 'Which one is a banana?', lang: 'en', choices: [{ pic: '🍓', label: 'strawberry' }, { pic: '🍌', label: 'banana' }, { pic: '🍊', label: 'orange' }], answer: 1 },
@@ -48,6 +51,7 @@ const CONTENT = {
       units: [
         {
           id: 'life1', title: '인사',
+          friend: { pic: '🐧', name: '꾸벅 펭귄', desc: '만날 때마다 꾸벅 인사하는 펭귄이에요.' }, // 마스터하면 만나는 도감 친구
           questions: [
             { say: '아침에 선생님을 만났어요. 뭐라고 할까요?', lang: 'ko', choices: [{ pic: '🙇', label: '안녕하세요!' }, { pic: '🙈', label: '모른 척해요' }, { pic: '😝', label: '메롱' }], answer: 0 },
             { say: '친구가 선물을 줬어요. 뭐라고 할까요?', lang: 'ko', choices: [{ pic: '😒', label: '이거 싫어' }, { pic: '🙏', label: '고마워!' }, { pic: '🤐', label: '아무 말 안 해요' }], answer: 1 },
@@ -58,6 +62,7 @@ const CONTENT = {
         },
         {
           id: 'life2', title: '양보와 배려',
+          friend: { pic: '🐻', name: '포근 곰', desc: '친구가 슬프면 꼭 안아 주는 곰이에요.' }, // 마스터하면 만나는 도감 친구
           questions: [
             { say: '친구가 넘어졌어요. 어떻게 할까요?', lang: 'ko', choices: [{ pic: '🚶', label: '그냥 지나가요' }, { pic: '🤝', label: '일으켜 줘요' }, { pic: '😂', label: '웃어요' }], answer: 1 },
             { say: '버스에 할머니가 타셨어요. 어떻게 할까요?', lang: 'ko', choices: [{ pic: '💺', label: '자리를 양보해요' }, { pic: '📱', label: '게임만 해요' }, { pic: '🙈', label: '못 본 척해요' }], answer: 0 },
@@ -68,6 +73,7 @@ const CONTENT = {
         },
         {
           id: 'life3', title: '정리 정돈',
+          friend: { pic: '🦝', name: '반짝 너구리', desc: '방을 반짝반짝 정리하는 너구리예요.' }, // 마스터하면 만나는 도감 친구
           questions: [
             { say: '다 논 장난감은 어떻게 할까요?', lang: 'ko', choices: [{ pic: '🧸', label: '제자리에 정리해요' }, { pic: '🌪️', label: '바닥에 그냥 둬요' }, { pic: '🛏️', label: '침대 밑에 숨겨요' }], answer: 0 },
             { say: '다 먹은 과자 봉지는 어떻게 할까요?', lang: 'ko', choices: [{ pic: '🌳', label: '길에 버려요' }, { pic: '🗑️', label: '쓰레기통에 버려요' }, { pic: '🛋️', label: '소파 밑에 넣어요' }], answer: 1 },
@@ -83,6 +89,7 @@ const CONTENT = {
       units: [
         {
           id: 'town1', title: '직업',
+          friend: { pic: '🦉', name: '척척 부엉이', desc: '동네 사람들의 직업을 다 아는 부엉이예요.' }, // 마스터하면 만나는 도감 친구
           questions: [
             { say: '아픈 사람을 치료해 주는 사람은 누구일까요?', lang: 'ko', choices: [{ pic: '🧑‍⚕️', label: '의사' }, { pic: '🧑‍🍳', label: '요리사' }, { pic: '🧑‍🚒', label: '소방관' }], answer: 0 },
             { say: '불을 꺼 주는 사람은 누구일까요?', lang: 'ko', choices: [{ pic: '👮', label: '경찰관' }, { pic: '🧑‍🚒', label: '소방관' }, { pic: '🧑‍🌾', label: '농부' }], answer: 1 },
@@ -93,6 +100,7 @@ const CONTENT = {
         },
         {
           id: 'town2', title: '공공장소',
+          friend: { pic: '🐰', name: '쉿쉿 토끼', desc: '도서관에서는 조용히! 예절 바른 토끼예요.' }, // 마스터하면 만나는 도감 친구
           questions: [
             { say: '책을 빌릴 수 있는 곳은 어디일까요?', lang: 'ko', choices: [{ pic: '📚', label: '도서관' }, { pic: '🏥', label: '병원' }, { pic: '🚒', label: '소방서' }], answer: 0 },
             { say: '몸이 아플 때 가는 곳은 어디일까요?', lang: 'ko', choices: [{ pic: '🏪', label: '편의점' }, { pic: '🏥', label: '병원' }, { pic: '🎢', label: '놀이공원' }], answer: 1 },
@@ -103,6 +111,7 @@ const CONTENT = {
         },
         {
           id: 'town3', title: '교통 안전',
+          friend: { pic: '🐢', name: '신호등 거북', desc: '초록불이 켜지면 천천히 건너는 거북이에요.' }, // 마스터하면 만나는 도감 친구
           questions: [
             { say: '신호등이 빨간불이에요. 어떻게 할까요?', lang: 'ko', choices: [{ pic: '🛑', label: '멈춰요' }, { pic: '🏃', label: '뛰어서 건너요' }, { pic: '🙈', label: '눈 감고 건너요' }], answer: 0 },
             { say: '초록불이 켜졌어요. 어떻게 건널까요?', lang: 'ko', choices: [{ pic: '📱', label: '휴대폰 보며 건너요' }, { pic: '👀', label: '좌우를 살피고 건너요' }, { pic: '🏃', label: '막 뛰어가요' }], answer: 1 },

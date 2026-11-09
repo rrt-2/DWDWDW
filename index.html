@@ -13,7 +13,7 @@
     <p class="big">알이 하나 있어요! 이름을 지어 주세요.</p>
     <input id="pet-name" maxlength="10" placeholder="예: 뭉치">
     <button id="hatch" class="wide">시작하기</button>
-    <p class="hint">공부해서 별을 모으면 친구가 쑥쑥 자라요.</p>
+    <p class="hint">단원을 마스터하면 도감 친구를 만나고, 친구가 늘수록 쑥쑥 자라요.</p>
   </section>
 
   <section id="home" hidden>
@@ -27,6 +27,7 @@
     </div>
     <p id="pet-talk" class="speech"></p>
     <div id="subjects" class="grid"></div>
+    <button id="open-book" class="wide">📖 도감 보기</button>
     <div class="row">
       <button id="open-records" class="small">기록 보기</button>
       <button id="reset" class="small">처음부터</button>
@@ -57,7 +58,17 @@
     <div id="result-pet" class="pet"></div>
     <h1 id="result-title"></h1>
     <p id="result-text" class="big"></p>
+    <div id="result-friend" class="card new" hidden></div>
     <button id="result-home" class="wide">홈으로</button>
+  </section>
+
+  <section id="book" hidden>
+    <header>
+      <button class="back small">← 홈</button>
+      <span id="book-title"></span>
+      <span></span>
+    </header>
+    <div id="book-grid" class="book"></div>
   </section>
 
   <section id="records" hidden>
@@ -67,7 +78,7 @@
       <span></span>
     </header>
     <table>
-      <thead><tr><th>과목</th><th>단원</th><th>별</th><th>최고 점수</th><th>도전</th></tr></thead>
+      <thead><tr><th>과목</th><th>단원</th><th>도감</th><th>최고 점수</th><th>도전</th></tr></thead>
       <tbody id="record-rows"></tbody>
     </table>
     <p class="hint">최고 점수 = 처음 고른 답이 맞은 문제 수 (5문제 중)</p>
