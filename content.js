@@ -18,201 +18,200 @@ const CONTENT = {
   ],
   moodAsk: '오늘 기분은 어떠세요?',
 
+  // ---- 두뇌 운동 (어르신 생활형): 단원 순서 = 쉬움 → 보통 → 어려움 ----
   subjects: [
-    // ---- 두뇌 운동: 단원 순서 = 쉬움 → 보통 → 어려움 ----
     {
-      id: 'ko', name: '낱말', icon: '📖',
+      id: "ko", name: "낱말", icon: "📖",
       units: [
         {
-          id: 'ko1', title: '쉬움 · 낱말과 띄어쓰기',
-          friend: { pic: '🐼', name: '또박 판다', desc: '글씨를 또박또박 바르게 쓰는 판다예요.' }, // 마스터하면 만나는 도감 친구
+          id: "ko1", title: "쉬움 · 속담 완성하기",
+          friend: { pic: "🐼", name: "또박 판다", desc: "속담을 또박또박 줄줄 외는 판다예요." }, // 마스터하면 만나는 도감 친구
           questions: [
-            { say: '"가을 하늘이 높아요"를 바르게 띄어 쓴 것은?', lang: 'ko', choices: [{ pic: '✏️', label: '가을 하늘이 높아요' }, { pic: '✏️', label: '가을하늘이 높아요' }, { pic: '✏️', label: '가을 하늘이높아요' }], answer: 0 },
-            { say: '빨갛고 동그란 과일, 바르게 쓴 낱말은?', lang: 'ko', choices: [{ pic: '🍎', label: '사가' }, { pic: '🍎', label: '사과' }, { pic: '🍎', label: '샤과' }], answer: 1 },
-            { say: '우리가 매일 먹는 밥, 바르게 쓴 낱말은?', lang: 'ko', choices: [{ pic: '🍚', label: '밮' }, { pic: '🍚', label: '밯' }, { pic: '🍚', label: '밥' }], answer: 2 },
-            { say: '친구에게 하는 말로 알맞은 것은? 같이 놀아서 ○○○!', lang: 'ko', choices: [{ pic: '😊', label: '좋았어' }, { pic: '😊', label: '좋았서' }, { pic: '😊', label: '조았어' }], answer: 0 },
-            { say: '그림일기에 날씨를 써요. 해가 쨍쨍한 날은?', lang: 'ko', choices: [{ pic: '🌧️', label: '비' }, { pic: '☀️', label: '맑음' }, { pic: '❄️', label: '눈' }], answer: 1 },
-            { say: "키가 크고 잎이 많은 것, 바르게 쓴 낱말은?", lang: "ko", choices: [{ pic: "🌳", label: "나무" }, { pic: "🌳", label: "나므" }, { pic: "🌳", label: "너무" }], answer: 0 },
-            { say: "우리가 공부하러 가는 곳, 바르게 쓴 낱말은?", lang: "ko", choices: [{ pic: "🏫", label: "학교" }, { pic: "🏫", label: "핚교" }, { pic: "🏫", label: "학꾜" }], answer: 0 },
-            { say: "멍멍 짖는 동물, 바르게 쓴 낱말은?", lang: "ko", choices: [{ pic: "🐶", label: "강아지" }, { pic: "🐶", label: "강아치" }, { pic: "🐶", label: "깡아지" }], answer: 0 },
-            { say: "파도가 치는 넓은 물, 바르게 쓴 낱말은?", lang: "ko", choices: [{ pic: "🌊", label: "바다" }, { pic: "🌊", label: "바따" }, { pic: "🌊", label: "버다" }], answer: 0 },
-            { say: "바르게 띄어 쓴 문장은?", lang: "ko", choices: [{ pic: "✏️", label: "엄마가 웃어요" }, { pic: "✏️", label: "엄마가웃어요" }, { pic: "✏️", label: "엄 마가 웃어요" }], answer: 0 },
+            { say: "속담을 완성해 보세요. 가는 말이 고와야 ○○ ○○ 곱다.", lang: 'ko', choices: [{ pic: "💬", label: "오는 말이" }, { pic: "💬", label: "가는 길이" }, { pic: "💬", label: "하는 일이" }], answer: 0 },
+            { say: "속담을 완성해 보세요. 낮말은 새가 듣고 밤말은 ○가 듣는다.", lang: 'ko', choices: [{ pic: "🌙", label: "쥐" }, { pic: "🌙", label: "개" }, { pic: "🌙", label: "소" }], answer: 0 },
+            { say: "속담을 완성해 보세요. 소 잃고 ○○○ 고친다.", lang: 'ko', choices: [{ pic: "🐂", label: "외양간" }, { pic: "🐂", label: "대문" }, { pic: "🐂", label: "우물" }], answer: 0 },
+            { say: "속담을 완성해 보세요. 원숭이도 ○○에서 떨어진다.", lang: 'ko', choices: [{ pic: "🐒", label: "나무" }, { pic: "🐒", label: "지붕" }, { pic: "🐒", label: "바위" }], answer: 0 },
+            { say: "속담을 완성해 보세요. 티끌 모아 ○○.", lang: 'ko', choices: [{ pic: "⛰️", label: "태산" }, { pic: "⛰️", label: "강물" }, { pic: "⛰️", label: "모래" }], answer: 0 },
+            { say: "속담을 완성해 보세요. 백지장도 ○○○ 낫다.", lang: 'ko', choices: [{ pic: "📄", label: "맞들면" }, { pic: "📄", label: "찢으면" }, { pic: "📄", label: "접으면" }], answer: 0 },
+            { say: "속담을 완성해 보세요. 세 살 버릇 ○○까지 간다.", lang: 'ko', choices: [{ pic: "👶", label: "여든" }, { pic: "👶", label: "열 살" }, { pic: "👶", label: "스물" }], answer: 0 },
+            { say: "속담을 완성해 보세요. 돌다리도 ○○○ 보고 건너라.", lang: 'ko', choices: [{ pic: "🌉", label: "두들겨" }, { pic: "🌉", label: "뛰어" }, { pic: "🌉", label: "세어" }], answer: 0 },
+            { say: "속담을 완성해 보세요. 등잔 밑이 ○○○.", lang: 'ko', choices: [{ pic: "🪔", label: "어둡다" }, { pic: "🪔", label: "밝다" }, { pic: "🪔", label: "뜨겁다" }], answer: 0 },
+            { say: "속담을 완성해 보세요. 호랑이도 제 말 하면 ○○.", lang: 'ko', choices: [{ pic: "🐯", label: "온다" }, { pic: "🐯", label: "간다" }, { pic: "🐯", label: "운다" }], answer: 0 },
           ],
         },
         {
-          id: 'ko2', title: '보통 · 받침과 문장',
-          friend: { pic: '🐨', name: '받침 코알라', desc: '어려운 받침도 척척 아는 코알라예요.' }, // 마스터하면 만나는 도감 친구
+          id: "ko2", title: "보통 · 반대말과 비슷한 말",
+          friend: { pic: "🐨", name: "낱말 코알라", desc: "반대말도 비슷한 말도 척척 아는 코알라예요." }, // 마스터하면 만나는 도감 친구
           questions: [
-            { say: '바르게 쓴 문장은?', lang: 'ko', choices: [{ pic: '✏️', label: '줄넘기를 했습니다' }, { pic: '✏️', label: '줄럼기를 했습니다' }, { pic: '✏️', label: '줄넘기를 햇습니다' }], answer: 0 },
-            { say: '책을 소리 내어 봐요. 바르게 쓴 것은?', lang: 'ko', choices: [{ pic: '📚', label: '책을 일거요' }, { pic: '📚', label: '책을 읽어요' }, { pic: '📚', label: '책을 익어요' }], answer: 1 },
-            { say: '의자에 몸을 붙여 쉬어요. 바르게 쓴 것은?', lang: 'ko', choices: [{ pic: '🪑', label: '안자요' }, { pic: '🪑', label: '않아요' }, { pic: '🪑', label: '앉아요' }], answer: 2 },
-            { say: '빈칸에 알맞은 말은? 나는 겨울이 좋아요. 왜냐하면 눈사람을 만들 수 있기 ○○○○.', lang: 'ko', choices: [{ pic: '⛄', label: '때문이에요' }, { pic: '⛄', label: '그래서요' }, { pic: '⛄', label: '하지만요' }], answer: 0 },
-            { say: '겨울에 처음 내리는 눈, 바르게 쓴 것은?', lang: 'ko', choices: [{ pic: '❄️', label: '첫는' }, { pic: '❄️', label: '천눈' }, { pic: '❄️', label: '첫눈' }], answer: 2 },
-            { say: "방을 청소했어요. 바르게 쓴 것은?", lang: "ko", choices: [{ pic: "🧹", label: "깨끗해요" }, { pic: "🧹", label: "깨끄태요" }, { pic: "🧹", label: "깨끗헤요" }], answer: 0 },
-            { say: "꼬끼오 우는 동물, 바르게 쓴 것은?", lang: "ko", choices: [{ pic: "🐔", label: "닭" }, { pic: "🐔", label: "닥" }, { pic: "🐔", label: "달" }], answer: 0 },
-            { say: "구름 없는 하늘, 바르게 쓴 것은?", lang: "ko", choices: [{ pic: "☀️", label: "맑은 하늘" }, { pic: "☀️", label: "말근 하늘" }, { pic: "☀️", label: "막은 하늘" }], answer: 0 },
-            { say: "큰 운동장, 바르게 쓴 것은?", lang: "ko", choices: [{ pic: "🏟️", label: "넓은 운동장" }, { pic: "🏟️", label: "널븐 운동장" }, { pic: "🏟️", label: "넙은 운동장" }], answer: 0 },
-            { say: "물음표(?)가 어울리는 문장은?", lang: "ko", choices: [{ pic: "❓", label: "너 어디 가니" }, { pic: "❓", label: "나는 학교에 가요" }, { pic: "❓", label: "와, 정말 멋지다" }], answer: 0 },
+            { say: "\"높다\"의 반대말은 무엇일까요?", lang: 'ko', choices: [{ pic: "⛰️", label: "낮다" }, { pic: "⛰️", label: "넓다" }, { pic: "⛰️", label: "길다" }], answer: 0 },
+            { say: "\"덥다\"의 반대말은 무엇일까요?", lang: 'ko', choices: [{ pic: "☀️", label: "춥다" }, { pic: "☀️", label: "맵다" }, { pic: "☀️", label: "밝다" }], answer: 0 },
+            { say: "\"무겁다\"의 반대말은 무엇일까요?", lang: 'ko', choices: [{ pic: "🧳", label: "가볍다" }, { pic: "🧳", label: "두껍다" }, { pic: "🧳", label: "단단하다" }], answer: 0 },
+            { say: "\"넓다\"의 반대말은 무엇일까요?", lang: 'ko', choices: [{ pic: "🏞️", label: "좁다" }, { pic: "🏞️", label: "짧다" }, { pic: "🏞️", label: "얕다" }], answer: 0 },
+            { say: "\"기쁘다\"의 반대말은 무엇일까요?", lang: 'ko', choices: [{ pic: "😊", label: "슬프다" }, { pic: "😊", label: "즐겁다" }, { pic: "😊", label: "반갑다" }], answer: 0 },
+            { say: "\"시작\"의 반대말은 무엇일까요?", lang: 'ko', choices: [{ pic: "🏁", label: "끝" }, { pic: "🏁", label: "처음" }, { pic: "🏁", label: "중간" }], answer: 0 },
+            { say: "\"빠르다\"의 반대말은 무엇일까요?", lang: 'ko', choices: [{ pic: "🐢", label: "느리다" }, { pic: "🐢", label: "바쁘다" }, { pic: "🐢", label: "급하다" }], answer: 0 },
+            { say: "\"걱정\"과 뜻이 비슷한 말은 무엇일까요?", lang: 'ko', choices: [{ pic: "💭", label: "근심" }, { pic: "💭", label: "기쁨" }, { pic: "💭", label: "자랑" }], answer: 0 },
+            { say: "\"아름답다\"와 뜻이 비슷한 말은 무엇일까요?", lang: 'ko', choices: [{ pic: "🌸", label: "곱다" }, { pic: "🌸", label: "밉다" }, { pic: "🌸", label: "낡다" }], answer: 0 },
+            { say: "\"기쁘다\"와 뜻이 비슷한 말은 무엇일까요?", lang: 'ko', choices: [{ pic: "🎉", label: "즐겁다" }, { pic: "🎉", label: "서럽다" }, { pic: "🎉", label: "무섭다" }], answer: 0 },
           ],
         },
         {
-          id: 'ko3', title: '어려움 · 중심 문장 찾기',
-          friend: { pic: '🦒', name: '쏙쏙 기린', desc: '긴 목으로 글의 중심을 쏙쏙 찾는 기린이에요.' }, // 마스터하면 만나는 도감 친구
+          id: "ko3", title: "어려움 · 짧은 글 읽고 답하기",
+          friend: { pic: "🦒", name: "쏙쏙 기린", desc: "글의 내용을 쏙쏙 기억하는 기린이에요." }, // 마스터하면 만나는 도감 친구
           questions: [
-            { say: '중심 문장을 찾아요. 개미는 서로 도우며 살아요. 먹이를 찾으면 친구들에게 알려 줘요. 무거운 먹이는 여럿이 함께 옮겨요.', lang: 'ko', choices: [{ pic: '🐜', label: '개미는 서로 도우며 살아요.' }, { pic: '🐜', label: '먹이를 찾으면 친구들에게 알려 줘요.' }, { pic: '🐜', label: '무거운 먹이는 여럿이 함께 옮겨요.' }], answer: 0 },
-            { say: '중심 문장을 찾아요. 물을 아껴 써야 해요. 이를 닦을 때 컵을 쓰면 물을 아낄 수 있어요. 샤워 시간을 줄이는 것도 좋은 방법이에요.', lang: 'ko', choices: [{ pic: '💧', label: '물을 아껴 써야 해요.' }, { pic: '💧', label: '이를 닦을 때 컵을 쓰면 물을 아낄 수 있어요.' }, { pic: '💧', label: '샤워 시간을 줄이는 것도 좋은 방법이에요.' }], answer: 0 },
-            { say: '중심 문장을 찾아요. 아침을 먹으면 머리가 잘 돌아가요. 몸에 힘도 생겨요. 그래서 아침밥은 꼭 먹는 것이 좋아요.', lang: 'ko', choices: [{ pic: '🍳', label: '아침을 먹으면 머리가 잘 돌아가요.' }, { pic: '🍳', label: '몸에 힘도 생겨요.' }, { pic: '🍳', label: '그래서 아침밥은 꼭 먹는 것이 좋아요.' }], answer: 2 },
-            { say: '중심 문장을 찾아요. 가을에는 볼거리가 많아요. 나뭇잎이 빨갛게 물들어요. 들판에는 벼가 노랗게 익어요.', lang: 'ko', choices: [{ pic: '🍁', label: '가을에는 볼거리가 많아요.' }, { pic: '🍁', label: '나뭇잎이 빨갛게 물들어요.' }, { pic: '🍁', label: '들판에는 벼가 노랗게 익어요.' }], answer: 0 },
-            { say: '중심 문장을 찾아요. 줄넘기를 하면 다리가 튼튼해져요. 땀이 나서 몸도 상쾌해요. 줄넘기는 우리 몸에 좋은 운동이에요.', lang: 'ko', choices: [{ pic: '🏃', label: '줄넘기를 하면 다리가 튼튼해져요.' }, { pic: '🏃', label: '땀이 나서 몸도 상쾌해요.' }, { pic: '🏃', label: '줄넘기는 우리 몸에 좋은 운동이에요.' }], answer: 2 },
-            { say: "중심 문장을 찾아요. 책을 읽으면 좋은 점이 많아요. 새로운 낱말을 알게 돼요. 상상력도 쑥쑥 자라요.", lang: "ko", choices: [{ pic: "📚", label: "책을 읽으면 좋은 점이 많아요." }, { pic: "📚", label: "새로운 낱말을 알게 돼요." }, { pic: "📚", label: "상상력도 쑥쑥 자라요." }], answer: 0 },
-            { say: "중심 문장을 찾아요. 강아지는 냄새를 잘 맡아요. 사람보다 코가 훨씬 예민해요. 그래서 사라진 물건도 잘 찾아요.", lang: "ko", choices: [{ pic: "🐶", label: "강아지는 냄새를 잘 맡아요." }, { pic: "🐶", label: "사람보다 코가 훨씬 예민해요." }, { pic: "🐶", label: "그래서 사라진 물건도 잘 찾아요." }], answer: 0 },
-            { say: "중심 문장을 찾아요. 밥을 먹기 전에 손을 씻어요. 놀이터에서 놀고 와서도 씻어요. 손을 자주 씻으면 감기를 막을 수 있어요.", lang: "ko", choices: [{ pic: "🧼", label: "손을 자주 씻으면 감기를 막을 수 있어요." }, { pic: "🧼", label: "밥을 먹기 전에 손을 씻어요." }, { pic: "🧼", label: "놀이터에서 놀고 와서도 씻어요." }], answer: 0 },
-            { say: "중심 문장을 찾아요. 우리 반 친구들은 모두 달라요. 키가 큰 친구도 있고 작은 친구도 있어요. 좋아하는 놀이도 저마다 달라요.", lang: "ko", choices: [{ pic: "🧒", label: "우리 반 친구들은 모두 달라요." }, { pic: "🧒", label: "키가 큰 친구도 있고 작은 친구도 있어요." }, { pic: "🧒", label: "좋아하는 놀이도 저마다 달라요." }], answer: 0 },
-            { say: "중심 문장을 찾아요. 식물은 햇빛이 꼭 필요해요. 햇빛을 받아야 잎이 초록색으로 자라요. 햇빛이 없으면 시들어 버려요.", lang: "ko", choices: [{ pic: "🌱", label: "식물은 햇빛이 꼭 필요해요." }, { pic: "🌱", label: "햇빛을 받아야 잎이 초록색으로 자라요." }, { pic: "🌱", label: "햇빛이 없으면 시들어 버려요." }], answer: 0 },
+            { say: "영희 씨는 시장에서 사과 3개와 배 2개를 샀어요. 영희 씨가 산 배는 몇 개일까요?", lang: 'ko', choices: [{ pic: "🍐", label: "2개" }, { pic: "🍐", label: "3개" }, { pic: "🍐", label: "5개" }], answer: 0 },
+            { say: "철수 씨는 아침에 약을 먹고, 점심에 산책을 하고, 저녁에 전화를 했어요. 점심에 한 일은 무엇일까요?", lang: 'ko', choices: [{ pic: "🚶", label: "산책" }, { pic: "🚶", label: "약 먹기" }, { pic: "🚶", label: "전화" }], answer: 0 },
+            { say: "버스는 9시에 출발하고, 기차는 10시에 출발해요. 먼저 출발하는 것은 무엇일까요?", lang: 'ko', choices: [{ pic: "🚌", label: "버스" }, { pic: "🚌", label: "기차" }, { pic: "🚌", label: "같이 출발해요" }], answer: 0 },
+            { say: "월요일에는 병원, 수요일에는 복지관, 금요일에는 시장에 가요. 복지관에 가는 날은 언제일까요?", lang: 'ko', choices: [{ pic: "📅", label: "수요일" }, { pic: "📅", label: "월요일" }, { pic: "📅", label: "금요일" }], answer: 0 },
+            { say: "빨간 우산은 현관에, 파란 우산은 차 안에 있어요. 현관에 있는 우산은 무슨 색일까요?", lang: 'ko', choices: [{ pic: "☂️", label: "빨간색" }, { pic: "☂️", label: "파란색" }, { pic: "☂️", label: "노란색" }], answer: 0 },
+            { say: "손자는 일곱 살이고 손녀는 다섯 살이에요. 누가 더 나이가 많을까요?", lang: 'ko', choices: [{ pic: "👦", label: "손자" }, { pic: "👦", label: "손녀" }, { pic: "👦", label: "나이가 같아요" }], answer: 0 },
+            { say: "오늘 저녁 반찬은 된장찌개, 김치, 계란말이예요. 반찬에 없는 것은 무엇일까요?", lang: 'ko', choices: [{ pic: "🍲", label: "불고기" }, { pic: "🍲", label: "김치" }, { pic: "🍲", label: "계란말이" }], answer: 0 },
+            { say: "약국은 은행 옆에 있고, 은행은 우체국 옆에 있어요. 약국 바로 옆에 있는 곳은 어디일까요?", lang: 'ko', choices: [{ pic: "💊", label: "은행" }, { pic: "💊", label: "우체국" }, { pic: "💊", label: "시장" }], answer: 0 },
+            { say: "아들은 토요일에 오고, 딸은 일요일에 온다고 했어요. 토요일에 오는 사람은 누구일까요?", lang: 'ko', choices: [{ pic: "🏠", label: "아들" }, { pic: "🏠", label: "딸" }, { pic: "🏠", label: "손자" }], answer: 0 },
+            { say: "오전에는 비가 오고 오후에는 날이 갠다고 해요. 우산이 필요한 때는 언제일까요?", lang: 'ko', choices: [{ pic: "🌧️", label: "오전" }, { pic: "🌧️", label: "오후" }, { pic: "🌧️", label: "밤" }], answer: 0 },
           ],
         },
       ],
     },
     {
-      id: 'math', name: '셈하기', icon: '🔢',
+      id: "math", name: "셈하기", icon: "🔢",
       units: [
         {
-          id: 'math1', title: '쉬움 · 덧셈과 뺄셈',
-          gen: 'add', // 풀 때마다 새 문제를 만들어 아래 고정 문제와 섞음 (logic.js의 GENERATORS)
-          friend: { pic: '🐹', name: '셈셈 햄스터', desc: '해바라기씨를 세다가 셈 박사가 된 햄스터예요.' }, // 마스터하면 만나는 도감 친구
+          id: "math1", title: "쉬움 · 덧셈과 뺄셈",
+          gen: "add", // 풀 때마다 새 문제를 만들어 아래 고정 문제와 섞음 (logic.js의 GENERATORS)
+          friend: { pic: "🐹", name: "셈셈 햄스터", desc: "해바라기씨를 세다가 셈 박사가 된 햄스터예요." }, // 마스터하면 만나는 도감 친구
           questions: [
-            { say: '23 더하기 14는 얼마일까요?', lang: 'ko', choices: [{ pic: '✏️', label: '36' }, { pic: '✏️', label: '37' }, { pic: '✏️', label: '47' }], answer: 1 },
-            { say: '58 빼기 25는 얼마일까요?', lang: 'ko', choices: [{ pic: '✏️', label: '33' }, { pic: '✏️', label: '43' }, { pic: '✏️', label: '32' }], answer: 0 },
-            { say: '사탕이 12개 있어요. 친구가 7개를 더 줬어요. 모두 몇 개일까요?', lang: 'ko', choices: [{ pic: '🍬', label: '18개' }, { pic: '🍬', label: '20개' }, { pic: '🍬', label: '19개' }], answer: 2 },
-            { say: '40 더하기 30은 얼마일까요?', lang: 'ko', choices: [{ pic: '✏️', label: '70' }, { pic: '✏️', label: '60' }, { pic: '✏️', label: '7' }], answer: 0 },
-            { say: '공이 9개 있었는데 4개를 친구에게 줬어요. 몇 개 남았을까요?', lang: 'ko', choices: [{ pic: '⚽', label: '13개' }, { pic: '⚽', label: '5개' }, { pic: '⚽', label: '4개' }], answer: 1 },
+            { say: "천 원짜리 물건을 사고 오천 원을 냈어요. 거스름돈은 얼마일까요?", lang: 'ko', choices: [{ pic: "💰", label: "4,000원" }, { pic: "💰", label: "3,000원" }, { pic: "💰", label: "5,000원" }], answer: 0 },
+            { say: "사과 3,000원어치와 두부 2,000원어치를 샀어요. 모두 얼마일까요?", lang: 'ko', choices: [{ pic: "🛒", label: "5,000원" }, { pic: "🛒", label: "6,000원" }, { pic: "🛒", label: "4,000원" }], answer: 0 },
+            { say: "약이 30알 있었는데 7알을 먹었어요. 몇 알 남았을까요?", lang: 'ko', choices: [{ pic: "💊", label: "23알" }, { pic: "💊", label: "27알" }, { pic: "💊", label: "37알" }], answer: 0 },
+            { say: "만 원을 들고 나가서 6,000원을 썼어요. 얼마가 남았을까요?", lang: 'ko', choices: [{ pic: "💰", label: "4,000원" }, { pic: "💰", label: "6,000원" }, { pic: "💰", label: "3,000원" }], answer: 0 },
+            { say: "아침 8시에 약을 먹었어요. 6시간 뒤는 몇 시일까요?", lang: 'ko', choices: [{ pic: "⏰", label: "오후 2시" }, { pic: "⏰", label: "오후 4시" }, { pic: "⏰", label: "낮 12시" }], answer: 0 },
           ],
         },
         {
-          id: 'math2', title: '보통 · 구구단과 길이',
-          gen: 'mul', // 풀 때마다 새 문제를 만들어 아래 고정 문제와 섞음 (logic.js의 GENERATORS)
-          friend: { pic: '🐙', name: '구구 문어', desc: '다리 8개로 구구단을 외우는 문어예요.' }, // 마스터하면 만나는 도감 친구
+          id: "math2", title: "보통 · 곱셈과 장보기",
+          gen: "mul", // 풀 때마다 새 문제를 만들어 아래 고정 문제와 섞음 (logic.js의 GENERATORS)
+          friend: { pic: "🐙", name: "구구 문어", desc: "다리 8개로 구구단을 외우는 문어예요." }, // 마스터하면 만나는 도감 친구
           questions: [
-            { say: '7 곱하기 8은 얼마일까요?', lang: 'ko', choices: [{ pic: '✏️', label: '54' }, { pic: '✏️', label: '48' }, { pic: '✏️', label: '56' }], answer: 2 },
-            { say: '접시 6개에 사과를 4개씩 담았어요. 사과는 모두 몇 개일까요?', lang: 'ko', choices: [{ pic: '🍎', label: '24개' }, { pic: '🍎', label: '10개' }, { pic: '🍎', label: '20개' }], answer: 0 },
-            { say: '15센티미터 연필 옆에 4센티미터 지우개를 이어 놓았어요. 모두 몇 센티미터일까요?', lang: 'ko', choices: [{ pic: '📏', label: '11cm' }, { pic: '📏', label: '19cm' }, { pic: '📏', label: '20cm' }], answer: 1 },
-            { say: '3 곱하기 9는 얼마일까요?', lang: 'ko', choices: [{ pic: '✏️', label: '27' }, { pic: '✏️', label: '24' }, { pic: '✏️', label: '36' }], answer: 0 },
-            { say: '1미터는 몇 센티미터일까요?', lang: 'ko', choices: [{ pic: '📏', label: '10cm' }, { pic: '📏', label: '1000cm' }, { pic: '📏', label: '100cm' }], answer: 2 },
+            { say: "약을 하루에 3번 먹어요. 일주일 동안 몇 번 먹을까요?", lang: 'ko', choices: [{ pic: "💊", label: "21번" }, { pic: "💊", label: "10번" }, { pic: "💊", label: "24번" }], answer: 0 },
+            { say: "귤이 한 봉지에 4개씩 들어 있어요. 5봉지면 모두 몇 개일까요?", lang: 'ko', choices: [{ pic: "🍊", label: "20개" }, { pic: "🍊", label: "9개" }, { pic: "🍊", label: "25개" }], answer: 0 },
+            { say: "호떡이 한 개에 1,000원이에요. 6개를 사면 얼마일까요?", lang: 'ko', choices: [{ pic: "🥞", label: "6,000원" }, { pic: "🥞", label: "5,000원" }, { pic: "🥞", label: "7,000원" }], answer: 0 },
+            { say: "한 줄에 6명씩 4줄로 섰어요. 모두 몇 명일까요?", lang: 'ko', choices: [{ pic: "🧍", label: "24명" }, { pic: "🧍", label: "10명" }, { pic: "🧍", label: "20명" }], answer: 0 },
+            { say: "매일 30분씩 걸어요. 일주일이면 모두 몇 분일까요?", lang: 'ko', choices: [{ pic: "🚶", label: "210분" }, { pic: "🚶", label: "180분" }, { pic: "🚶", label: "300분" }], answer: 0 },
           ],
         },
         {
-          id: 'math3', title: '어려움 · 나눗셈과 분수',
-          gen: 'div', // 풀 때마다 새 문제를 만들어 아래 고정 문제와 섞음 (logic.js의 GENERATORS)
-          friend: { pic: '🐳', name: '나눔 고래', desc: '무엇이든 똑같이 나눠 주는 마음 착한 고래예요.' }, // 마스터하면 만나는 도감 친구
+          id: "math3", title: "어려움 · 나눗셈과 나누기",
+          gen: "div", // 풀 때마다 새 문제를 만들어 아래 고정 문제와 섞음 (logic.js의 GENERATORS)
+          friend: { pic: "🐳", name: "나눔 고래", desc: "무엇이든 똑같이 나눠 주는 마음 넉넉한 고래예요." }, // 마스터하면 만나는 도감 친구
           questions: [
-            { say: '24 나누기 6은 얼마일까요?', lang: 'ko', choices: [{ pic: '✏️', label: '6' }, { pic: '✏️', label: '4' }, { pic: '✏️', label: '3' }], answer: 1 },
-            { say: '사탕 18개를 친구 3명이 똑같이 나눠요. 한 명이 몇 개씩 먹을까요?', lang: 'ko', choices: [{ pic: '🍬', label: '6개' }, { pic: '🍬', label: '5개' }, { pic: '🍬', label: '9개' }], answer: 0 },
-            { say: '피자를 똑같이 8조각으로 나눠서 3조각을 먹었어요. 피자 한 판의 얼마를 먹었을까요?', lang: 'ko', choices: [{ pic: '🍕', label: '3분의 8' }, { pic: '🍕', label: '5분의 3' }, { pic: '🍕', label: '8분의 3' }], answer: 2 },
-            { say: '12 나누기 4는 얼마일까요?', lang: 'ko', choices: [{ pic: '✏️', label: '3' }, { pic: '✏️', label: '4' }, { pic: '✏️', label: '8' }], answer: 0 },
-            { say: '케이크를 똑같이 2조각으로 나눈 것 중 1조각은 얼마일까요?', lang: 'ko', choices: [{ pic: '🍰', label: '1분의 2' }, { pic: '🍰', label: '2분의 1' }, { pic: '🍰', label: '2분의 2' }], answer: 1 },
+            { say: "밥값 12,000원을 세 사람이 똑같이 나눠 내요. 한 사람이 얼마씩 낼까요?", lang: 'ko', choices: [{ pic: "🍚", label: "4,000원" }, { pic: "🍚", label: "3,000원" }, { pic: "🍚", label: "6,000원" }], answer: 0 },
+            { say: "약이 28알 있어요. 하루에 2알씩 먹으면 며칠 동안 먹을 수 있을까요?", lang: 'ko', choices: [{ pic: "💊", label: "14일" }, { pic: "💊", label: "7일" }, { pic: "💊", label: "26일" }], answer: 0 },
+            { say: "떡 20개를 접시 5개에 똑같이 나눠 담아요. 한 접시에 몇 개씩일까요?", lang: 'ko', choices: [{ pic: "🍡", label: "4개" }, { pic: "🍡", label: "5개" }, { pic: "🍡", label: "15개" }], answer: 0 },
+            { say: "피자를 똑같이 8조각으로 나눠 3조각을 먹었어요. 한 판의 얼마를 먹었을까요?", lang: 'ko', choices: [{ pic: "🍕", label: "8분의 3" }, { pic: "🍕", label: "3분의 8" }, { pic: "🍕", label: "5분의 3" }], answer: 0 },
+            { say: "한 시간의 절반은 몇 분일까요?", lang: 'ko', choices: [{ pic: "⏰", label: "30분" }, { pic: "⏰", label: "50분" }, { pic: "⏰", label: "15분" }], answer: 0 },
           ],
         },
       ],
     },
     {
-      id: 'sci', name: '생활 상식', icon: '🔬',
+      id: "sci", name: "생활 상식", icon: "🏡",
       units: [
         {
-          id: 'sci1', title: '쉬움 · 가을과 겨울',
-          friend: { pic: '🦔', name: '도토리 고슴도치', desc: '가을이면 도토리를 모으는 부지런한 고슴도치예요.' }, // 마스터하면 만나는 도감 친구
+          id: "sci1", title: "쉬움 · 계절과 명절",
+          friend: { pic: "🦔", name: "도토리 고슴도치", desc: "철마다 먹을거리를 챙기는 부지런한 고슴도치예요." }, // 마스터하면 만나는 도감 친구
           questions: [
-            { say: '가을에 숲에서 찾을 수 있는 열매는?', lang: 'ko', choices: [{ pic: '🌰', label: '도토리' }, { pic: '🍉', label: '수박' }, { pic: '🍓', label: '딸기' }], answer: 0 },
-            { say: '추운 겨울에 손에 끼는 것은?', lang: 'ko', choices: [{ pic: '🕶️', label: '선글라스' }, { pic: '🧤', label: '장갑' }, { pic: '🩱', label: '수영복' }], answer: 1 },
-            { say: '가을이 되면 나뭇잎은 어떤 색으로 변할까요?', lang: 'ko', choices: [{ pic: '🔵', label: '파란색' }, { pic: '🟣', label: '보라색' }, { pic: '🍁', label: '빨간색, 노란색' }], answer: 2 },
-            { say: '하얀 눈이 펑펑 내리는 계절은?', lang: 'ko', choices: [{ pic: '⛄', label: '겨울' }, { pic: '🏖️', label: '여름' }, { pic: '🌸', label: '봄' }], answer: 0 },
-            { say: '나뭇잎이 우수수 떨어지는 계절은?', lang: 'ko', choices: [{ pic: '🌸', label: '봄' }, { pic: '🍂', label: '가을' }, { pic: '☀️', label: '여름' }], answer: 1 },
-            { say: "가을 들판에서 노랗게 익는 곡식은?", lang: "ko", choices: [{ pic: "🌾", label: "벼" }, { pic: "🍉", label: "수박" }, { pic: "🍓", label: "딸기" }], answer: 0 },
-            { say: "겨울에 할 수 있는 놀이는?", lang: "ko", choices: [{ pic: "⛄", label: "눈사람 만들기" }, { pic: "🏖️", label: "바다 수영" }, { pic: "🌸", label: "벚꽃 구경" }], answer: 0 },
-            { say: "추운 겨울에 입는 옷은?", lang: "ko", choices: [{ pic: "🧥", label: "두꺼운 외투" }, { pic: "👕", label: "반팔 티셔츠" }, { pic: "🩱", label: "수영복" }], answer: 0 },
-            { say: "빨갛고 노랗게 물든 나뭇잎을 무엇이라고 할까요?", lang: "ko", choices: [{ pic: "🍁", label: "단풍" }, { pic: "🌸", label: "꽃잎" }, { pic: "🌵", label: "선인장" }], answer: 0 },
-            { say: "가을 밤송이 안에 들어 있는 열매는?", lang: "ko", choices: [{ pic: "🌰", label: "밤" }, { pic: "🍌", label: "바나나" }, { pic: "🍍", label: "파인애플" }], answer: 0 },
+            { say: "설날 아침에 먹는 음식은 무엇일까요?", lang: 'ko', choices: [{ pic: "🍲", label: "떡국" }, { pic: "🥟", label: "송편" }, { pic: "🥣", label: "팥죽" }], answer: 0 },
+            { say: "추석에 빚어 먹는 떡은 무엇일까요?", lang: 'ko', choices: [{ pic: "🥟", label: "송편" }, { pic: "🍲", label: "떡국" }, { pic: "🍡", label: "경단" }], answer: 0 },
+            { say: "동짓날에 쑤어 먹는 음식은 무엇일까요?", lang: 'ko', choices: [{ pic: "🥣", label: "팥죽" }, { pic: "🍜", label: "냉면" }, { pic: "🍉", label: "수박화채" }], answer: 0 },
+            { say: "김장은 주로 언제 할까요?", lang: 'ko', choices: [{ pic: "🥬", label: "늦가을에서 초겨울" }, { pic: "🌸", label: "봄" }, { pic: "☀️", label: "한여름" }], answer: 0 },
+            { say: "복날에 많이 먹는 음식은 무엇일까요?", lang: 'ko', choices: [{ pic: "🍗", label: "삼계탕" }, { pic: "🥣", label: "팥죽" }, { pic: "🍲", label: "떡국" }], answer: 0 },
+            { say: "정월 대보름에 깨물어 먹는 것은 무엇일까요?", lang: 'ko', choices: [{ pic: "🥜", label: "부럼(호두, 땅콩)" }, { pic: "🍉", label: "수박" }, { pic: "🍧", label: "빙수" }], answer: 0 },
+            { say: "벼를 거두는 계절은 언제일까요?", lang: 'ko', choices: [{ pic: "🌾", label: "가을" }, { pic: "🌸", label: "봄" }, { pic: "⛄", label: "겨울" }], answer: 0 },
+            { say: "개나리와 진달래가 피는 계절은 언제일까요?", lang: 'ko', choices: [{ pic: "🌸", label: "봄" }, { pic: "🍂", label: "가을" }, { pic: "⛄", label: "겨울" }], answer: 0 },
+            { say: "한 해의 마지막 달은 몇 월일까요?", lang: 'ko', choices: [{ pic: "📅", label: "12월" }, { pic: "📅", label: "1월" }, { pic: "📅", label: "10월" }], answer: 0 },
+            { say: "나뭇잎이 붉게 물드는 것을 무엇이라고 할까요?", lang: 'ko', choices: [{ pic: "🍁", label: "단풍" }, { pic: "🌸", label: "꽃샘" }, { pic: "❄️", label: "서리" }], answer: 0 },
           ],
         },
         {
-          id: 'sci2', title: '보통 · 겨울잠과 따뜻하게',
-          friend: { pic: '🐿️', name: '겨울잠 다람쥐', desc: '겨울 내내 쿨쿨 자고 봄에 깨어나는 다람쥐예요.' }, // 마스터하면 만나는 도감 친구
+          id: "sci2", title: "보통 · 건강한 하루",
+          friend: { pic: "🐿️", name: "튼튼 다람쥐", desc: "매일 부지런히 움직여서 튼튼한 다람쥐예요." }, // 마스터하면 만나는 도감 친구
           questions: [
-            { say: '겨울잠을 자는 동물은? 하나만 골라요.', lang: 'ko', choices: [{ pic: '🐶', label: '강아지' }, { pic: '🐔', label: '닭' }, { pic: '🐻', label: '곰' }], answer: 2 },
-            { say: '이 중에서 겨울잠을 자는 동물은?', lang: 'ko', choices: [{ pic: '🐸', label: '개구리' }, { pic: '🐱', label: '고양이' }, { pic: '🐮', label: '소' }], answer: 0 },
-            { say: '겨울에 몸을 따뜻하게 하는 방법은?', lang: 'ko', choices: [{ pic: '🪟', label: '창문을 활짝 열어요' }, { pic: '🧣', label: '목도리를 둘러요' }, { pic: '🧊', label: '얼음을 먹어요' }], answer: 1 },
-            { say: '겨울잠을 자는 동물들은 왜 겨울에 잠을 잘까요?', lang: 'ko', choices: [{ pic: '❄️', label: '춥고 먹이가 없어서' }, { pic: '🎮', label: '놀기 싫어서' }, { pic: '🌞', label: '너무 더워서' }], answer: 0 },
-            { say: '겨울이 지나고 다람쥐가 잠에서 깨어나는 계절은?', lang: 'ko', choices: [{ pic: '🍂', label: '가을' }, { pic: '⛄', label: '겨울' }, { pic: '🌸', label: '봄' }], answer: 2 },
-            { say: "이 중에서 겨울잠을 자는 동물은?", lang: "ko", choices: [{ pic: "🐍", label: "뱀" }, { pic: "🐶", label: "강아지" }, { pic: "🐔", label: "닭" }], answer: 0 },
-            { say: "고슴도치, 소, 말 중에서 겨울잠을 자는 동물은?", lang: "ko", choices: [{ pic: "🦔", label: "고슴도치" }, { pic: "🐮", label: "소" }, { pic: "🐴", label: "말" }], answer: 0 },
-            { say: "겨울잠을 자기 전에 동물들은 무엇을 할까요?", lang: "ko", choices: [{ pic: "🍖", label: "먹이를 많이 먹어 둬요" }, { pic: "✂️", label: "털을 다 깎아요" }, { pic: "🏊", label: "수영을 해요" }], answer: 0 },
-            { say: "추운 날 집 안에서 따뜻하게 지내는 방법은?", lang: "ko", choices: [{ pic: "🧦", label: "내복과 양말을 신어요" }, { pic: "🧊", label: "찬물로 씻어요" }, { pic: "🪟", label: "창문을 열어 둬요" }], answer: 0 },
-            { say: "겨울에 감기에 걸리지 않으려면?", lang: "ko", choices: [{ pic: "🧼", label: "손을 깨끗이 씻어요" }, { pic: "🍦", label: "아이스크림만 먹어요" }, { pic: "🩳", label: "반바지만 입어요" }], answer: 0 },
+            { say: "욕실 바닥이 미끄러워요. 넘어지지 않으려면 어떻게 할까요?", lang: 'ko', choices: [{ pic: "🛁", label: "미끄럼 방지 매트를 깔아요" }, { pic: "🏃", label: "빨리 걸어요" }, { pic: "🧦", label: "양말을 신고 들어가요" }], answer: 0 },
+            { say: "무더운 여름날에는 어떻게 하는 것이 좋을까요?", lang: 'ko', choices: [{ pic: "💧", label: "물을 자주 마셔요" }, { pic: "🌞", label: "한낮에 밭일을 해요" }, { pic: "🧥", label: "두꺼운 옷을 입어요" }], answer: 0 },
+            { say: "약은 어떻게 먹는 것이 좋을까요?", lang: 'ko', choices: [{ pic: "⏰", label: "정해진 때에 정해진 만큼" }, { pic: "💊", label: "생각날 때 한꺼번에" }, { pic: "🤝", label: "이웃 약을 나눠 먹어요" }], answer: 0 },
+            { say: "밖에 나갔다 돌아오면 가장 먼저 무엇을 할까요?", lang: 'ko', choices: [{ pic: "🧼", label: "손을 씻어요" }, { pic: "🍪", label: "간식을 먹어요" }, { pic: "📺", label: "텔레비전을 켜요" }], answer: 0 },
+            { say: "갑자기 가슴이 아프고 숨이 차요. 어디에 전화할까요?", lang: 'ko', choices: [{ pic: "🚑", label: "119" }, { pic: "📞", label: "114" }, { pic: "🏦", label: "은행" }], answer: 0 },
+            { say: "밤에 화장실에 갈 때는 어떻게 할까요?", lang: 'ko', choices: [{ pic: "💡", label: "불을 켜고 천천히 가요" }, { pic: "🌑", label: "불을 끄고 서둘러 가요" }, { pic: "🏃", label: "뛰어가요" }], answer: 0 },
+            { say: "추운 겨울에 외출할 때는 어떻게 할까요?", lang: 'ko', choices: [{ pic: "🧣", label: "모자와 목도리로 따뜻하게" }, { pic: "👕", label: "얇게 입어요" }, { pic: "🩴", label: "슬리퍼를 신어요" }], answer: 0 },
+            { say: "오래 앉아 있었어요. 무엇을 하면 좋을까요?", lang: 'ko', choices: [{ pic: "🤸", label: "일어나서 몸을 풀어요" }, { pic: "🛋️", label: "계속 앉아 있어요" }, { pic: "😴", label: "그대로 잠들어요" }], answer: 0 },
+            { say: "병원에 갈 때 챙기면 좋은 것은 무엇일까요?", lang: 'ko', choices: [{ pic: "📋", label: "먹고 있는 약 목록" }, { pic: "🧸", label: "장난감" }, { pic: "🎤", label: "마이크" }], answer: 0 },
+            { say: "잠을 잘 자려면 자기 전에 어떻게 할까요?", lang: 'ko', choices: [{ pic: "🌙", label: "불을 어둡게 하고 편히 쉬어요" }, { pic: "☕", label: "커피를 많이 마셔요" }, { pic: "📱", label: "휴대폰을 오래 봐요" }], answer: 0 },
           ],
         },
         {
-          id: 'sci3', title: '어려움 · 과학 상식',
-          friend: { pic: '🐬', name: '궁금 돌고래', desc: '왜 그럴까? 늘 궁금한 게 많은 돌고래예요.' }, // 마스터하면 만나는 도감 친구
+          id: "sci3", title: "어려움 · 안전과 사기 예방",
+          friend: { pic: "🐬", name: "꼼꼼 돌고래", desc: "수상한 전화는 꼭 다시 확인하는 꼼꼼한 돌고래예요." }, // 마스터하면 만나는 도감 친구
           questions: [
-            { say: '물을 아주 차가운 냉동실에 넣어 두면 무엇으로 변할까요?', lang: 'ko', choices: [{ pic: '💨', label: '수증기' }, { pic: '🧊', label: '얼음' }, { pic: '🏖️', label: '모래' }], answer: 1 },
-            { say: '식물이 자라는 데 필요하지 않은 것은?', lang: 'ko', choices: [{ pic: '☀️', label: '햇빛' }, { pic: '💧', label: '물' }, { pic: '🍬', label: '사탕' }], answer: 2 },
-            { say: '자석에 붙는 것은?', lang: 'ko', choices: [{ pic: '📎', label: '철 클립' }, { pic: '🧽', label: '스펀지' }, { pic: '🥢', label: '나무젓가락' }], answer: 0 },
-            { say: '물을 끓이면 위로 피어오르는 것은?', lang: 'ko', choices: [{ pic: '🧊', label: '얼음' }, { pic: '♨️', label: '수증기' }, { pic: '🪨', label: '돌' }], answer: 1 },
-            { say: '우리 몸에서 소리를 듣는 곳은?', lang: 'ko', choices: [{ pic: '👂', label: '귀' }, { pic: '👃', label: '코' }, { pic: '👄', label: '입' }], answer: 0 },
-            { say: "아침에 해가 떠오르는 쪽은?", lang: "ko", choices: [{ pic: "🌅", label: "동쪽" }, { pic: "🌇", label: "서쪽" }, { pic: "🧭", label: "북쪽" }], answer: 0 },
-            { say: "물에 둥둥 뜨는 것은?", lang: "ko", choices: [{ pic: "🪵", label: "나무 조각" }, { pic: "🪨", label: "돌멩이" }, { pic: "🔩", label: "쇠못" }], answer: 0 },
-            { say: "무지개는 몇 가지 색일까요?", lang: "ko", choices: [{ pic: "🌈", label: "7가지" }, { pic: "🌈", label: "3가지" }, { pic: "🌈", label: "10가지" }], answer: 0 },
-            { say: "우리 몸에서 맛을 느끼는 곳은?", lang: "ko", choices: [{ pic: "👅", label: "혀" }, { pic: "👂", label: "귀" }, { pic: "👁️", label: "눈" }], answer: 0 },
-            { say: "그림자가 생기려면 무엇이 필요할까요?", lang: "ko", choices: [{ pic: "💡", label: "빛" }, { pic: "🔊", label: "소리" }, { pic: "👃", label: "냄새" }], answer: 0 },
+            { say: "모르는 번호로 \"엄마, 나 폰 고장 났어. 돈 좀 보내 줘\"라는 문자가 왔어요. 어떻게 할까요?", lang: 'ko', choices: [{ pic: "📞", label: "자녀에게 직접 전화해 확인해요" }, { pic: "💸", label: "바로 돈을 보내요" }, { pic: "🔗", label: "문자 속 주소를 눌러요" }], answer: 0 },
+            { say: "\"경찰입니다. 통장이 범죄에 쓰였으니 돈을 옮기세요\"라는 전화가 왔어요. 어떻게 할까요?", lang: 'ko', choices: [{ pic: "📵", label: "끊고 112나 가족에게 확인해요" }, { pic: "💸", label: "시키는 대로 돈을 옮겨요" }, { pic: "🔢", label: "비밀번호를 알려 줘요" }], answer: 0 },
+            { say: "\"택배 주소 확인\"이라며 인터넷 주소가 담긴 문자가 왔어요. 어떻게 할까요?", lang: 'ko', choices: [{ pic: "🚫", label: "누르지 않고 지워요" }, { pic: "🔗", label: "바로 눌러 봐요" }, { pic: "📝", label: "주민번호를 적어 보내요" }], answer: 0 },
+            { say: "전화로 통장 비밀번호를 물어봐요. 어떻게 할까요?", lang: 'ko', choices: [{ pic: "🤐", label: "절대 알려 주지 않아요" }, { pic: "🔢", label: "천천히 불러 줘요" }, { pic: "✉️", label: "문자로 보내 줘요" }], answer: 0 },
+            { say: "사기를 당한 것 같아요. 어디에 신고할까요?", lang: 'ko', choices: [{ pic: "👮", label: "112" }, { pic: "📞", label: "114" }, { pic: "🍗", label: "치킨집" }], answer: 0 },
+            { say: "집 안에서 가스 냄새가 나요. 가장 먼저 무엇을 할까요?", lang: 'ko', choices: [{ pic: "🪟", label: "창문을 열고 밸브를 잠가요" }, { pic: "🔥", label: "불을 켜서 확인해요" }, { pic: "💡", label: "전등 스위치를 켜요" }], answer: 0 },
+            { say: "불이 났어요. 어디에 전화할까요?", lang: 'ko', choices: [{ pic: "🚒", label: "119" }, { pic: "👮", label: "112" }, { pic: "📞", label: "114" }], answer: 0 },
+            { say: "낯선 사람이 공짜 선물을 준다며 따라오라고 해요. 어떻게 할까요?", lang: 'ko', choices: [{ pic: "🙅", label: "따라가지 않아요" }, { pic: "🚶", label: "따라가요" }, { pic: "🏠", label: "집 주소를 알려 줘요" }], answer: 0 },
+            { say: "외출할 때 가스와 전기는 어떻게 할까요?", lang: 'ko', choices: [{ pic: "🔒", label: "가스 밸브를 잠그고 확인해요" }, { pic: "🔥", label: "가스불을 켜 둬요" }, { pic: "🤷", label: "확인하지 않아요" }], answer: 0 },
+            { say: "\"싸게 대출해 준다\"며 먼저 수수료를 보내라고 해요. 어떻게 할까요?", lang: 'ko', choices: [{ pic: "🚫", label: "거절하고 가족과 상의해요" }, { pic: "💸", label: "수수료를 보내요" }, { pic: "🪪", label: "신분증 사진을 보내요" }], answer: 0 },
           ],
         },
       ],
     },
     {
-      id: 'shape', name: '도형·공간', icon: '🔷',
+      id: "shape", name: "도형·공간", icon: "🔷",
       units: [
         {
-          id: 'shape1', title: '쉬움 · 여러 가지 모양',
-          friend: { pic: '🦀', name: '세모 꽃게', desc: '집게발로 세모, 네모, 동그라미를 척척 만드는 꽃게예요.' }, // 마스터하면 만나는 도감 친구
+          id: "shape1", title: "쉬움 · 모양과 규칙",
+          friend: { pic: "🦀", name: "세모 꽃게", desc: "집게발로 세모, 네모, 동그라미를 척척 만드는 꽃게예요." }, // 마스터하면 만나는 도감 친구
           questions: [
-            { say: '세모 모양은 어느 것일까요?', lang: 'ko', choices: [{ pic: '🔺', label: '세모' }, { pic: '🟦', label: '네모' }, { pic: '⚪', label: '동그라미' }], answer: 0 },
-            { say: '데굴데굴 잘 굴러가는 것은?', lang: 'ko', choices: [{ pic: '🎲', label: '주사위' }, { pic: '⚽', label: '공' }, { pic: '📦', label: '상자' }], answer: 1 },
-            { say: '네모 모양 물건은?', lang: 'ko', choices: [{ pic: '🍩', label: '도넛' }, { pic: '🍕', label: '피자 한 조각' }, { pic: '📺', label: '텔레비전' }], answer: 2 },
-            { say: '다음에 올 모양은? 동그라미, 세모, 동그라미, 세모, 그다음은?', lang: 'ko', choices: [{ pic: '⚪', label: '동그라미' }, { pic: '🔺', label: '세모' }, { pic: '🟦', label: '네모' }], answer: 0 },
-            { say: '뾰족한 곳이 하나도 없는 모양은?', lang: 'ko', choices: [{ pic: '🔺', label: '세모' }, { pic: '⚪', label: '동그라미' }, { pic: '🟦', label: '네모' }], answer: 1 },
-            { say: "동그라미 모양 물건은?", lang: "ko", choices: [{ pic: "🍩", label: "도넛" }, { pic: "📺", label: "텔레비전" }, { pic: "📐", label: "삼각자" }], answer: 0 },
-            { say: "세모 모양 물건은?", lang: "ko", choices: [{ pic: "📐", label: "삼각자" }, { pic: "⚽", label: "공" }, { pic: "📕", label: "책" }], answer: 0 },
-            { say: "차곡차곡 높이 쌓기 좋은 것은?", lang: "ko", choices: [{ pic: "📦", label: "상자" }, { pic: "⚽", label: "공" }, { pic: "🥚", label: "달걀" }], answer: 0 },
-            { say: "다음에 올 모양은? 네모, 네모, 동그라미, 네모, 네모, 그다음은?", lang: "ko", choices: [{ pic: "⚪", label: "동그라미" }, { pic: "🟦", label: "네모" }, { pic: "🔺", label: "세모" }], answer: 0 },
-            { say: "뾰족한 곳이 3개인 모양은?", lang: "ko", choices: [{ pic: "🔺", label: "세모" }, { pic: "🟦", label: "네모" }, { pic: "⚪", label: "동그라미" }], answer: 0 },
+            { say: "동전과 같은 모양은 어느 것일까요?", lang: 'ko', choices: [{ pic: "⚪", label: "동그라미" }, { pic: "🔺", label: "세모" }, { pic: "🟦", label: "네모" }], answer: 0 },
+            { say: "방문과 같은 모양은 어느 것일까요?", lang: 'ko', choices: [{ pic: "🟦", label: "네모" }, { pic: "⚪", label: "동그라미" }, { pic: "🔺", label: "세모" }], answer: 0 },
+            { say: "삼각김밥과 같은 모양은 어느 것일까요?", lang: 'ko', choices: [{ pic: "🔺", label: "세모" }, { pic: "🟦", label: "네모" }, { pic: "⚪", label: "동그라미" }], answer: 0 },
+            { say: "잘 굴러가는 물건은 어느 것일까요?", lang: 'ko', choices: [{ pic: "⚽", label: "공" }, { pic: "📦", label: "상자" }, { pic: "📕", label: "책" }], answer: 0 },
+            { say: "규칙을 찾아보세요. 동그라미, 세모, 동그라미, 세모, 그다음은 무엇일까요?", lang: 'ko', choices: [{ pic: "⚪", label: "동그라미" }, { pic: "🔺", label: "세모" }, { pic: "🟦", label: "네모" }], answer: 0 },
+            { say: "규칙을 찾아보세요. 네모, 네모, 동그라미, 네모, 네모, 그다음은 무엇일까요?", lang: 'ko', choices: [{ pic: "⚪", label: "동그라미" }, { pic: "🟦", label: "네모" }, { pic: "🔺", label: "세모" }], answer: 0 },
+            { say: "규칙을 찾아보세요. 빨강, 파랑, 파랑, 빨강, 파랑, 파랑, 그다음은 무엇일까요?", lang: 'ko', choices: [{ pic: "🔴", label: "빨강" }, { pic: "🔵", label: "파랑" }, { pic: "🟡", label: "노랑" }], answer: 0 },
+            { say: "규칙을 찾아보세요. 2, 4, 6, 8, 그다음 수는 무엇일까요?", lang: 'ko', choices: [{ pic: "🔢", label: "10" }, { pic: "🔢", label: "9" }, { pic: "🔢", label: "12" }], answer: 0 },
+            { say: "네모의 뾰족한 모서리는 몇 개일까요?", lang: 'ko', choices: [{ pic: "🟦", label: "4개" }, { pic: "🟦", label: "3개" }, { pic: "🟦", label: "5개" }], answer: 0 },
+            { say: "주사위의 면은 모두 몇 개일까요?", lang: 'ko', choices: [{ pic: "🎲", label: "6개" }, { pic: "🎲", label: "4개" }, { pic: "🎲", label: "8개" }], answer: 0 },
           ],
         },
         {
-          id: 'shape2', title: '보통 · 변과 꼭짓점, 규칙',
-          friend: { pic: '🐝', name: '육각 꿀벌', desc: '변이 6개인 육각형 집을 짓는 꿀벌이에요.' }, // 마스터하면 만나는 도감 친구
+          id: "shape2", title: "보통 · 방향과 시계",
+          friend: { pic: "🐝", name: "길잡이 꿀벌", desc: "동서남북 어디서든 집을 찾아오는 꿀벌이에요." }, // 마스터하면 만나는 도감 친구
           questions: [
-            { say: '삼각형의 변은 몇 개일까요?', lang: 'ko', choices: [{ pic: '🔺', label: '4개' }, { pic: '🔺', label: '3개' }, { pic: '🔺', label: '5개' }], answer: 1 },
-            { say: '사각형의 꼭짓점은 몇 개일까요?', lang: 'ko', choices: [{ pic: '🟦', label: '4개' }, { pic: '🟦', label: '3개' }, { pic: '🟦', label: '6개' }], answer: 0 },
-            { say: '꿀벌 집처럼 변이 6개인 도형의 이름은?', lang: 'ko', choices: [{ pic: '⬠', label: '오각형' }, { pic: '⬜', label: '사각형' }, { pic: '⬡', label: '육각형' }], answer: 2 },
-            { say: '규칙을 찾아요. 빨강, 파랑, 파랑, 빨강, 파랑, 파랑, 그다음은?', lang: 'ko', choices: [{ pic: '🔴', label: '빨강' }, { pic: '🔵', label: '파랑' }, { pic: '🟡', label: '노랑' }], answer: 0 },
-            { say: '네모난 색종이를 뾰족한 곳끼리 맞춰 반으로 접으면 어떤 모양이 될까요?', lang: 'ko', choices: [{ pic: '🟦', label: '네모' }, { pic: '🔺', label: '세모' }, { pic: '⚪', label: '동그라미' }], answer: 1 },
-            { say: "변이 5개인 도형의 이름은?", lang: "ko", choices: [{ pic: "✏️", label: "오각형" }, { pic: "✏️", label: "사각형" }, { pic: "✏️", label: "육각형" }], answer: 0 },
-            { say: "원(동그라미)의 꼭짓점은 몇 개일까요?", lang: "ko", choices: [{ pic: "⚪", label: "0개" }, { pic: "⚪", label: "1개" }, { pic: "⚪", label: "4개" }], answer: 0 },
-            { say: "삼각형 2개를 긴 변끼리 붙이면 어떤 모양이 될까요?", lang: "ko", choices: [{ pic: "🟦", label: "사각형" }, { pic: "⚪", label: "원" }, { pic: "⭐", label: "별" }], answer: 0 },
-            { say: "수 규칙을 찾아요. 1, 3, 5, 7, 그다음은?", lang: "ko", choices: [{ pic: "🔢", label: "9" }, { pic: "🔢", label: "8" }, { pic: "🔢", label: "10" }], answer: 0 },
-            { say: "사각형의 변은 몇 개일까요?", lang: "ko", choices: [{ pic: "🟦", label: "4개" }, { pic: "🟦", label: "3개" }, { pic: "🟦", label: "5개" }], answer: 0 },
+            { say: "시계의 짧은 바늘이 3, 긴 바늘이 12를 가리켜요. 몇 시일까요?", lang: 'ko', choices: [{ pic: "🕒", label: "3시" }, { pic: "🕒", label: "12시" }, { pic: "🕒", label: "9시" }], answer: 0 },
+            { say: "지금은 3시예요. 2시간 뒤는 몇 시일까요?", lang: 'ko', choices: [{ pic: "🕔", label: "5시" }, { pic: "🕔", label: "1시" }, { pic: "🕔", label: "6시" }], answer: 0 },
+            { say: "시계의 긴 바늘이 6을 가리키면 몇 분일까요?", lang: 'ko', choices: [{ pic: "🕧", label: "30분" }, { pic: "🕧", label: "6분" }, { pic: "🕧", label: "60분" }], answer: 0 },
+            { say: "지금은 9시 30분이에요. 30분 뒤는 몇 시일까요?", lang: 'ko', choices: [{ pic: "🕙", label: "10시" }, { pic: "🕙", label: "9시" }, { pic: "🕙", label: "11시" }], answer: 0 },
+            { say: "한 시간은 몇 분일까요?", lang: 'ko', choices: [{ pic: "⏰", label: "60분" }, { pic: "⏰", label: "100분" }, { pic: "⏰", label: "30분" }], answer: 0 },
+            { say: "북쪽을 보고 서서 오른쪽으로 돌면 어느 쪽을 보게 될까요?", lang: 'ko', choices: [{ pic: "➡️", label: "동쪽" }, { pic: "⬅️", label: "서쪽" }, { pic: "⬇️", label: "남쪽" }], answer: 0 },
+            { say: "해가 지는 쪽은 어느 쪽일까요?", lang: 'ko', choices: [{ pic: "🌇", label: "서쪽" }, { pic: "🌅", label: "동쪽" }, { pic: "🧭", label: "북쪽" }], answer: 0 },
+            { say: "지도에서 위쪽은 보통 어느 방향일까요?", lang: 'ko', choices: [{ pic: "⬆️", label: "북쪽" }, { pic: "⬇️", label: "남쪽" }, { pic: "➡️", label: "동쪽" }], answer: 0 },
+            { say: "마주 보고 선 사람이 오른손을 들었어요. 내가 보기에는 어느 쪽 손이 올라갔을까요?", lang: 'ko', choices: [{ pic: "⬅️", label: "왼쪽" }, { pic: "➡️", label: "오른쪽" }, { pic: "🙌", label: "양쪽 다" }], answer: 0 },
+            { say: "위쪽을 가리키는 화살표를 반 바퀴 돌리면 어느 쪽을 가리킬까요?", lang: 'ko', choices: [{ pic: "⬇️", label: "아래쪽" }, { pic: "➡️", label: "오른쪽" }, { pic: "⬆️", label: "위쪽" }], answer: 0 },
           ],
         },
         {
-          id: 'shape3', title: '어려움 · 직접 돌리고 뒤집기',
-          gen: 'puzzle', // 풀 때마다 새 문제를 만들어 아래 고정 문제와 섞음 (logic.js의 GENERATORS)
-          friend: { pic: '🦎', name: '빙글 카멜레온', desc: '머릿속에서 모양을 빙글빙글 돌려 보는 카멜레온이에요.' }, // 마스터하면 만나는 도감 친구
-          // type: 'puzzle' = 직접 움직이는 문제. shape는 logic.js의 SHAPES(L, flag, F), rot는 0/90/180/270, flip은 좌우 뒤집기
+          id: "shape3", title: "어려움 · 직접 돌리고 뒤집기",
+          gen: "puzzle", // 풀 때마다 새 문제를 만들어 아래 고정 문제와 섞음 (logic.js의 GENERATORS)
+          friend: { pic: "🦎", name: "빙글 카멜레온", desc: "머릿속에서 모양을 빙글빙글 돌려 보는 카멜레온이에요." }, // 마스터하면 만나는 도감 친구
           questions: [
-            { type: 'puzzle', say: '그림자에 꼭 맞게 돌리기와 뒤집기 버튼으로 모양을 움직여 보세요.', lang: 'ko', shape: 'L', start: { rot: 0, flip: false }, goal: { rot: 90, flip: false } },
-            { type: 'puzzle', say: '그림자에 꼭 맞게 돌리기와 뒤집기 버튼으로 모양을 움직여 보세요.', lang: 'ko', shape: 'flag', start: { rot: 0, flip: false }, goal: { rot: 180, flip: false } },
-            { type: 'puzzle', say: '그림자에 꼭 맞게 돌리기와 뒤집기 버튼으로 모양을 움직여 보세요.', lang: 'ko', shape: 'L', start: { rot: 0, flip: false }, goal: { rot: 0, flip: true } },
-            { type: 'puzzle', say: '그림자에 꼭 맞게 돌리기와 뒤집기 버튼으로 모양을 움직여 보세요.', lang: 'ko', shape: 'F', start: { rot: 0, flip: false }, goal: { rot: 270, flip: false } },
-            { type: 'puzzle', say: '그림자에 꼭 맞게 돌리기와 뒤집기 버튼으로 모양을 움직여 보세요.', lang: 'ko', shape: 'F', start: { rot: 0, flip: false }, goal: { rot: 90, flip: true } },
+            { type: 'puzzle', say: "그림자에 꼭 맞게 돌리기와 뒤집기 버튼으로 모양을 움직여 보세요.", lang: 'ko', shape: "L", start: { rot: 0, flip: false }, goal: { rot: 90, flip: false } },
+            { type: 'puzzle', say: "그림자에 꼭 맞게 돌리기와 뒤집기 버튼으로 모양을 움직여 보세요.", lang: 'ko', shape: "flag", start: { rot: 0, flip: false }, goal: { rot: 180, flip: false } },
+            { type: 'puzzle', say: "그림자에 꼭 맞게 돌리기와 뒤집기 버튼으로 모양을 움직여 보세요.", lang: 'ko', shape: "L", start: { rot: 0, flip: false }, goal: { rot: 0, flip: true } },
+            { type: 'puzzle', say: "그림자에 꼭 맞게 돌리기와 뒤집기 버튼으로 모양을 움직여 보세요.", lang: 'ko', shape: "F", start: { rot: 0, flip: false }, goal: { rot: 270, flip: false } },
+            { type: 'puzzle', say: "그림자에 꼭 맞게 돌리기와 뒤집기 버튼으로 모양을 움직여 보세요.", lang: 'ko', shape: "F", start: { rot: 0, flip: false }, goal: { rot: 90, flip: true } },
           ],
         },
       ],
