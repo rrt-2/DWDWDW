@@ -79,7 +79,7 @@
 - 도형·공간 3학년 단원 = 직접 돌리고 뒤집기 퍼즐(`type: 'puzzle'`). 회색 그림자에 맞게 🔄 돌리기 / ↔️ 뒤집기. 4번 안에 맞추면 첫 시도 정답.
 - 문제 바뀜: 단원에 `gen`(add·mul·div·puzzle)이 있으면 풀 때마다 새 문제 5개를 만들어 고정 문제와 섞고 5개 뽑음. 고정 문제가 5개보다 많아도 매번 5개만 뽑음.
 - PC용 exe: `desktop/app.py` (pywebview, 창 안에 index.html). 기록은 `%LOCALAPPDATA%\study-tamagotchi`, 포트 41731 고정.
-  빌드: `python -m PyInstaller --onefile --windowed --name 학습다마고치 --add-data "index.html;." --add-data "style.css;." --add-data "content.js;." --add-data "logic.js;." --add-data "game.js;." --add-data "dashboard.html;." --add-data "assets;assets" desktop/app.py`
+  빌드: `python -m PyInstaller --onefile --windowed --name 학습다마고치 --add-data "index.html;." --add-data "style.css;." --add-data "content.js;." --add-data "logic.js;." --add-data "game.js;." --add-data "sprites.js;." --add-data "dashboard.html;." --add-data "assets;assets" desktop/app.py`
 
 ## 방향 변경 (2026-11-09): 어르신 두뇌건강 다마고치
 
@@ -92,3 +92,10 @@
 - dashboard.html: 의료진·복지사 화면 시연용, 가상 어르신 10명. 실제 전송 없음.
 - 시연: 주소 뒤에 ?demo → '하루 넘기기' 버튼.
 - 저장 키 `brain-tamagotchi` (예전 학습 다마고치 기록과 분리).
+
+## 디자인 변경 (2026-11-11): 레트로 LCD 픽셀 테마
+
+- 유아용 느낌을 빼고 흑백 액정 휴대용 게임기 느낌으로. 직각 모서리, 3px 테두리, 4px 딱딱한 그림자, 색은 종이·잉크·액정 녹색·빨강 강조 하나.
+- 캐릭터는 이모지 대신 `sprites.js`의 16x16 픽셀 그림(알/아기/어린이/어른 × 보통/기쁨/기운 없음). `assets/pet/{단계}_{기분}.png`가 있으면 그 그림을 우선 사용.
+- 글꼴: Galmuri11 (CDN, 22px·33px). 인터넷이 없으면 기본 글꼴로 대체됨.
+- 문제 보기의 그림(이모지)은 색이 정답 단서라 그대로 둠. 도감·과목 아이콘만 흑백 처리.

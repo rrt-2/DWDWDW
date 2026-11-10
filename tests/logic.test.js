@@ -161,7 +161,6 @@ test('content.js 형식 (팀원 수정 후 깨짐 방지)', () => {
       }
     }
   }
-  for (const st of ['egg', 'baby', 'child', 'adult']) assert.ok(CONTENT.petEmoji[st]);
   // 건강 체크 질문은 logic.js의 항목과 같은 id여야 함
   const { HEALTH_LABEL } = require('../logic.js');
   assert.deepStrictEqual(CONTENT.health.map((h) => h.id).sort(), Object.keys(HEALTH_LABEL).sort());
@@ -219,4 +218,30 @@ test('7일 요약: 날짜별 한 줄 + 위험 안내', () => {
 
 test('성장 점수 = 체크한 날 수 + 도감 친구 수', () => {
   assert.strictEqual(growthPoints({ a: day(1), b: day(2) }, { u1: { star: true }, u2: { star: false } }), 3);
+});
+
+// ---- 픽셀 캐릭터 ----
+const { SPRITES, petPixels, petSvg } = require('../sprites.js');
+
+test('픽셀 캐릭터: 단계마다 16x16, 아는 글자만 사용', () => {
+  for (const st of ['egg', 'baby', 'child', 'adult']) {
+    assert.strictEqual(SPRITES[st].length, 16, st);
+    for (const row of SPRITES[st]) assert.match(row, /^[.#om]{16}$/, `${st}: ${row}`);
+  }
+});
+
+test('픽셀 캐릭터: 기분에 따라 눈과 장식이 달라지고 서로 겹치지 않는다', () => {
+  for (const st of ['baby', 'child', 'adult']) {
+    const idle = petPixels(st, 'idle');
+    const happy = petPixels(st, 'happy');
+    const tired = petPixels(st, 'tired');
+    assert.ok(happy.length > idle.length, `${st} 기쁨 = 반짝이 추가`);
+    assert.notDeepStrictEqual(tired, idle, `${st} 기운 없음 = 감은 눈`);
+    for (const px of [idle, happy, tired]) {
+      const keys = px.map(([x, y]) => `${x},${y}`);
+      assert.strictEqual(new Set(keys).size, keys.length, `${st} 픽셀 겹침`);
+      for (const [x, y] of px) assert.ok(x >= 0 && x < 16 && y >= 0 && y < 16);
+    }
+  }
+  assert.ok(petSvg('egg', 'idle').startsWith('<svg'));
 });

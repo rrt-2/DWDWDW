@@ -4,7 +4,6 @@ const KEY = 'brain-tamagotchi';
 const STAGE_NAME = { egg: '알', baby: '아기', child: '어린이', adult: '어른' };
 const TOTAL_UNITS = CONTENT.subjects.reduce((n, s) => n + s.units.length, 0);
 const GROWTH_GOAL = 30; // 체크한 날 + 도감 친구가 이만큼 모이면 어른
-const MOOD_MARK = { idle: '', happy: '✨', tired: '💤' };
 const DEMO = location.search.includes('demo'); // 발표 시연용 '하루 넘기기' 버튼
 
 // 이름 뒤 조사: 받침 있으면 a, 없으면 b (한글 아니면 'a(b)')
@@ -54,9 +53,9 @@ function today() {
   return dateKey(new Date(Date.now() + (state.dayOffset || 0) * 86400000));
 }
 
-// 그림 파일이 없으면 이모지로 대체
+// 그림 파일(assets/pet)이 없으면 픽셀 캐릭터(sprites.js)로 그림
 function setPet(st, mood, img = $('pet-img'), emoji = $('pet-emoji')) {
-  emoji.textContent = CONTENT.petEmoji[st] + (MOOD_MARK[mood] || '');
+  emoji.innerHTML = petSvg(st, mood);
   img.onload = () => { img.hidden = false; emoji.hidden = true; };
   img.onerror = () => { img.hidden = true; emoji.hidden = false; };
   img.src = `assets/pet/${st}_${mood}.png`;
@@ -230,7 +229,7 @@ function finishQuiz() {
   $('result-friend').hidden = !newFriend;
   if (newFriend) $('result-friend').replaceChildren(...friendCard(quiz.subject, quiz.unit, true).childNodes);
   if (after !== before) lines.push(after === 'adult' ? `🎉 ${iga(state.name)} 어른이 되었어요! 고마워요!` : `${iga(state.name)} ${STAGE_NAME[after]}로 자랐어요!`);
-  $('result-pet').textContent = CONTENT.petEmoji[after];
+  $('result-pet').innerHTML = petSvg(after, 'happy');
   $('result-title').textContent = won ? '정말 잘하셨어요!' : '잘하셨어요!';
   $('result-text').textContent = lines.join(' ');
   show('result');
@@ -389,6 +388,7 @@ $('reset').onclick = () => {
   show('egg');
 };
 
+$('egg-pet').innerHTML = petSvg('egg', 'idle');
 state = loadSaved();
 if (state && state.days) renderHome();
 else show('egg');

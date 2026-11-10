@@ -4,12 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>두뇌건강 다마고치</title>
-  <link rel="stylesheet" href="style.css?v=10">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/galmuri@2.40.3/dist/galmuri.css">
+  <link rel="stylesheet" href="style.css?v=11">
 </head>
 <body>
 <main>
   <section id="egg" hidden>
-    <div class="pet">🥚</div>
+    <div class="pet-box lcd"><span id="egg-pet" class="pet"></span></div>
     <p class="big">함께 지낼 친구의 알이에요!</p>
     <label>친구 이름<input id="pet-name" maxlength="10" placeholder="예: 뭉치"></label>
     <label>어르신을 어떻게 불러 드릴까요?<input id="who-name" maxlength="12" placeholder="예: 순자 할머니"></label>
@@ -22,7 +23,7 @@
       <span id="home-title"></span>
       <span id="home-stars"></span>
     </header>
-    <div class="pet-box">
+    <div class="pet-box lcd">
       <img id="pet-img" alt="" hidden>
       <span id="pet-emoji" class="pet"></span>
     </div>
@@ -48,7 +49,7 @@
       <span id="check-progress"></span>
       <span></span>
     </header>
-    <div class="pet-box">
+    <div class="pet-box lcd">
       <img id="check-img" alt="" hidden>
       <span id="check-emoji" class="pet"></span>
     </div>
@@ -87,7 +88,7 @@
   </section>
 
   <section id="result" hidden>
-    <div id="result-pet" class="pet"></div>
+    <div class="pet-box lcd"><span id="result-pet" class="pet"></span></div>
     <h1 id="result-title"></h1>
     <p id="result-text" class="big"></p>
     <div id="result-friend" class="card new" hidden></div>
@@ -120,8 +121,9 @@
     <p class="hint">최고 점수 = 처음 고른 답이 맞은 문제 수 (5문제 중)</p>
   </section>
 </main>
-<script src="content.js?v=10"></script>
-<script src="logic.js?v=10"></script>
-<script src="game.js?v=10"></script>
+<script src="content.js?v=11"></script>
+<script src="logic.js?v=11"></script>
+<script src="sprites.js?v=11"></script>
+<script src="game.js?v=11"></script>
 </body>
 </html>

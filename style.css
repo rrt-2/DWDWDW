@@ -1,54 +1,81 @@
-:root { --bg: #fff8ef; --ink: #333; --accent: #ff8a5c; --good: #4caf50; --bad: #e57373; --line: #e5d9c9; }
+/* 레트로 LCD 픽셀 테마: 직각 모서리, 굵은 테두리, 딱딱한 그림자, 제한된 색 */
+:root {
+  --bg: #e8e4d9; --paper: #fbfaf5; --ink: #1f2420;
+  --lcd: #c5cfa3; --lcd-ink: #2b3320; /* 흑백 액정 */
+  --accent: #c23a1e; --sub: #44546e;
+  --good: #b9e0a5; --bad: #f2b8a8;
+  --px: 4px; /* 픽셀 한 칸 = 그림자 두께 */
+}
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
-body { word-break: keep-all; margin: 0; background: var(--bg); color: var(--ink); font-family: system-ui, sans-serif; font-size: 21px; }
+/* Galmuri11은 11px 배수(22px, 33px)에서 또렷함. 인터넷이 없으면 기본 글꼴로 대체 */
+body { word-break: keep-all; margin: 0; background: var(--bg); color: var(--ink); font-family: Galmuri11, system-ui, sans-serif; font-size: 22px; line-height: 1.5; }
 main { max-width: 520px; margin: 0 auto; padding: 16px; text-align: center; }
-button { font: inherit; padding: 12px 16px; border: 0; border-radius: 14px; background: var(--accent); color: #fff; cursor: pointer; }
+h1 { font-size: 33px; margin: 12px 0; }
+h2 { font-size: 22px; margin: 22px 0 8px; text-align: left; }
+a { color: var(--sub); }
+
+button { font: inherit; padding: 12px 16px; border: 3px solid var(--ink); border-radius: 0; background: var(--accent); color: #fff; cursor: pointer; box-shadow: var(--px) var(--px) 0 var(--ink); }
+button:active:not(:disabled) { transform: translate(var(--px), var(--px)); box-shadow: none; }
+button:focus-visible, input:focus-visible { outline: 3px solid var(--sub); outline-offset: 3px; }
 button:disabled { opacity: .5; cursor: default; }
-button.small { padding: 6px 10px; font-size: .85rem; background: #999; white-space: nowrap; }
+button.small { --px: 2px; padding: 6px 10px; font-size: 16px; background: var(--paper); color: var(--ink); white-space: nowrap; }
 button.wide { width: 100%; font-size: 1.2rem; }
-input { font: inherit; width: 100%; padding: 12px; margin: 8px 0; border: 1px solid var(--line); border-radius: 12px; }
-header { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 8px; }
-.big { font-size: 1.25rem; }
-.hint { font-size: .85rem; color: #777; }
-.pet-box { height: 170px; display: flex; align-items: center; justify-content: center; }
-#pet-img { max-height: 170px; }
-.pet { font-size: 110px; line-height: 1; }
-.speech { min-height: 3em; padding: 14px; background: #fff; border: 2px solid var(--line); border-radius: 18px; }
-.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 12px 0; }
-.grid button { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 16px 6px; }
-.grid .icon { font-size: 2.2rem; }
-.row { display: flex; gap: 8px; justify-content: center; }
-.list { display: flex; flex-direction: column; gap: 10px; }
-.list button { font-size: 1.15rem; padding: 18px; }
-.choices { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin: 16px 0; }
-.choices button { background: #fff; color: var(--ink); border: 3px solid var(--line); display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 16px 8px; }
-.choices .pic { font-size: 3.2rem; line-height: 1; }
-.choices button.right { border-color: var(--good); background: #e8f5e9; }
-.choices button.wrong { border-color: var(--bad); background: #ffebee; }
-.puzzle { margin: 12px 0; }
-.puzzle svg { width: 100%; max-width: 260px; aspect-ratio: 1; background: #fff; border: 3px solid var(--line); border-radius: 16px; }
-.puzzle polygon { transform-box: fill-box; transform-origin: center; transition: transform .35s; }
-.puzzle .shadow { fill: #d6d0c8; }
-.puzzle .piece { fill: var(--accent); opacity: .75; }
-.puzzle .outline { fill: none; stroke: #5a524a; stroke-width: 1.8; stroke-dasharray: 4 3; }
-.puzzle .row { margin-top: 12px; }
-.puzzle .row button { font-size: 1.2rem; padding: 14px 20px; }
-.book { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-.card { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 12px 6px; background: #fff; border: 3px solid var(--line); border-radius: 16px; font-size: .85rem; }
-.card .pic { font-size: 2.8rem; line-height: 1; }
-.card b { font-size: 1rem; }
-.card.locked { background: #f1ece5; color: #999; }
-.card.new { margin: 12px auto; max-width: 240px; border-color: var(--accent); font-size: 1rem; }
-.card.new .pic { font-size: 4rem; }
-table { width: 100%; border-collapse: collapse; background: #fff; font-size: .95rem; }
-th, td { padding: 8px 4px; border-bottom: 1px solid var(--line); }
-h2 { font-size: 1.1rem; margin: 18px 0 6px; text-align: left; }
+button.huge { flex: 1; font-size: 33px; padding: 22px 10px; }
+button.alt { background: var(--sub); }
+input { font: inherit; width: 100%; padding: 12px; margin: 8px 0; background: var(--paper); border: 3px solid var(--ink); border-radius: 0; }
 label { display: block; text-align: left; margin-top: 10px; }
-.risk { padding: 12px; background: #fff3e0; border: 2px solid #ffb74d; border-radius: 14px; font-weight: bold; }
-button.huge { flex: 1; font-size: 1.5rem; padding: 22px 10px; }
-button.alt { background: #8d99ae; }
-#check .row { margin-top: 12px; }
-#listen { margin-top: 16px; }
-pre { white-space: pre-wrap; text-align: left; background: #fff; padding: 12px; border-radius: 12px; border: 1px solid var(--line); font: inherit; font-size: .85rem; }
-.grid { grid-template-columns: repeat(2, 1fr); }
+
+/* 위쪽 상태 줄: 액정 기기의 검은 띠 */
+header { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 8px 10px; background: var(--ink); color: var(--lcd); }
+#quiz-progress, #units-title { flex: 1; font-size: 16px; } /* 긴 단원 이름이 여러 줄로 쪼개지지 않게 */
+.row { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 14px; }
+.big { font-size: 1.25rem; }
+.hint { font-size: 16px; color: #55584f; }
+
+/* 액정 화면: 캐릭터가 사는 곳 */
+.lcd { background-color: var(--lcd); background-image: linear-gradient(rgba(43, 51, 32, .07) 1px, transparent 1px), linear-gradient(90deg, rgba(43, 51, 32, .07) 1px, transparent 1px); background-size: 4px 4px; border: 3px solid var(--ink); box-shadow: inset 0 0 0 4px #aab58a; color: var(--lcd-ink); }
+.pet-box { height: 190px; display: flex; align-items: center; justify-content: center; }
+.pet { display: inline-flex; }
+.sprite { width: 144px; height: 144px; animation: hop 1s linear infinite; }
+#pet-img, #check-img { max-height: 150px; image-rendering: pixelated; }
+@keyframes hop { 0%, 49.9% { transform: none; } 50%, 100% { transform: translateY(-9px); } }
+@media (prefers-reduced-motion: reduce) { .sprite { animation: none; } }
+
+.speech { min-height: 3em; margin: 14px 0; padding: 14px; background: var(--paper); border: 3px solid var(--ink); box-shadow: var(--px) var(--px) 0 var(--ink); }
+.risk { padding: 12px; background: #f6d9a8; border: 3px solid var(--ink); font-weight: bold; }
+
+.grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 12px 0; }
+.grid button { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 16px 6px; background: var(--paper); color: var(--ink); }
+.grid .icon { font-size: 2.2rem; line-height: 1.2; filter: grayscale(1) contrast(1.15); }
+.list { display: flex; flex-direction: column; gap: 12px; margin-top: 14px; }
+.list button { padding: 18px; background: var(--paper); color: var(--ink); }
+
+.choices { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin: 16px 0; }
+.choices button { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 16px 8px; background: var(--paper); color: var(--ink); }
+.choices .pic { font-size: 3.2rem; line-height: 1.1; }
+.choices button.right { background: var(--good); opacity: 1; }
+.choices button.wrong { background: var(--bad); }
+#feedback { min-height: 1.5em; }
+
+.puzzle { margin: 12px 0; }
+.puzzle svg { width: 100%; max-width: 260px; aspect-ratio: 1; background: var(--lcd); border: 3px solid var(--ink); }
+.puzzle polygon { transform-box: fill-box; transform-origin: center; transition: transform .35s; }
+.puzzle .shadow { fill: #a9b48a; }
+.puzzle .piece { fill: var(--accent); opacity: .8; }
+.puzzle .outline { fill: none; stroke: var(--lcd-ink); stroke-width: 1.8; stroke-dasharray: 4 3; }
+
+/* 도감: 흑백 액정 카드 */
+.book { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 14px; }
+.card { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 12px 6px; background: var(--lcd); color: var(--lcd-ink); border: 3px solid var(--ink); font-size: 16px; }
+.card .pic { font-size: 2.8rem; line-height: 1.1; filter: grayscale(1) contrast(1.15); }
+.card b { font-size: 22px; }
+.card.locked { background: #d9d6cc; color: #5f5f58; }
+.card.new { margin: 14px auto; max-width: 260px; box-shadow: var(--px) var(--px) 0 var(--ink); }
+.card.new .pic { font-size: 4rem; }
+
+table { width: 100%; border-collapse: collapse; background: var(--paper); border: 3px solid var(--ink); font-size: 16px; }
+th { background: var(--ink); color: var(--lcd); }
+th, td { padding: 8px 4px; border-bottom: 1px solid var(--ink); }
+pre { white-space: pre-wrap; text-align: left; margin: 0; padding: 12px; background: var(--paper); border: 3px solid var(--ink); font: inherit; font-size: 16px; }
+#listen { margin-top: 18px; }
