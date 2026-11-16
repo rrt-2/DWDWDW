@@ -3,34 +3,78 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>돌봄 대시보드 (시연용)</title>
+  <title>돌봄 모니터링</title>
   <style>
-    body { margin: 0; background: #f4f6f8; color: #333; font-family: system-ui, sans-serif; }
-    main { max-width: 960px; margin: 0 auto; padding: 16px; }
-    .demo { background: #fff3e0; border: 2px dashed #ffb74d; padding: 10px 14px; border-radius: 10px; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #f4f6f8; color: #222; font-family: system-ui, sans-serif; line-height: 1.5; }
+    main { max-width: 1000px; margin: 0 auto; padding: 16px; }
+    h1 { margin: 8px 0; }
+    .note { background: #fff3e0; border: 2px dashed #ffb74d; padding: 10px 14px; border-radius: 10px; }
+    .stats { display: flex; flex-wrap: wrap; gap: 10px; margin: 14px 0; }
+    .stat { flex: 1; min-width: 110px; padding: 12px; border-radius: 10px; background: #fff; border-left: 8px solid #999; }
+    .stat b { display: block; font-size: 2rem; line-height: 1.1; }
+    .stat.contact { border-color: #c62828; } .stat.caution { border-color: #e65100; } .stat.ok { border-color: #2e7d32; }
+    details { background: #fff; border-radius: 10px; padding: 12px 14px; margin: 12px 0; }
+    summary { cursor: pointer; font-weight: bold; }
+    textarea { width: 100%; height: 90px; margin: 8px 0; padding: 8px; font: inherit; }
+    button { font: inherit; padding: 8px 14px; border: 0; border-radius: 8px; background: #1565c0; color: #fff; cursor: pointer; }
+    button.del { background: #fff; color: #c62828; border: 1px solid #c62828; padding: 2px 8px; }
+    button:focus-visible, summary:focus-visible, tr:focus-visible { outline: 3px solid #ff9800; outline-offset: 2px; }
     .wrap { overflow-x: auto; }
-    table { width: 100%; border-collapse: collapse; background: #fff; margin-top: 12px; }
+    table { width: 100%; border-collapse: collapse; background: #fff; margin-top: 8px; }
     th, td { padding: 10px 6px; border-bottom: 1px solid #e3e6ea; text-align: center; white-space: nowrap; }
     td.name { text-align: left; }
+    tbody tr.person { cursor: pointer; }
+    tbody tr.person:hover { background: #eef4fb; }
     .tag { display: inline-block; padding: 3px 10px; border-radius: 999px; font-weight: bold; color: #fff; }
-    .contact { background: #d32f2f; } .caution { background: #f57c00; } .ok { background: #43a047; }
-    .miss { color: #bbb; }
+    .tag.contact { background: #c62828; } .tag.caution { background: #e65100; } .tag.ok { background: #2e7d32; } .tag.none { background: #757575; }
+    .src { font-size: .8rem; color: #555; }
+    .miss { color: #999; }
+    pre { margin: 0; text-align: left; white-space: pre-wrap; font: inherit; background: #f4f6f8; padding: 10px; border-radius: 8px; }
+    #msg { font-weight: bold; }
   </style>
 </head>
 <body>
 <main>
-  <h1>🏥 돌봄 대시보드</h1>
-  <p class="demo">⚠ 시연용 가상 데이터입니다. 실제 서비스가 되면 보건소·복지관 담당자가 동의한 어르신의 기록만 보게 됩니다. 지금 앱은 기록을 밖으로 보내지 않습니다.</p>
+  <h1>🏥 돌봄 모니터링</h1>
+  <p class="note">보건소·복지관 담당자용 화면이에요. 어르신(또는 보호자)이 앱의 <b>💌 보호자에게 보내기</b>로 보낸 글을 아래에 붙여 넣으면 등록돼요. 기록은 <b>이 기기 안에만</b> 저장되고 어디로도 전송되지 않아요. "연락 필요"·"주의"는 의학 판단이 아니라 연락해 볼 신호예요.</p>
+
+  <div class="stats">
+    <div class="stat contact"><b id="n-contact">0</b>연락 필요</div>
+    <div class="stat caution"><b id="n-caution">0</b>주의</div>
+    <div class="stat ok"><b id="n-ok">0</b>양호</div>
+    <div class="stat"><b id="n-all">0</b>전체</div>
+  </div>
+
+  <details id="add-box">
+    <summary>➕ 어르신 등록 / 기록 새로 받기</summary>
+    <label for="code">받은 글을 통째로 붙여 넣으세요 (돌봄 코드가 들어 있어요). 같은 이름이면 새 기록으로 바뀌어요.</label>
+    <textarea id="code" placeholder="[두뇌건강 다마고치] ... BT1.xxxx"></textarea>
+    <button id="add">등록</button> <span id="msg" role="status"></span>
+  </details>
+
+  <label><input type="checkbox" id="show-demo" checked> 시연용 가상 어르신 10명 같이 보기</label>
+
   <div class="wrap">
     <table>
       <thead><tr id="head"></tr></thead>
       <tbody id="rows"></tbody>
     </table>
   </div>
-  <p>칸 숫자 = 그날 건강 체크 5개 중 '네' 개수, 얼굴 = 기분. "연락 필요"·"주의"는 의학 판단이 아니라 연락해 볼 신호예요.</p>
+  <p>줄을 누르면 최근 7일 상세가 펼쳐져요. 칸 숫자 = 그날 건강 체크 5개 중 '네' 개수, 얼굴 = 기분, 💊✕ = 약 거름.</p>
 </main>
-<script src="logic.js"></script>
+<script src="logic.js?v=12"></script>
 <script>
+  const LIST_KEY = 'brain-care-list'; // { 이름: { days, got(받은 날) } }
+  const $ = (id) => document.getElementById(id);
+  const read = (key) => { try { return JSON.parse(localStorage.getItem(key)); } catch { return null; } };
+
+  // 이 기기에서 앱을 쓰는 어르신 (같은 주소라 바로 읽힘). 시연용 '하루 넘기기'도 반영
+  const local = read('brain-tamagotchi');
+  const today = dateKey(new Date(Date.now() + ((local && local.dayOffset) || 0) * 86400000));
+  const dates = [6, 5, 4, 3, 2, 1, 0].map((n) => addDays(today, -n));
+  const md = (k) => k.slice(5).replace('-', '/');
+
   // 가상 어르신 10명: f(n일 전) → 그날 기록 (없으면 null)
   const day = (yes, mood = 'ok', med = true) => {
     const ids = Object.keys(HEALTH_LABEL);
@@ -38,7 +82,7 @@
     answers.med = med;
     return { answers, mood };
   };
-  const PEOPLE = [
+  const DEMO = [
     ['김○자 (81)', (n) => (n >= 4 ? day(4) : null)], // 4일째 체크 없음
     ['이○순 (77)', (n) => (n <= 1 ? day(4, 'ok', false) : day(5))], // 이틀 연속 약 거름
     ['박○호 (84)', (n) => (n <= 2 ? day(3, 'bad') : day(4))], // 기분 나쁨 3일
@@ -49,36 +93,79 @@
     ['윤○분 (82)', (n) => (n === 5 ? null : day(3))],
     ['장○철 (70)', (n) => day(5, 'good')],
     ['임○례 (86)', (n) => day(4, n === 1 ? 'bad' : 'ok')],
-  ];
+  ].map(([name, f]) => {
+    const days = {};
+    dates.forEach((d, i) => { const v = f(6 - i); if (v) days[d] = v; });
+    return { name, days, src: '가상' };
+  });
   const MOOD_FACE = { good: '😊', ok: '🙂', bad: '😟' };
   const RISK_NAME = { contact: '연락 필요', caution: '주의', ok: '양호', none: '기록 없음' };
   const ORDER = { contact: 0, caution: 1, ok: 2, none: 3 };
 
-  const today = dateKey(new Date());
-  const dates = [6, 5, 4, 3, 2, 1, 0].map((n) => addDays(today, -n));
-  document.getElementById('head').innerHTML = '<th>어르신</th><th>상태</th><th>마지막 체크</th>'
-    + dates.map((d) => `<th>${d.slice(5).replace('-', '/')}</th>`).join('');
+  $('head').innerHTML = '<th>어르신</th><th>상태</th><th>마지막 체크</th>' + dates.map((d) => `<th>${md(d)}</th>`).join('') + '<th></th>';
 
-  const list = PEOPLE.map(([name, f]) => {
-    const days = {};
-    dates.forEach((d, i) => { const v = f(6 - i); if (v) days[d] = v; });
-    return { name, days, risk: riskLevel(days, today) };
-  }).sort((a, b) => ORDER[a.risk] - ORDER[b.risk]);
+  function render() {
+    const saved = read(LIST_KEY) || {};
+    const people = Object.entries(saved).map(([name, v]) => ({ name, days: v.days, src: `받음 ${md(v.got)}`, saved: true }));
+    if (local && local.days) people.push({ name: local.who || '어르신', days: local.days, src: '이 기기' });
+    if ($('show-demo').checked) people.push(...DEMO);
+    for (const p of people) p.risk = riskLevel(p.days, today);
+    people.sort((a, b) => ORDER[a.risk] - ORDER[b.risk]);
 
-  const rows = document.getElementById('rows');
-  for (const p of list) {
-    const last = Object.keys(p.days).sort().pop();
-    const cells = dates.map((d) => {
-      const v = p.days[d];
-      if (!v) return '<td class="miss">—</td>';
-      const yes = Object.values(v.answers).filter(Boolean).length;
-      return `<td>${yes}/5 ${MOOD_FACE[v.mood]}${v.answers.med ? '' : ' 💊✕'}</td>`;
-    }).join('');
-    const tr = document.createElement('tr');
-    tr.innerHTML = `<td class="name"></td><td><span class="tag ${p.risk}">${RISK_NAME[p.risk]}</span></td><td>${last ? last.slice(5).replace('-', '/') : '-'}</td>${cells}`;
-    tr.querySelector('.name').textContent = p.name;
-    rows.appendChild(tr);
+    for (const r of ['contact', 'caution', 'ok']) $('n-' + r).textContent = people.filter((p) => p.risk === r).length;
+    $('n-all').textContent = people.length;
+
+    const rows = $('rows');
+    rows.innerHTML = '';
+    for (const p of people) {
+      const last = Object.keys(p.days).sort().pop();
+      const cells = dates.map((d) => {
+        const v = p.days[d];
+        if (!v) return '<td class="miss">—</td>';
+        const yes = Object.values(v.answers).filter(Boolean).length;
+        return `<td>${yes}/5 ${MOOD_FACE[v.mood]}${v.answers.med ? '' : ' 💊✕'}</td>`;
+      }).join('');
+      const tr = document.createElement('tr');
+      tr.className = 'person';
+      tr.tabIndex = 0;
+      tr.innerHTML = `<td class="name"><b></b> <span class="src"></span></td><td><span class="tag ${p.risk}">${RISK_NAME[p.risk]}</span></td><td>${last ? md(last) : '-'}</td>${cells}<td>${p.saved ? '<button class="del">삭제</button>' : ''}</td>`;
+      tr.querySelector('b').textContent = p.name; // 받은 이름은 글자로만 넣음
+      tr.querySelector('.src').textContent = `(${p.src})`;
+
+      // 상세 줄: 최근 7일 요약 글
+      const detail = document.createElement('tr');
+      detail.hidden = true;
+      detail.innerHTML = `<td colspan="${dates.length + 4}"><pre></pre></td>`;
+      detail.querySelector('pre').textContent = weekSummary(p.days, p.name, today);
+      const toggle = () => { detail.hidden = !detail.hidden; };
+      tr.onclick = toggle;
+      tr.onkeydown = (e) => { if (e.key === 'Enter') toggle(); };
+
+      const del = tr.querySelector('.del');
+      if (del) del.onclick = (e) => {
+        e.stopPropagation();
+        if (!confirm(`${p.name} 기록을 이 화면에서 지울까요?`)) return;
+        const list = read(LIST_KEY) || {};
+        delete list[p.name];
+        localStorage.setItem(LIST_KEY, JSON.stringify(list));
+        render();
+      };
+      rows.append(tr, detail);
+    }
   }
+
+  $('add').onclick = () => {
+    const got = unpackCode($('code').value);
+    if (!got) { $('msg').textContent = '돌봄 코드를 찾지 못했어요. 받은 글을 통째로 붙여 넣어 주세요.'; return; }
+    const list = read(LIST_KEY) || {};
+    list[got.name] = { days: got.days, got: dateKey(new Date()) };
+    try { localStorage.setItem(LIST_KEY, JSON.stringify(list)); } catch { $('msg').textContent = '이 브라우저는 저장이 막혀 있어요.'; return; }
+    $('code').value = '';
+    $('msg').textContent = `${got.name} 등록됨`;
+    render();
+  };
+  $('show-demo').onchange = render;
+  render();
 </script>
 </body>
 </html>

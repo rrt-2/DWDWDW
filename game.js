@@ -300,14 +300,15 @@ $('listen').onclick = () => {
 
 // ---- 보호자에게 보내기: 최근 7일 요약 ----
 async function shareWeek() {
-  const text = weekSummary(state.days, state.who, today());
+  // 요약 글 + 돌봄 화면(dashboard.html)에 붙여 넣는 코드
+  const text = weekSummary(state.days, state.who, today()) + '\n\n[돌봄 화면 등록 코드]\n' + packCode(state.who, state.days, today());
   if (navigator.share) {
     try { await navigator.share({ text }); } catch { /* 공유 창 닫음 */ }
     return;
   }
   try {
     await navigator.clipboard.writeText(text);
-    alert('요약을 복사했어요. 카카오톡이나 문자에 붙여 넣어 보내 주세요.');
+    alert('요약과 돌봄 코드를 복사했어요. 카카오톡이나 문자에 붙여 넣어 보내 주세요.');
   } catch {
     prompt('아래 글을 복사해서 보내 주세요.', text);
   }

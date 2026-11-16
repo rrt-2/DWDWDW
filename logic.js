@@ -206,7 +206,37 @@ function growthPoints(days, records) {
   return Object.keys(days).length + starCount(records);
 }
 
+// ---- 돌봄 코드: 서버 없이 기록을 돌봄 화면으로 옮기는 글자 묶음 ----
+// 하루 = '11010g' (식사·약·물·걷기·잠 1/0 + 기분 첫 글자). 최근 14일만 담음
+function packCode(name, days, today) {
+  const ids = Object.keys(HEALTH_LABEL);
+  const d = {};
+  for (let i = 0; i < 14; i++) {
+    const k = addDays(today, -i);
+    if (days[k]) d[k] = ids.map((id) => (days[k].answers[id] ? 1 : 0)).join('') + days[k].mood[0];
+  }
+  return 'BT1.' + btoa(encodeURIComponent(JSON.stringify({ n: name, d })));
+}
+
+// 글 안에서 돌봄 코드를 찾아 { name, days }로. 형식이 틀리면 null (남이 준 글이라 꼼꼼히 검사)
+function unpackCode(text) {
+  const m = /BT1\.([A-Za-z0-9+/=]+)/.exec(String(text).replace(/\s/g, ''));
+  if (!m) return null;
+  try {
+    const { n, d } = JSON.parse(decodeURIComponent(atob(m[1])));
+    if (typeof n !== 'string' || !n.trim() || !d || typeof d !== 'object') return null;
+    const ids = Object.keys(HEALTH_LABEL);
+    const moods = { g: 'good', o: 'ok', b: 'bad' };
+    const days = {};
+    for (const [k, v] of Object.entries(d)) {
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(k) || !/^[01]{5}[gob]$/.test(v)) return null;
+      days[k] = { answers: Object.fromEntries(ids.map((id, i) => [id, v[i] === '1'])), mood: moods[v[5]] };
+    }
+    return { name: n.trim().slice(0, 20), days };
+  } catch { return null; }
+}
+
 if (typeof module !== 'undefined') {
   module.exports = { MASTER_NEED, shuffle, prepareQuiz, mastered, starCount, stageOf, isUnlocked, recordResult, SHAPES, turn, mirror, sameOrient, puzzleFirstTry, GENERATORS, QUIZ_SIZE,
-    HEALTH_LABEL, MOOD_LABEL, RISK_TEXT, dateKey, addDays, petMood, riskLevel, weekSummary, growthPoints };
+    HEALTH_LABEL, MOOD_LABEL, RISK_TEXT, dateKey, addDays, petMood, riskLevel, weekSummary, growthPoints, packCode, unpackCode };
 }

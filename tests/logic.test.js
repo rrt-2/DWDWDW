@@ -220,6 +220,18 @@ test('성장 점수 = 체크한 날 수 + 도감 친구 수', () => {
   assert.strictEqual(growthPoints({ a: day(1), b: day(2) }, { u1: { star: true }, u2: { star: false } }), 3);
 });
 
+test('돌봄 코드: 묶었다 풀면 같은 기록, 틀린 글은 null', () => {
+  const { packCode, unpackCode } = require('../logic.js');
+  const t = '2026-11-09';
+  const days = { [t]: day(5, 'good'), [addDays(t, -1)]: day(2, 'bad', false), [addDays(t, -20)]: day(5) };
+  const got = unpackCode('안녕하세요\n' + packCode('순자 할머니', days, t) + '\n끝');
+  assert.strictEqual(got.name, '순자 할머니');
+  assert.deepStrictEqual(got.days, { [t]: days[t], [addDays(t, -1)]: days[addDays(t, -1)] }); // 14일 넘은 날은 빠짐
+  assert.strictEqual(unpackCode('그냥 글'), null);
+  assert.strictEqual(unpackCode('BT1.!!!!'), null);
+  assert.strictEqual(unpackCode('BT1.' + btoa(encodeURIComponent('{"n":"A","d":{"x":"<b>"}}'))), null);
+});
+
 // ---- 픽셀 캐릭터 ----
 const { SPRITES, petPixels, petSvg } = require('../sprites.js');
 
