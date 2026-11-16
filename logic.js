@@ -198,7 +198,7 @@ function petMood(days, today) {
   return avg >= 0.8 ? 'happy' : avg >= 0.4 ? 'idle' : 'tired';
 }
 
-// 위험 신호 (의학 기준 아님, 연락해 볼 신호): none=기록 없음, contact=3일 이상 체크 없음, caution=약·기분 이상, ok
+// 위험 신호 (의학 기준 아님, 연락해 볼 신호): none=기록 없음, contact=3일 이상 체크 없음, caution=마지막 날 '네' 2개 이하·약·기분 이상, ok
 function riskLevel(days, today) {
   const keys = Object.keys(days).sort();
   if (keys.length === 0) return 'none';
@@ -207,13 +207,14 @@ function riskLevel(days, today) {
   const at = (n) => days[addDays(last, n)];
   const noMed = [0, -1].every((n) => at(n) && at(n).answers.med === false);
   const sad = [0, -1, -2].every((n) => at(n) && at(n).mood === 'bad');
-  return noMed || sad ? 'caution' : 'ok';
+  const poor = Object.values(at(0).answers).filter(Boolean).length <= 2; // 마지막 체크에서 '네'가 5개 중 2개 이하
+  return noMed || sad || poor ? 'caution' : 'ok';
 }
 
 const RISK_TEXT = {
   none: '아직 기록이 없어요.',
   ok: '특별한 이상 신호는 없어요.',
-  caution: '⚠ 주의: 약을 거르시거나 기분이 안 좋은 날이 이어지고 있어요.',
+  caution: '⚠ 주의: 최근 체크에서 "아니요"가 많거나, 약을 거르시거나 기분이 안 좋은 날이 이어지고 있어요.',
   contact: '⚠ 3일 넘게 체크가 없어요. 연락해 보세요.',
 };
 

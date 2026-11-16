@@ -208,6 +208,8 @@ test('위험 신호: 3일 이상 체크 없음 / 약 2일 연속 안 먹음 / �
   assert.strictEqual(riskLevel({ [t]: day(5, 'ok', false), [addDays(t, -2)]: day(5, 'ok', false) }, t), 'ok'); // 연속 아님
   const bad = { [t]: day(5, 'bad'), [addDays(t, -1)]: day(5, 'bad'), [addDays(t, -2)]: day(5, 'bad') };
   assert.strictEqual(riskLevel(bad, t), 'caution');
+  assert.strictEqual(riskLevel({ [t]: day(2, 'ok') }, t), 'caution'); // 하루라도 '네' 2개 이하
+  assert.strictEqual(riskLevel({ [t]: day(3, 'ok') }, t), 'ok');
 });
 
 test('7일 요약: 날짜별 한 줄 + 위험 안내', () => {
