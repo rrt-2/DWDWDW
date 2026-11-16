@@ -46,8 +46,48 @@ function loadSaved() {
 }
 
 // ---- 캐릭터 ----
+// 성장 점수: 새 알을 키울 때마다 그때까지의 점수(base)를 빼고 다시 0부터
+function points() {
+  return growthPoints(state.days, state.records) - (state.base || 0);
+}
 function stage() {
-  return stageOf(growthPoints(state.days, state.records), GROWTH_GOAL);
+  return stageOf(points(), GROWTH_GOAL);
+}
+
+// ---- 쿠폰: 어른까지 키울 때마다 1장 ----
+// 시연용 보상. 실제 제휴 기관이 정해지면 이 목록만 바꾸면 됨
+const REWARDS = ['복지관 프로그램 1회 무료 이용권', '경로식당 음료 1잔 교환권', '건강 상담 우선 예약권', '동네 목욕탕 할인권'];
+function giveCoupon() {
+  state.gen = state.gen || 1;
+  state.coupons = state.coupons || [];
+  if (stage() !== 'adult' || state.coupons.some((c) => c.gen === state.gen)) return null;
+  const code = 'DG-' + Array.from({ length: 8 }, () => 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'[Math.floor(Math.random() * 32)]).join('');
+  const c = { gen: state.gen, code, title: REWARDS[(state.gen - 1) % REWARDS.length], date: today() };
+  state.coupons.push(c);
+  save();
+  return c;
+}
+function newEgg() {
+  state.base = growthPoints(state.days, state.records);
+  state.gen = (state.gen || 1) + 1;
+  save();
+  renderHome();
+}
+function renderCoupons() {
+  const list = $('coupon-list');
+  list.innerHTML = '';
+  for (const c of [...(state.coupons || [])].reverse()) {
+    const d = document.createElement('div');
+    d.className = 'coupon';
+    d.innerHTML = '<b></b><span></span><code></code><small></small>';
+    d.querySelector('b').textContent = `🎟 ${c.gen}번째 친구 쿠폰`;
+    d.querySelector('span').textContent = c.title;
+    d.querySelector('code').textContent = c.code;
+    d.querySelector('small').textContent = `${c.date.slice(5).replace('-', '/')} 받음 · 시연용 쿠폰이에요`;
+    list.appendChild(d);
+  }
+  $('coupon-empty').hidden = list.children.length > 0;
+  show('coupons');
 }
 
 // 오늘 날짜 (시연용 하루 넘기기만큼 앞당김)
@@ -79,8 +119,13 @@ function renderHome() {
   const mood = petMood(state.days, t);
   const done = !!state.days[t];
   $('home-title').textContent = `${state.name} (${STAGE_NAME[st]})`;
-  $('home-stars').textContent = `🌱 ${growthPoints(state.days, state.records)} / ${GROWTH_GOAL}`;
+  $('home-stars').textContent = `🌱 ${Math.min(points(), GROWTH_GOAL)} / ${GROWTH_GOAL}`;
   setPet(st, mood);
+  // 어른이 되면 쿠폰을 주고, 새 알 키우기 버튼을 보여 줌
+  const fresh = giveCoupon();
+  $('coupon-new').hidden = st !== 'adult';
+  $('coupon-msg').textContent = fresh ? `🎉 다 키웠어요! 쿠폰을 받았어요: ${fresh.title}` : '다 자란 친구예요. 새 알을 키우면 쿠폰을 또 받아요.';
+  if (fresh) speak(`다 키웠어요! 쿠폰을 받았어요. ${fresh.title}`, 'ko');
   const risk = riskLevel(state.days, t);
   $('pet-talk').textContent = st === 'egg' ? `${state.who}, 오늘 건강 체크를 해 주시면 제가 알에서 나올게요!`
     : risk === 'contact' ? `${state.who}, 오랜만이에요! 보고 싶었어요. 오늘 건강 체크 같이 해요!`
@@ -405,6 +450,8 @@ $('result-home').onclick = renderHome;
 $('replay').onclick = () => { const q = quiz.qs[quiz.i]; speak(q.say, q.lang); };
 $('open-records').onclick = renderRecords;
 $('open-book').onclick = renderBook;
+$('open-coupons').onclick = renderCoupons;
+$('new-egg').onclick = newEgg;
 $('reset').onclick = () => {
   if (!confirm('기록을 모두 지우고 처음부터 할까요?')) return;
   try { localStorage.removeItem(KEY); } catch { /* 무시 */ }

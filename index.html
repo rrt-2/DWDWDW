@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>두뇌건강 다마고치</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/galmuri@2.40.3/dist/galmuri.css">
-  <link rel="stylesheet" href="style.css?v=22">
+  <link rel="stylesheet" href="style.css?v=23">
   <link rel="preload" as="image" href="assets/pet/egg_idle.png">
 </head>
 <body>
@@ -30,12 +30,17 @@
     </div>
     <p id="pet-talk" class="speech"></p>
     <p id="risk" class="risk" hidden></p>
+    <div id="coupon-new" class="speech" hidden>
+      <p id="coupon-msg"></p>
+      <div class="row"><button id="new-egg">🥚 새 알 키우기</button></div>
+    </div>
     <button id="check-start" class="wide"></button>
     </div><div>
     <h2>🧠 두뇌 운동</h2>
     <div id="subjects" class="grid"></div>
     <div class="row">
       <button id="open-book">📖 도감</button>
+      <button id="open-coupons">🎟 쿠폰함</button>
       <button id="share">💌 보호자에게 보내기</button>
     </div>
     <div class="row">
@@ -106,6 +111,17 @@
     <div id="book-grid" class="book"></div>
   </section>
 
+  <section id="coupons" hidden>
+    <header>
+      <button class="back small">← 홈</button>
+      <span>🎟 쿠폰함</span>
+      <span></span>
+    </header>
+    <p class="hint">친구를 어른까지 키울 때마다 쿠폰을 1장 받아요. 복지관 등 협력 기관에서 코드를 보여 주고 쓰는 방식이에요. (지금은 시연용)</p>
+    <p id="coupon-empty" class="speech">아직 받은 쿠폰이 없어요. 친구를 어른까지 키워 보세요!</p>
+    <div id="coupon-list" class="list"></div>
+  </section>
+
   <section id="records" hidden>
     <header>
       <button class="back small">← 홈</button>
@@ -133,9 +149,9 @@
     </div>
   </dialog>
 </main>
-<script src="content.js?v=22"></script>
-<script src="logic.js?v=22"></script>
-<script src="sprites.js?v=22"></script>
-<script src="game.js?v=22"></script>
+<script src="content.js?v=23"></script>
+<script src="logic.js?v=23"></script>
+<script src="sprites.js?v=23"></script>
+<script src="game.js?v=23"></script>
 </body>
 </html>
