@@ -97,24 +97,27 @@ function renderHome() {
   const box = $('subjects');
   box.innerHTML = '';
   for (const s of CONTENT.subjects) {
-    const pics = s.units.map((u) => (has(u) ? u.friend.pic : '❔')).join('');
+    const pics = s.units.map((u) => (has(u) ? pix('friend_' + u.id, 'tiny') : '❔')).join('');
     const b = document.createElement('button');
-    b.innerHTML = `<span class="icon">${s.icon}</span><span>${s.name}</span><span>${pics}</span>`;
+    b.innerHTML = `<span class="icon">${pix('icon_' + s.id)}</span><span>${s.name}</span><span>${pics}</span>`;
     b.onclick = () => openSubject(s);
     box.appendChild(b);
   }
   show('home');
 }
 
+// 픽셀 아이콘 (assets/icons). 도감 친구 = friend_{단원 id}, 과목 = icon_{과목 id}
+const pix = (name, cls = '') => `<img class="pix ${cls}" src="assets/icons/${name}.png" alt="">`;
+
 // ---- 단원 목록 ----
 function openSubject(s) {
-  $('units-title').textContent = `${s.icon} ${s.name}`;
+  $('units-title').innerHTML = `${pix('icon_' + s.id, 'tiny')} ${s.name}`;
   const list = $('unit-list');
   list.innerHTML = '';
   s.units.forEach((u, i) => {
     const open = isUnlocked(s, i, state.records);
     const b = document.createElement('button');
-    b.textContent = `${open ? '' : '🔒 '}${u.title} ${has(u) ? u.friend.pic : ''}`;
+    b.innerHTML = `${open ? '' : '🔒 '}${u.title} ${has(u) ? pix('friend_' + u.id, 'tiny') : ''}`;
     b.disabled = !open;
     b.onclick = () => startQuiz(s, u);
     list.appendChild(b);
@@ -335,7 +338,7 @@ function friendCard(subject, unit, got) {
   d.className = got ? 'card' : 'card locked';
   const f = unit.friend;
   d.innerHTML = got
-    ? `<span class="pic">${f.pic}</span><b></b><span></span><small></small>`
+    ? `<span class="pic">${pix('friend_' + unit.id)}</span><b></b><span></span><small></small>`
     : '<span class="pic">❓</span><b>???</b><small></small>';
   // 팀원이 쓴 글자는 textContent로 넣음
   if (got) {
@@ -363,7 +366,7 @@ function renderRecords() {
     for (const u of s.units) {
       const r = state.records[u.id];
       const tr = document.createElement('tr');
-      for (const v of [s.name, u.title, has(u) ? u.friend.pic : '-', r ? `${r.best} / ${QUIZ_SIZE}` : '-', r ? `${r.attempts}번` : '-']) {
+      for (const v of [s.name, u.title, has(u) ? u.friend.name : '-', r ? `${r.best} / ${QUIZ_SIZE}` : '-', r ? `${r.attempts}번` : '-']) {
         const td = document.createElement('td');
         td.textContent = v;
         tr.appendChild(td);

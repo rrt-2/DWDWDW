@@ -47,7 +47,9 @@ header { display: flex; justify-content: space-between; align-items: center; gap
 
 .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 12px 0; }
 .grid button { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 16px 6px; background: var(--paper); color: var(--ink); }
-.grid .icon { font-size: 2.2rem; line-height: 1.2; filter: grayscale(1) contrast(1.15); }
+.grid .icon { line-height: 0; }
+.pix { width: 72px; height: 72px; image-rendering: pixelated; vertical-align: middle; }
+.pix.tiny { width: 36px; height: 36px; }
 .list { display: flex; flex-direction: column; gap: 12px; margin-top: 14px; }
 .list button { padding: 18px; background: var(--paper); color: var(--ink); }
 
@@ -68,11 +70,12 @@ header { display: flex; justify-content: space-between; align-items: center; gap
 /* 도감: 흑백 액정 카드 */
 .book { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 14px; }
 .card { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 12px 6px; background: var(--lcd); color: var(--lcd-ink); border: 3px solid var(--ink); font-size: 16px; }
-.card .pic { font-size: 2.8rem; line-height: 1.1; filter: grayscale(1) contrast(1.15); }
+.card .pic { font-size: 2.8rem; line-height: 1; }
 .card b { font-size: 22px; }
 .card.locked { background: #d9d6cc; color: #5f5f58; }
 .card.new { margin: 14px auto; max-width: 260px; box-shadow: var(--px) var(--px) 0 var(--ink); }
 .card.new .pic { font-size: 4rem; }
+.card.new .pix { width: 144px; height: 144px; }
 
 table { width: 100%; border-collapse: collapse; background: var(--paper); border: 3px solid var(--ink); font-size: 16px; }
 th { background: var(--ink); color: var(--lcd); }
