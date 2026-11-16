@@ -57,12 +57,13 @@ function today() {
 
 // 그림 파일(assets/pet)이 없으면 픽셀 캐릭터(sprites.js)로 그림
 function setPet(st, mood, box = $('pet-emoji')) {
-  box.innerHTML = petSvg(st, mood);
+  // 그림 파일을 바로 넣고, 못 불러올 때만 픽셀 캐릭터로 (예전 그림이 잠깐 보이지 않게)
   const img = new Image();
   img.className = 'pet-png';
   img.alt = '캐릭터';
-  img.onload = () => box.replaceChildren(img); // 그림 파일이 있을 때만 바꿈
+  img.onerror = () => { box.innerHTML = petSvg(st, mood); };
   img.src = `assets/pet/${st}_${mood}.png`;
+  box.replaceChildren(img);
 }
 
 // 이 단원의 도감 친구를 모았나 (= 단원 마스터)
