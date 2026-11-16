@@ -38,9 +38,9 @@ header { display: flex; justify-content: space-between; align-items: center; gap
 .pet-box { height: 190px; display: flex; align-items: center; justify-content: center; }
 .pet { display: inline-flex; }
 .sprite { width: 144px; height: 144px; animation: hop 1s linear infinite; }
-#pet-img, #check-img { max-height: 150px; image-rendering: pixelated; }
+.pet-png { width: 144px; height: 144px; image-rendering: pixelated; animation: hop 1s linear infinite; }
 @keyframes hop { 0%, 49.9% { transform: none; } 50%, 100% { transform: translateY(-9px); } }
-@media (prefers-reduced-motion: reduce) { .sprite { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .sprite, .pet-png { animation: none; } }
 
 .speech { min-height: 3em; margin: 14px 0; padding: 14px; background: var(--paper); border: 3px solid var(--ink); box-shadow: var(--px) var(--px) 0 var(--ink); }
 .risk { padding: 12px; background: #f6d9a8; border: 3px solid var(--ink); font-weight: bold; }

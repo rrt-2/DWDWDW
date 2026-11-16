@@ -56,10 +56,12 @@ function today() {
 }
 
 // 그림 파일(assets/pet)이 없으면 픽셀 캐릭터(sprites.js)로 그림
-function setPet(st, mood, img = $('pet-img'), emoji = $('pet-emoji')) {
-  emoji.innerHTML = petSvg(st, mood);
-  img.onload = () => { img.hidden = false; emoji.hidden = true; };
-  img.onerror = () => { img.hidden = true; emoji.hidden = false; };
+function setPet(st, mood, box = $('pet-emoji')) {
+  box.innerHTML = petSvg(st, mood);
+  const img = new Image();
+  img.className = 'pet-png';
+  img.alt = '캐릭터';
+  img.onload = () => box.replaceChildren(img); // 그림 파일이 있을 때만 바꿈
   img.src = `assets/pet/${st}_${mood}.png`;
 }
 
@@ -235,7 +237,7 @@ function finishQuiz() {
   $('result-friend').hidden = !newFriend;
   if (newFriend) $('result-friend').replaceChildren(...friendCard(quiz.subject, quiz.unit, true).childNodes);
   if (after !== before) lines.push(after === 'adult' ? `🎉 ${iga(state.name)} 어른이 되었어요! 고마워요!` : `${iga(state.name)} ${STAGE_NAME[after]}로 자랐어요!`);
-  $('result-pet').innerHTML = petSvg(after, 'happy');
+  setPet(after, 'happy', $('result-pet'));
   $('result-title').textContent = won ? '정말 잘하셨어요!' : '잘하셨어요!';
   $('result-text').textContent = lines.join(' ');
   show('result');
@@ -252,7 +254,7 @@ function startCheck() {
 function renderCheck() {
   if ($('check').hidden) return; // 중간에 홈으로 나갔으면 멈춤
   const h = CONTENT.health[check.i];
-  setPet(stage(), 'idle', $('check-img'), $('check-emoji'));
+  setPet(stage(), 'idle', $('check-emoji'));
   $('check-progress').textContent = `${check.i + 1} / ${CONTENT.health.length + 1}`;
   $('check-q').textContent = h ? `${h.pic} ${h.ask}` : CONTENT.moodAsk;
   $('check-reply').textContent = '';
@@ -264,7 +266,7 @@ function renderCheck() {
 
 // 대답에 따라 캐릭터가 같이 밥 먹고, 걷고… 하는 반응
 function reply(text, mood) {
-  setPet(stage(), mood, $('check-img'), $('check-emoji'));
+  setPet(stage(), mood, $('check-emoji'));
   $('check-reply').textContent = text;
   speak(text, 'ko');
   document.querySelectorAll('#check .answer').forEach((b) => { b.disabled = true; });
@@ -408,7 +410,7 @@ $('reset').onclick = () => {
   show('egg');
 };
 
-$('egg-pet').innerHTML = petSvg('egg', 'idle');
+setPet('egg', 'idle', $('egg-pet'));
 state = loadSaved();
 if (state && state.days) renderHome();
 else show('egg');
