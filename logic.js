@@ -51,16 +51,25 @@ function randInt(lo, hi, rand) {
 }
 
 // 숫자 정답 + 오답 후보 → 보기 3개 문제 (음수·중복 오답은 버림)
-function numberQuestion(say, ans, wrongs, rand) {
-  const picks = shuffle([...new Set(wrongs)].filter((w) => w >= 0 && w !== ans), rand).slice(0, 2);
-  const choices = [ans, ...picks].map((n) => ({ pic: '✏️', label: String(n) }));
+function numberQuestion(say, ans, wrongs, rand, unit = '') {
+  const picks = shuffle([...new Set(wrongs)].filter((w) => w >= (unit ? 1 : 0) && w !== ans), rand).slice(0, 2);
+  const choices = [ans, ...picks].map((n) => ({ pic: unit === '원' ? '💰' : '✏️', label: n + unit }));
   return { say, lang: 'ko', choices, answer: 0 };
 }
 
+const pick = (arr, rand) => arr[randInt(0, arr.length - 1, rand)];
+
 const GENERATORS = {
-  // 1학년: 100 이하 덧셈·뺄셈
+  // 100 이하 덧셈·뺄셈, 또는 만 원 내고 거스름돈 받기
   add(rand) {
-    if (rand() < 0.5) {
+    const r = rand();
+    if (r < 0.34) {
+      const price = randInt(2, 19, rand) * 500;
+      const thing = pick(['두부 한 모를', '달걀 한 판을', '양말 한 켤레를', '호박 한 개를', '우유 한 통을'], rand);
+      const ans = 10000 - price;
+      return numberQuestion(`${price}원짜리 ${thing} 사고 만 원을 냈어요. 거스름돈은 얼마일까요?`, ans, [ans + 500, ans - 500, ans + 1000, ans - 1000], rand, '원');
+    }
+    if (r < 0.67) {
       const a = randInt(10, 60, rand);
       const b = randInt(1, Math.min(39, 99 - a), rand);
       return numberQuestion(`${a} 더하기 ${b}${eunNeun(b)} 얼마일까요?`, a + b, [a + b + 1, a + b - 1, a + b + 10, a + b - 10], rand);
@@ -71,12 +80,24 @@ const GENERATORS = {
   },
   // 2학년: 구구단 (2~9단)
   mul(rand) {
+    if (rand() < 0.5) {
+      const price = randInt(1, 9, rand) * 100;
+      const n = randInt(2, 9, rand);
+      const thing = pick(['귤을', '붕어빵을', '호떡을', '사탕을', '풀빵을'], rand);
+      return numberQuestion(`한 개에 ${price}원인 ${thing} ${n}개 사면 모두 얼마일까요?`, price * n, [price * (n + 1), price * (n - 1), price * n + 100], rand, '원');
+    }
     const a = randInt(2, 9, rand);
     const b = randInt(2, 9, rand);
     return numberQuestion(`${a} 곱하기 ${b}${eunNeun(b)} 얼마일까요?`, a * b, [a * (b + 1), a * (b - 1), (a + 1) * b, a * b + 1], rand);
   },
   // 3학년: 나누어떨어지는 나눗셈
   div(rand) {
+    if (rand() < 0.5) {
+      const people = randInt(2, 6, rand);
+      const each = randInt(2, 8, rand);
+      const thing = pick(['떡', '귤', '밤', '곶감'], rand);
+      return numberQuestion(`${thing} ${people * each}개를 ${people}명이 똑같이 나누면 한 사람이 몇 개씩일까요?`, each, [each + 1, each - 1, each + 2], rand, '개');
+    }
     const b = randInt(2, 9, rand);
     const q = randInt(2, 9, rand);
     return numberQuestion(`${b * q} 나누기 ${b}${eunNeun(b)} 얼마일까요?`, q, [q + 1, q - 1, b, q + 2], rand);
@@ -92,13 +113,23 @@ const GENERATORS = {
 };
 
 // 고정 문제 + 생성 문제를 섞어 5개 뽑고, 보기 순서를 섞어 정답 번호를 새 순서에 맞춤 (퍼즐은 보기가 없어서 그대로)
-function prepareQuiz(unit, rand = Math.random) {
+// seen = 최근에 푼 고정 문제 글 목록. 안 푼 문제를 먼저 내고, 모자라면 푼 문제로 채움
+function prepareQuiz(unit, rand = Math.random, seen = []) {
   const made = unit.gen ? Array.from({ length: QUIZ_SIZE }, () => GENERATORS[unit.gen](rand)) : [];
-  return shuffle([...unit.questions, ...made], rand).slice(0, QUIZ_SIZE).map((q) => {
+  const fresh = unit.questions.filter((q) => !seen.includes(q.say));
+  const stale = unit.questions.filter((q) => seen.includes(q.say));
+  return [...shuffle([...fresh, ...made], rand), ...shuffle(stale, rand)].slice(0, QUIZ_SIZE).map((q) => {
     if (q.type === 'puzzle') return q;
     const order = shuffle([...q.choices.keys()], rand);
     return { ...q, choices: order.map((i) => q.choices[i]), answer: order.indexOf(q.answer) };
   });
+}
+
+// 이번 판 문제를 seen에 더함. 고정 문제를 한 바퀴 다 풀었으면 이번 판만 남기고 새로 시작
+function nextSeen(unit, qs, seen = []) {
+  const own = qs.map((q) => q.say).filter((say) => unit.questions.some((x) => x.say === say));
+  const all = [...new Set([...seen, ...own])];
+  return all.length >= unit.questions.length ? own : all;
 }
 
 function mastered(firstTry) {
@@ -237,6 +268,6 @@ function unpackCode(text) {
 }
 
 if (typeof module !== 'undefined') {
-  module.exports = { MASTER_NEED, shuffle, prepareQuiz, mastered, starCount, stageOf, isUnlocked, recordResult, SHAPES, turn, mirror, sameOrient, puzzleFirstTry, GENERATORS, QUIZ_SIZE,
+  module.exports = { MASTER_NEED, shuffle, prepareQuiz, nextSeen, mastered, starCount, stageOf, isUnlocked, recordResult, SHAPES, turn, mirror, sameOrient, puzzleFirstTry, GENERATORS, QUIZ_SIZE,
     HEALTH_LABEL, MOOD_LABEL, RISK_TEXT, dateKey, addDays, petMood, riskLevel, weekSummary, growthPoints, packCode, unpackCode };
 }

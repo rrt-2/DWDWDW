@@ -121,7 +121,11 @@ function openSubject(s) {
 
 // ---- 문제 풀기 ----
 function startQuiz(subject, unit) {
-  quiz = { subject, unit, qs: prepareQuiz(unit), i: 0, tries: 0, firstTry: 0 };
+  state.seen = state.seen || {};
+  const qs = prepareQuiz(unit, Math.random, state.seen[unit.id]);
+  state.seen[unit.id] = nextSeen(unit, qs, state.seen[unit.id]); // 다음 판엔 안 푼 문제부터
+  save();
+  quiz = { subject, unit, qs, i: 0, tries: 0, firstTry: 0 };
   show('quiz');
   renderQuestion();
 }

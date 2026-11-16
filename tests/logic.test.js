@@ -93,7 +93,13 @@ test('퍼즐 문제는 섞을 때 그대로 유지', () => {
 
 // 문제 글에서 숫자와 연산을 읽어 직접 계산
 function solve(say) {
-  const m = say.match(/(\d+) (더하기|빼기|곱하기|나누기) (\d+)/);
+  let m = say.match(/(\d+)원짜리 .* 만 원을 냈어요/); // 거스름돈
+  if (m) return 10000 - Number(m[1]);
+  m = say.match(/한 개에 (\d+)원인 .* (\d+)개 사면/); // 값 x 개수
+  if (m) return Number(m[1]) * Number(m[2]);
+  m = say.match(/ (\d+)개를 (\d+)명이 똑같이/); // 나눠 갖기
+  if (m) return Number(m[1]) / Number(m[2]);
+  m = say.match(/(\d+) (더하기|빼기|곱하기|나누기) (\d+)/);
   const [a, b] = [Number(m[1]), Number(m[3])];
   return { 더하기: a + b, 빼기: a - b, 곱하기: a * b, 나누기: a / b }[m[2]];
 }
@@ -103,11 +109,11 @@ test('자동 생성 계산 문제: 정답이 맞고, 보기 3개가 서로 다�
     for (let seed = 1; seed <= 300; seed++) {
       const q = GENERATORS[kind](seeded(seed));
       const ans = solve(q.say);
-      assert.ok(Number.isInteger(ans) && ans >= 0 && ans <= 100, `${kind} ${q.say}`);
-      assert.strictEqual(q.choices[q.answer].label, String(ans), q.say);
+      assert.ok(Number.isInteger(ans) && ans >= 0 && ans <= 10000, `${kind} ${q.say}`);
+      assert.strictEqual(parseInt(q.choices[q.answer].label, 10), ans, q.say);
       const labels = q.choices.map((c) => c.label);
       assert.strictEqual(new Set(labels).size, 3, `보기 중복: ${labels}`);
-      labels.forEach((l) => assert.ok(Number(l) >= 0, `음수 보기: ${labels}`));
+      labels.forEach((l) => assert.ok(parseInt(l, 10) >= 0, `음수 보기: ${labels}`));
     }
   }
 });
@@ -230,6 +236,19 @@ test('돌봄 코드: 묶었다 풀면 같은 기록, 틀린 글은 null', () => 
   assert.strictEqual(unpackCode('그냥 글'), null);
   assert.strictEqual(unpackCode('BT1.!!!!'), null);
   assert.strictEqual(unpackCode('BT1.' + btoa(encodeURIComponent('{"n":"A","d":{"x":"<b>"}}'))), null);
+});
+
+test('다양성: 안 푼 문제부터 내고, 한 바퀴 돌면 다시 시작', () => {
+  const { nextSeen } = require('../logic.js');
+  const unit = { questions: Array.from({ length: 12 }, (_, i) => ({ say: 'q' + i, choices: [{ label: 'a' }, { label: 'b' }, { label: 'c' }], answer: 0 })) };
+  let seen = nextSeen(unit, prepareQuiz(unit), []);
+  const b = prepareQuiz(unit, Math.random, seen);
+  assert.ok(b.every((q) => !seen.includes(q.say)), '두 번째 판은 겹치지 않음');
+  seen = nextSeen(unit, b, seen);
+  assert.strictEqual(seen.length, 10);
+  const c = prepareQuiz(unit, Math.random, seen);
+  assert.strictEqual(c.filter((q) => !seen.includes(q.say)).length, 2, '남은 2개 먼저');
+  assert.strictEqual(nextSeen(unit, c, seen).length, 5, '한 바퀴 돌면 이번 판만 남김');
 });
 
 // ---- 픽셀 캐릭터 ----
