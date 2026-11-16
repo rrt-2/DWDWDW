@@ -40,7 +40,6 @@ $('replay').hidden = !canSpeak;
 // ---- 저장 ----
 function save() {
   try { localStorage.setItem(KEY, JSON.stringify(state)); } catch { /* 저장소 막힌 환경: 저장 없이 진행 */ }
-  syncPush(state, today()); // 공유에 동의했을 때만 돌봄 기관으로 올림
 }
 function loadSaved() {
   try { return JSON.parse(localStorage.getItem(KEY)); } catch { return null; }
@@ -405,9 +404,6 @@ function renderBook() {
 
 // ---- 기록 보기 ----
 function renderRecords() {
-  $('live-box').hidden = !SYNC.ok;
-  $('share-live').checked = !!state.share;
-  $('share-live-msg').textContent = '';
   $('week').textContent = weekSummary(state.days, state.who, today());
   const rows = $('record-rows');
   rows.innerHTML = '';
@@ -455,13 +451,6 @@ $('replay').onclick = () => { const q = quiz.qs[quiz.i]; speak(q.say, q.lang); }
 $('open-records').onclick = renderRecords;
 $('open-book').onclick = renderBook;
 $('open-coupons').onclick = renderCoupons;
-// 실시간 공유 동의 스위치 (기본 꺼짐)
-$('share-live').onchange = () => {
-  state.share = $('share-live').checked;
-  if (state.share) save();
-  else { syncDelete(); save(); }
-  $('share-live-msg').textContent = state.share ? '공유 중이에요. 건강 체크를 하면 바로 돌봄 기관 화면에 보여요.' : '공유를 껐어요. 올렸던 기록도 지웠어요.';
-};
 $('new-egg').onclick = newEgg;
 $('reset').onclick = () => {
   if (!confirm('기록을 모두 지우고 처음부터 할까요?')) return;

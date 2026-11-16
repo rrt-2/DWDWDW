@@ -53,16 +53,6 @@
     <button id="add">등록</button> <span id="msg" role="status"></span>
   </details>
 
-  <details id="live-login" hidden>
-    <summary>🔗 실시간 연결 (담당자 로그인)</summary>
-    <form id="login-form">
-      <label>담당자 이메일 <input id="staff-email" type="email" autocomplete="username" required></label>
-      <label>비밀번호 <input id="staff-pw" type="password" autocomplete="current-password" required></label>
-      <button>로그인</button> <span id="live-msg" role="status"></span>
-    </form>
-  </details>
-  <p id="live-on" hidden>🟢 실시간 연결됨 · <span id="live-count">0</span>명 공유 중 <button id="logout" class="del" type="button">로그아웃</button></p>
-
   <label><input type="checkbox" id="show-demo" checked> 시연용 가상 어르신 10명 같이 보기</label>
 
   <div class="wrap">
@@ -73,12 +63,7 @@
   </div>
   <p>줄을 누르면 최근 7일 상세가 펼쳐져요. 칸 숫자 = 그날 건강 체크 5개 중 '네' 개수, 얼굴 = 기분, 💊✕ = 약 거름.</p>
 </main>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-<script src="firebase-config.js?v=1"></script>
-<script src="sync.js?v=1"></script>
-<script src="logic.js?v=14"></script>
+<script src="logic.js?v=13"></script>
 <script>
   const LIST_KEY = 'brain-care-list'; // { 이름: { days, got(받은 날) } }
   const $ = (id) => document.getElementById(id);
@@ -123,7 +108,6 @@
     const saved = read(LIST_KEY) || {};
     const people = Object.entries(saved).map(([name, v]) => ({ name, days: v.days, src: `받음 ${md(v.got)}`, saved: true }));
     if (local && local.days) people.push({ name: local.who || '어르신', days: local.days, src: '이 기기' });
-    people.push(...live);
     if ($('show-demo').checked) people.push(...DEMO);
     for (const p of people) p.risk = riskLevel(p.days, today);
     people.sort((a, b) => ORDER[a.risk] - ORDER[b.risk]);
@@ -181,40 +165,6 @@
     render();
   };
   $('show-demo').onchange = render;
-
-  // ---- 실시간 연결: 담당자 계정으로 로그인하면 공유에 동의한 어르신 기록이 바로바로 들어옴 ----
-  let live = [];
-  let stop = null;
-  if (SYNC.ok) {
-    $('live-login').hidden = false;
-    $('login-form').onsubmit = (e) => {
-      e.preventDefault();
-      $('live-msg').textContent = '연결 중…';
-      SYNC.auth.signInWithEmailAndPassword($('staff-email').value, $('staff-pw').value)
-        .catch(() => { $('live-msg').textContent = '로그인하지 못했어요. 이메일과 비밀번호를 확인해 주세요.'; });
-    };
-    $('logout').onclick = () => SYNC.auth.signOut();
-    SYNC.auth.onAuthStateChanged((u) => {
-      if (stop) { stop(); stop = null; }
-      live = [];
-      const staff = !!(u && !u.isAnonymous);
-      $('live-login').hidden = staff;
-      $('live-on').hidden = !staff;
-      if (staff) {
-        stop = SYNC.db.collection('seniors').onSnapshot((snap) => {
-          live = snap.docs.map((d) => {
-            const v = d.data();
-            const t = v.updated ? v.updated.toDate() : null;
-            const cp = (v.coupons || []).length;
-            return { name: v.who || '어르신', days: v.days || {}, src: `실시간${t ? ' ' + t.toTimeString().slice(0, 5) : ''}${cp ? ` · 쿠폰 ${cp}장` : ''}` };
-          });
-          $('live-count').textContent = live.length;
-          render();
-        }, () => { $('live-msg').textContent = '이 계정은 볼 권한이 없어요.'; });
-      }
-      render();
-    });
-  }
   render();
 </script>
 </body>
