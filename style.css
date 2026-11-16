@@ -101,3 +101,6 @@ dialog h2 { margin-top: 0; }
 .coupon { display: flex; flex-direction: column; gap: 4px; padding: 14px; background: var(--paper); border: 3px dashed var(--ink); box-shadow: var(--px) var(--px) 0 var(--ink); }
 .coupon code { font: inherit; font-size: 1.3rem; letter-spacing: 2px; color: var(--accent); }
 .coupon small { font-size: 16px; color: #55584f; }
+
+#live-box label { display: flex; gap: 10px; align-items: center; margin: 0; }
+#live-box input[type=checkbox], #show-demo { width: 28px; height: 28px; margin: 0; }
