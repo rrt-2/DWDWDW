@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>두뇌건강 다마고치</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/galmuri@2.40.3/dist/galmuri.css">
-  <link rel="stylesheet" href="style.css?v=13">
+  <link rel="stylesheet" href="style.css?v=14">
 </head>
 <body>
 <main>
@@ -123,10 +123,20 @@
     </table>
     <p class="hint">최고 점수 = 처음 고른 답이 맞은 문제 수 (5문제 중)</p>
   </section>
+  <dialog id="share-box">
+    <h2>💌 보호자·담당자에게 보내기</h2>
+    <pre id="share-text"></pre>
+    <p id="share-msg" class="hint" role="status"></p>
+    <div class="row">
+      <button id="share-copy">복사</button>
+      <button id="share-send" hidden>보내기</button>
+      <button id="share-close" class="alt">닫기</button>
+    </div>
+  </dialog>
 </main>
-<script src="content.js?v=13"></script>
-<script src="logic.js?v=13"></script>
-<script src="sprites.js?v=13"></script>
-<script src="game.js?v=13"></script>
+<script src="content.js?v=14"></script>
+<script src="logic.js?v=14"></script>
+<script src="sprites.js?v=14"></script>
+<script src="game.js?v=14"></script>
 </body>
 </html>

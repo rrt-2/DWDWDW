@@ -1,5 +1,6 @@
 // 화면 흐름, 읽어주기, 저장
 const $ = (id) => document.getElementById(id);
+const NL = String.fromCharCode(10);
 const KEY = 'brain-tamagotchi';
 const STAGE_NAME = { egg: '알', baby: '아기', child: '어린이', adult: '어른' };
 const TOTAL_UNITS = CONTENT.subjects.reduce((n, s) => n + s.units.length, 0);
@@ -299,20 +300,26 @@ $('listen').onclick = () => {
 };
 
 // ---- 보호자에게 보내기: 최근 7일 요약 ----
-async function shareWeek() {
-  // 요약 글 + 돌봄 화면(dashboard.html)에 붙여 넣는 코드
-  const text = weekSummary(state.days, state.who, today()) + '\n\n[돌봄 화면 등록 코드]\n' + packCode(state.who, state.days, today());
-  if (navigator.share) {
-    try { await navigator.share({ text }); } catch { /* 공유 창 닫음 */ }
-    return;
-  }
-  try {
-    await navigator.clipboard.writeText(text);
-    alert('요약과 돌봄 코드를 복사했어요. 카카오톡이나 문자에 붙여 넣어 보내 주세요.');
-  } catch {
-    prompt('아래 글을 복사해서 보내 주세요.', text);
-  }
+function shareWeek() {
+  // 요약 글 + 돌봄 화면(dashboard.html)에 붙여 넣는 코드를 화면에 먼저 보여 줌
+  $('share-text').textContent = weekSummary(state.days, state.who, today()) + NL + NL + '[돌봄 화면 등록 코드]' + NL + packCode(state.who, state.days, today());
+  $('share-msg').textContent = '';
+  $('share-send').hidden = !navigator.share;
+  $('share-box').showModal();
 }
+$('share-copy').onclick = async () => {
+  try {
+    await navigator.clipboard.writeText($('share-text').textContent);
+    $('share-msg').textContent = '복사했어요. 카카오톡이나 문자에 붙여 넣어 보내 주세요.';
+  } catch {
+    getSelection().selectAllChildren($('share-text')); // 복사가 막힌 환경: 글을 선택해 둠
+    $('share-msg').textContent = '글을 선택해 두었어요. Ctrl+C로 복사해 주세요.';
+  }
+};
+$('share-send').onclick = async () => {
+  try { await navigator.share({ text: $('share-text').textContent }); } catch { /* 공유 창 닫음 */ }
+};
+$('share-close').onclick = () => $('share-box').close();
 
 // ---- 도감 ----
 function friendCard(subject, unit, got) {
