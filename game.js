@@ -5,6 +5,7 @@ const KEY = 'brain-tamagotchi';
 const STAGE_NAME = { egg: '알', baby: '아기', child: '어린이', adult: '어른' };
 const TOTAL_UNITS = CONTENT.subjects.reduce((n, s) => n + s.units.length, 0);
 const GROWTH_GOAL = 30; // 체크한 날 + 도감 친구가 이만큼 모이면 어른
+const DEV_NAME = '개발자'; // 이 이름으로 시작하면 전부 해금 (발표·점검용)
 const DEMO = location.search.includes('demo'); // 발표 시연용 '하루 넘기기' 버튼
 
 // 이름 뒤 조사: 받침 있으면 a, 없으면 b (한글 아니면 'a(b)')
@@ -89,7 +90,7 @@ function renderHome() {
   // 3일 미접속(contact)은 보호자·대시보드용 신호라 본인 화면엔 '주의'만 표시
   $('risk').hidden = risk !== 'caution';
   $('risk').textContent = `${RISK_TEXT.caution} 보호자나 복지관에 연락해 보세요.`;
-  $('demo-next').hidden = !DEMO;
+  $('demo-next').hidden = !(DEMO || state.dev);
   const box = $('subjects');
   box.innerHTML = '';
   for (const s of CONTENT.subjects) {
@@ -369,6 +370,13 @@ function renderRecords() {
 // ---- 버튼 연결 ----
 $('hatch').onclick = () => {
   state = { name: $('pet-name').value.trim() || '뭉치', who: $('who-name').value.trim() || '어르신', records: {}, days: {}, dayOffset: 0 };
+  // 개발자 능력: 친구 이름을 '개발자'로 지으면 도감 전부 + 18일치 체크가 채워지고 '하루 넘기기'가 켜짐
+  if (state.name === DEV_NAME) {
+    state.dev = true;
+    for (const sub of CONTENT.subjects) for (const u of sub.units) state.records[u.id] = { star: true, best: QUIZ_SIZE, attempts: 1 };
+    const answers = Object.fromEntries(Object.keys(HEALTH_LABEL).map((id) => [id, true]));
+    for (let n = 0; n < 18; n++) state.days[addDays(today(), -n)] = { answers, mood: 'good' };
+  }
   save();
   renderHome();
 };
